@@ -9,92 +9,41 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * Post
- *
- * @ORM\Table(name="post", indexes={@ORM\Index(name="user_id", columns={"user_id"}), @ORM\Index(name="room_id", columns={"room_id"})})
- * @ORM\Entity
- */
+
 #[ORM\Entity(repositoryClass: PostRepository::class)]
+#[ORM\Table(name: "post" )]
+
 
 class Post
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="post_id", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $postId = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="author", type="string", length=20, nullable=false)
-     */
     #[ORM\Column(length: 255)]
     private ?string $author = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="content", type="string", length=200, nullable=false)
-     */
     #[ORM\Column(length: 255)]
     private ?string $content = null;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="img_url", type="string", length=100, nullable=true)
-     */
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $img_url = null;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="NumLikes", type="integer", nullable=false)
-     */
     #[ORM\Column(nullable: true)]
     private ?int $NumLikes = null;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="NumDislikes", type="integer", nullable=false)
-     */
     #[ORM\Column(nullable: true)]
     private ?int $NumDislikes = null;
 
-    /**
-     * @var \Room
-     *
-     * @ORM\ManyToOne(targetEntity="Room")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="room_id", referencedColumnName="room_id")
-     * })
-     */
     #[ORM\ManyToOne(inversedBy: 'posts')]
     private ?Room $room = null;
 
-    #[ORM\OneToMany(mappedBy: 'post', targetEntity: PostReact::class)]
-    private Collection $postreacts;
-
-    /**
-     * @var \User
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-     * })
-     */
     #[ORM\ManyToOne(inversedBy: 'posts')]
     private ?User $user = null;
+
+    #[ORM\OneToMany(mappedBy: 'post', targetEntity: PostReact::class)]
+    private Collection $postreacts;
 
     public function __construct()
     {
