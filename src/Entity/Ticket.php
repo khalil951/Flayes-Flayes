@@ -12,41 +12,25 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Ticket
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="Idticket", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $idticket;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $idticket = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $qrcode = null;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="qrcode", type="string", length=255, nullable=false)
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="tickets")
+     * @ORM\JoinColumn(name="Iduser", referencedColumnName="id")
      */
-    private $qrcode;
+    private ?User $iduser = null;
 
     /**
-     * @var \Event
-     *
-     * @ORM\ManyToOne(targetEntity="Event")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="Idevent", referencedColumnName="Idevent")
-     * })
+     * @ORM\ManyToOne(targetEntity="Event", inversedBy="tickets")
+     * @ORM\JoinColumn(name="Idevent", referencedColumnName="idevent")
      */
-    private $idevent;
-
-    /**
-     * @var \User
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="Iduser", referencedColumnName="id")
-     * })
-     */
-    private $iduser;
+    private ?Event $idevent = null;
 
     public function getIdticket(): ?int
     {
@@ -61,7 +45,6 @@ class Ticket
     public function setQrcode(string $qrcode): static
     {
         $this->qrcode = $qrcode;
-
         return $this;
     }
 
@@ -73,7 +56,6 @@ class Ticket
     public function setIdevent(?Event $idevent): static
     {
         $this->idevent = $idevent;
-
         return $this;
     }
 
@@ -85,9 +67,6 @@ class Ticket
     public function setIduser(?User $iduser): static
     {
         $this->iduser = $iduser;
-
         return $this;
     }
-
-
 }

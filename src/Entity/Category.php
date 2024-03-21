@@ -12,35 +12,19 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Category
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="Idcat", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $idcat;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $idcat = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255, nullable=false)
-     */
-    private $name;
+    #[ORM\Column(length: 255)]
+    private ?string $name = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="type", type="string", length=255, nullable=false)
-     */
-    private $type;
+    #[ORM\Column(length: 255)]
+    private ?string $type = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="target", type="string", length=255, nullable=false)
-     */
-    private $target;
+    #[ORM\Column(length: 255)]
+    private ?string $target = null;
 
     public function getIdcat(): ?int
     {
@@ -55,7 +39,6 @@ class Category
     public function setName(string $name): static
     {
         $this->name = $name;
-
         return $this;
     }
 
@@ -67,7 +50,6 @@ class Category
     public function setType(string $type): static
     {
         $this->type = $type;
-
         return $this;
     }
 
@@ -79,9 +61,6 @@ class Category
     public function setTarget(string $target): static
     {
         $this->target = $target;
-
         return $this;
     }
-
-
 }

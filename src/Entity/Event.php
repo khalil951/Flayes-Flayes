@@ -7,71 +7,39 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Event
  *
- * @ORM\Table(name="event", indexes={@ORM\Index(name="idcat", columns={"idcat"})})
+ * @ORM\Table(name="event")
  * @ORM\Entity
  */
 class Event
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="Idevent", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $idevent;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(name="Idevent", type="integer", nullable=false)]
+    private ?int $idevent = null;
+
+    #[ORM\Column(name="name", type="string", length=255, nullable=false)]
+    private ?string $name = null;
+
+    #[ORM\Column(name="date", type="string", length=255, nullable=false)]
+    private ?string $date = null;
+
+    #[ORM\Column(name="description", type="string", length=255, nullable=false)]
+    private ?string $description = null;
+
+    #[ORM\Column(name="location", type="string", length=255, nullable=false)]
+    private ?string $location = null;
+
+    #[ORM\Column(name="image", type="string", length=255, nullable=false)]
+    private ?string $image = null;
+
+    #[ORM\Column(name="qrcode", type="string", length=255, nullable=false)]
+    private ?string $qrcode = null;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255, nullable=false)
-     */
-    private $name;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="date", type="string", length=255, nullable=false)
-     */
-    private $date;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="string", length=255, nullable=false)
-     */
-    private $description;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="location", type="string", length=255, nullable=false)
-     */
-    private $location;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="image", type="string", length=255, nullable=false)
-     */
-    private $image;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="qrcode", type="string", length=255, nullable=false)
-     */
-    private $qrcode;
-
-    /**
-     * @var \Category
-     *
      * @ORM\ManyToOne(targetEntity="Category")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idcat", referencedColumnName="Idcat")
-     * })
+     * @ORM\JoinColumn(name="idcat", referencedColumnName="Idcat")
      */
-    private $idcat;
+    private ?Category $idcat = null;
 
     public function getIdevent(): ?int
     {
@@ -86,7 +54,6 @@ class Event
     public function setName(string $name): static
     {
         $this->name = $name;
-
         return $this;
     }
 
@@ -98,7 +65,6 @@ class Event
     public function setDate(string $date): static
     {
         $this->date = $date;
-
         return $this;
     }
 
@@ -110,7 +76,6 @@ class Event
     public function setDescription(string $description): static
     {
         $this->description = $description;
-
         return $this;
     }
 
@@ -122,7 +87,6 @@ class Event
     public function setLocation(string $location): static
     {
         $this->location = $location;
-
         return $this;
     }
 
@@ -134,7 +98,6 @@ class Event
     public function setImage(string $image): static
     {
         $this->image = $image;
-
         return $this;
     }
 
@@ -146,7 +109,6 @@ class Event
     public function setQrcode(string $qrcode): static
     {
         $this->qrcode = $qrcode;
-
         return $this;
     }
 
@@ -158,9 +120,6 @@ class Event
     public function setIdcat(?Category $idcat): static
     {
         $this->idcat = $idcat;
-
         return $this;
     }
-
-
 }
