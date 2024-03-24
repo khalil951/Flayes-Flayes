@@ -14,25 +14,25 @@ class Event
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(name="Idevent", type="integer", nullable=false)]
+    #[ORM\Column(name:"Idevent", type:"integer", nullable:false)]
     private ?int $idevent = null;
 
-    #[ORM\Column(name="name", type="string", length=255, nullable=false)]
+    #[ORM\Column(name:"name", type:"string", length:255, nullable:false)]
     private ?string $name = null;
 
-    #[ORM\Column(name="date", type="string", length=255, nullable=false)]
+    #[ORM\Column(name:"date", type:"string", length:255, nullable:false)]
     private ?string $date = null;
 
-    #[ORM\Column(name="description", type="string", length=255, nullable=false)]
+    #[ORM\Column(name:"description", type:"string", length:255, nullable:false)]
     private ?string $description = null;
 
-    #[ORM\Column(name="location", type="string", length=255, nullable=false)]
+    #[ORM\Column(name:"location", type:"string", length:255, nullable:false)]
     private ?string $location = null;
 
-    #[ORM\Column(name="image", type="string", length=255, nullable=false)]
+    #[ORM\Column(name:"image", type:"string", length:255, nullable:false)]
     private ?string $image = null;
 
-    #[ORM\Column(name="qrcode", type="string", length=255, nullable=false)]
+    #[ORM\Column(name:"qrcode", type:"string", length:255, nullable:false)]
     private ?string $qrcode = null;
 
     /**

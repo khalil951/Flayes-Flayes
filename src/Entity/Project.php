@@ -2,85 +2,49 @@
 
 namespace App\Entity;
 
-use Doctrine\DBAL\Types\Types;
+use App\Repository\ProjectRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * Project
- *
- * @ORM\Table(name="project", indexes={@ORM\Index(name="fk_userID_id", columns={"user_id"})})
- * @ORM\Entity
- */
+
+#[ORM\Entity(repositoryClass: ProjectRepository::class)]
+#[ORM\Table(name: "project" )]
 class Project
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: "IDENTITY")]
+    #[ORM\Column(name: "id" , type: "integer" , nullable: "false")]
+    private ?int $id = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255, nullable=false)
-     */
-    private $name;
+    #[ORM\Column(name: "name" , type: "string" , length:255 , nullable: "false")]
+    private ?string $name = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="text", length=65535, nullable=false)
-     */
-    private $description;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="type", type="string", length=255, nullable=false)
-     */
-    private $type;
+    #[ORM\Column(name: "description" , type: "text" , length:65535 , nullable: "false")]
+    private ?string $description = null;
 
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="status", type="boolean", nullable=false)
-     */
-    private $status;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="added_date", type="date", nullable=false)
-     */
-    private $addedDate;
+    #[ORM\Column(name: "type" , type: "string" , length:255 , nullable: "false")]
+    private ?string $type = null;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="end_date", type="date", nullable=false)
-     */
-    private $endDate;
 
-    /**
-     * @var int|null
-     *
-     * @ORM\Column(name="user_status", type="integer", nullable=true)
-     */
-    private $userStatus;
+    #[ORM\Column(name: "status" , type: "boolean" , nullable: "false")]
+    private ?string $status = null;
 
-    /**
-     * @var \User
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-     * })
-     */
-    private $user;
 
+    #[ORM\Column(name: "added_date" , type: "date" , nullable: "false")]
+    private ?\DateTime $addedDate = null;
+
+
+    #[ORM\Column(name: "end_date" , type: "date" , nullable: "false")]
+    private ?\DateTime $endDate = null;
+
+    #[ORM\Column(name: "user_status", type: "integer", nullable: true)]
+    private ?int $userStatus;
+
+
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: "user_id", referencedColumnName: "id", nullable: false)]
+    private ?User $user;
     public function getId(): ?int
     {
         return $this->id;

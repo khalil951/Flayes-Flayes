@@ -2,67 +2,38 @@
 
 namespace App\Entity;
 
+use App\Repository\FundingRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * Funding
- *
- * @ORM\Table(name="funding")
- * @ORM\Entity
- */
+#[ORM\Entity(repositoryClass: FundingRepository::class)]
+#[ORM\Table(name: "funding")]
 class Funding
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="type", type="string", length=255, nullable=false)
-     */
-    private $type;
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: "IDENTITY")]
+    #[ORM\Column(name: "id" , type: "integer" , nullable: "false")]
+    private ?int $id = null;
 
-    /**
-     * @var float|null
-     *
-     * @ORM\Column(name="attribute1", type="float", precision=10, scale=0, nullable=true)
-     */
-    private $attribute1;
 
-    /**
-     * @var float|null
-     *
-     * @ORM\Column(name="attribute2", type="float", precision=10, scale=0, nullable=true)
-     */
-    private $attribute2;
+    #[ORM\Column(length: 255)]
+    private ?string $type = null;
 
-    /**
-     * @var float|null
-     *
-     * @ORM\Column(name="attribute3", type="float", precision=10, scale=0, nullable=true)
-     */
-    private $attribute3;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="textAttribute", type="string", length=255, nullable=false)
-     */
-    private $textattribute;
+    #[ORM\Column]
+    private ?float $attribute1= null;
 
-    /**
-     * @var float|null
-     *
-     * @ORM\Column(name="score", type="float", precision=10, scale=0, nullable=true)
-     */
-    private $score;
+    #[ORM\Column(name: "attribute2", type: "float", precision: 10, scale: 0, nullable: true)]
+    private ?float $attribute2;
 
+    #[ORM\Column(name: "attribute3", type: "float", precision: 10, scale: 0, nullable: true)]
+    private ?float $attribute3;
+
+    #[ORM\Column(name: "textAttribute", type: "string",  length:255, nullable:false)]
+    private ?string $textattribute;
+
+    #[ORM\Column(name: "score", type: "float", precision: 10, scale: 0, nullable: true)]
+    private ?float $score;
     public function getId(): ?int
     {
         return $this->id;

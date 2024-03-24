@@ -2,83 +2,45 @@
 
 namespace App\Entity;
 
-use Doctrine\DBAL\Types\Types;
+use App\Repository\OfferRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * Offer
- *
- * @ORM\Table(name="offer", indexes={@ORM\Index(name="fk_userID_offerID", columns={"user_id"}), @ORM\Index(name="fk_fundingID_offerID", columns={"funding_id"}), @ORM\Index(name="fk_projectID_offerID", columns={"project_id"})})
- * @ORM\Entity
- */
+
+#[ORM\Entity(repositoryClass: OfferRepository::class)]
+#[ORM\Table(name: "Offer")]
 class Offer
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: "IDENTITY")]
+    #[ORM\Column(name: "id" , type: "integer" , nullable: "false")]
+    private ?int $id= null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="title", type="string", length=255, nullable=false)
-     */
-    private $title;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="text", length=65535, nullable=false)
-     */
-    private $description;
+    #[ORM\Column(name: "title", type: "string", length:255, nullable:false)]
+    private ?string $title= null;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="status", type="integer", nullable=false)
-     */
-    private $status;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="date_created", type="date", nullable=false)
-     */
-    private $dateCreated;
+    #[ORM\Column(name:"description", type:"text", length:65535, nullable:false)]
+    private ?string $description = null;
 
-    /**
-     * @var \Funding
-     *
-     * @ORM\ManyToOne(targetEntity="Funding")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="funding_id", referencedColumnName="id")
-     * })
-     */
-    private $funding;
 
-    /**
-     * @var \Project
-     *
-     * @ORM\ManyToOne(targetEntity="Project")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="project_id", referencedColumnName="id")
-     * })
-     */
-    private $project;
+    #[ORM\Column(name:"status" , type: "integer" , nullable: false)]
+    private ?int $status = null;
 
-    /**
-     * @var \User
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-     * })
-     */
-    private $user;
+
+    #[ORM\Column(name:"date_created", type:"date", nullable:false)]
+    private ?\DateTime $dateCreated;
+
+    #[ORM\ManyToOne(targetEntity: Funding::class)]
+    #[ORM\JoinColumn(name: "funding_id", referencedColumnName: "id")]
+    private ?Funding $funding;
+    #[ORM\ManyToOne(targetEntity: Project::class)]
+    #[ORM\JoinColumn(name: "project_id", referencedColumnName: "id")]
+    private ?Project $project;
+
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: "user_id", referencedColumnName: "id", nullable: false)]
+    private ?User $user;
 
     public function getId(): ?int
     {
