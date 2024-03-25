@@ -1,0 +1,29 @@
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Date</th>
+        <th>Description</th>
+        <th>Location</th>
+        <th>Image</th>
+        <th>QR Code</th>
+        <th>Category</th>
+        <th>Delete</th>
+        <th>Update</th>
+    </tr>
+    {% for event in events %}
+    <tr> 
+        <td>{{ event.getIdevent() }}</td>
+        <td>{{ event.getName() }}</td>
+        <td>{{ event.getDate() }}</td>
+        <td>{{ event.getDescription() }}</td>
+        <td>{{ event.getLocation() }}</td>
+        <td>{{ event.getImage() }}</td>
+        <td>{{ event.getQrcode() }}</td>
+        <td>{{ event.getIdcat().getName() }}</td>
+        <td> <a href="{{ path('app_delete', {'id': event.getIdevent()}) }}">Delete</a></td>
+        <td> <a href="{{ path('event_Update', {'id': event.getIdevent()}) }}">Update</a></td>
+    </tr>
+    {% endfor %}
+</table>
+{{ dump(events) }}
