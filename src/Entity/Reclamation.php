@@ -1,71 +1,41 @@
 <?php
 
 namespace App\Entity;
-
+use App\Repository\ReclamationRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * Reclamation
- *
- * @ORM\Table(name="reclamation", indexes={@ORM\Index(name="IDX_CE60640419EB6921", columns={"id_user"})})
- * @ORM\Entity
- */
+#[ORM\Entity(repositoryClass: ReclamationRepository::class)]
 class Reclamation
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id_rec", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $idRec;
+    #[ORM\Column]
+     #[ORM\Id]
+     #[ORM\GeneratedValue]
+    private ?int $idRec = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="object", type="string", length=255, nullable=false)
-     */
-    private $object;
+    #[ORM\Column]
+    private ?int $idUser = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="type", type="string", length=255, nullable=false)
-     */
-    private $type;
+    #[ORM\Column(length: 500)]
+    private ?string $object = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="string", length=255, nullable=false)
-     */
-    private $description;
+    #[ORM\Column(length: 500)]
+    private ?string $type = null;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="date", type="date", nullable=false, options={"default"="CURRENT_TIMESTAMP"})
-     */
-    private $date = 'CURRENT_TIMESTAMP';
+    #[ORM\Column(length: 500)]
+    private ?string $description =null;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="etat", type="string", length=255, nullable=true)
-     */
-    private $etat;
+    
+     #[ORM\Column]
+     
+    private  $date = null;
 
-    /**
-     * @var \User
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="id_user", referencedColumnName="id")
-     * })
-     */
-    private $idUser;
+    #[ORM\Column(length: 500)]
+    private ?string $etat = null;
+
+     #[ORM\ManyToOne(inversedBy: 'reclamations')]
+     //private $idUser;
+     private ?User $user = null;
 
     public function getIdRec(): ?int
     {
@@ -125,7 +95,7 @@ class Reclamation
         return $this->etat;
     }
 
-    public function setEtat(?string $etat): static
+    public function setEtat(string $etat): static
     {
         $this->etat = $etat;
 
@@ -143,6 +113,8 @@ class Reclamation
 
         return $this;
     }
+
+   
 
 
 }

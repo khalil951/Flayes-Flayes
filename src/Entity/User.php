@@ -1,67 +1,44 @@
 <?php
 
 namespace App\Entity;
-
+use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * User
- *
- * @ORM\Table(name="user")
- * @ORM\Entity
- */
+
+ #[ORM\Entity(repositoryClass: UserRepository::class)]
+ 
 class User
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
+    
+     
+     #[ORM\Column]
+     #[ORM\Id]
+     #[ORM\GeneratedValue]
+    private ?int $id = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=500, nullable=false)
-     */
-    private $name;
+    
+     #[ORM\Column(length: 500)]
+     private ?string $name = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="email", type="string", length=500, nullable=false)
-     */
-    private $email;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="tel", type="string", length=500, nullable=false)
-     */
-    private $tel;
+    #[ORM\Column(length: 500)]
+     private ?string $email = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="password", type="string", length=500, nullable=false)
-     */
-    private $password;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="roles", type="string", length=500, nullable=false)
-     */
-    private $roles;
+    #[ORM\Column(length: 500)]
+    private ?string $tel = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="image_name", type="string", length=500, nullable=false)
-     */
-    private $imageName;
+
+    #[ORM\Column(length: 500)]
+    private ?string $password = null;
+
+
+    #[ORM\Column(length: 500)]
+    private ?string $roles = null;
+
+
+    #[ORM\Column(length: 500)]
+    private ?string $imageName = null;
 
     /**
      * @var int
