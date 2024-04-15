@@ -1,0 +1,123 @@
+{# templates/user/registeration.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+   <section class="vh-250" >
+  <div class="container h-200">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-lg-9 col-xl-11">
+        <div class="card text-black" style="border-radius: 25px;">
+          <div class="card-body p-md-1">
+            <div class="row justify-content-center">
+              <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
+
+                <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
+
+ 
+
+    {{ form_start(registrationForm, {'attr': {'onsubmit': 'return validateForm();'}}) }}
+
+        <div class="d-flex flex-row align-items-center mb-3">
+    <i class="fas fa-user fa-lg me-2 fa-fw"></i>
+    <div class="form-outline flex-fill mb-0">
+       {{ form_row(registrationForm.name) }}
+        {% for flashType, flashMessages in app.flashes %}
+        {% for flashMessage in flashMessages %}
+            <div class="alert alert-{{ flashType }}" role="alert">
+                {{ flashMessage }}
+            </div>
+                 {% endfor %}
+               {% endfor %}
+     
+    </div>
+   </div>
+        <div class="d-flex flex-row align-items-center mb-3">
+    <i class="fas fa-envelope fa-lg me-2 fa-fw"></i>
+    <div class="form-outline flex-fill mb-0">
+      {{ form_row(registrationForm.email) }}
+    </div>
+  </div>
+        <div class="d-flex flex-row align-items-center mb-3">
+    <i class="fas fa-phone fa-lg me-2 fa-fw"></i>
+    <div class="form-outline flex-fill mb-0">
+        {{ form_row(registrationForm.tel) }}
+    </div>
+</div>
+        
+        {# Password field with toggle button #}
+
+         <div class="d-flex flex-row align-items-center mb-3">
+    <i class="fas fa-lock fa-lg me-2 fa-fw"></i>
+    <div class="form-outline flex-fill mb-0">
+        <div>
+           {{ form_row(registrationForm.password, {
+        'attr': {
+            'type': 'password',
+            'autocomplete': 'new-password',
+            'class': 'password-input',  
+            'id': 'password'  
+        }
+    }) }}
+            
+        </div>
+        
+    </div>
+</div>
+
+      
+        <div class="d-flex flex-row align-items-center mb-3">
+    <i class="fas fa-user fa-lg me-2 fa-fw"></i>
+    <div class="form-outline flex-fill mb-0">
+         {{ form_row(registrationForm.imageFile) }}
+    {% if registrationForm.vars.value.imageName %}
+        <img src="{{ vich_uploader_asset(registrationForm.vars.value, 'imageFile') }}" alt="User Image">
+    {% endif %}
+       
+    </div>
+</div>
+     
+<div class="form-field" style="display: flex; justify-content: center;">
+                    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+                    <div class="g-recaptcha" data-sitekey="6LesK4gpAAAAALosDjeMzwqyYcj_4G76QX0a3HdG"></div>
+                </div>
+       
+        <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                    <button type="submit" class="btn btn-primary btn-lg">Register</button>
+                  </div> 
+                  
+    {{ form_end(registrationForm) }}
+<div class="form-title">Already have an Account? <u><a href="{{ path('app_login') }}" style="display: inline; color: #216aca;" onmouseover="this.style.color='#03d9ff'" onmouseout="this.style.color='#216aca'">Log In</a></u></div>
+   
+</div>
+              <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
+
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp"
+                  class="img-fluid" alt="Sample image">
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+    function validateForm() {
+        var recaptchaResponse = grecaptcha.getResponse();
+        if (recaptchaResponse.length === 0) {
+            alert('Please complete the reCAPTCHA verification.');
+            return false;
+        }
+        return true;
+    }
+</script>
+
+
+
+
+{% endblock %} 

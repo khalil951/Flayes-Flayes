@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reclamation index{% endblock %}
+
+{% block body %}
+    <h1>Reclamation index</h1>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    
+                    <th scope="col">object</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Etat</th>
+                    <th scope="col">Created At</th>
+                    <th scope="col">Id User</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for reclamation in reclamations %}
+                    <tr>
+                        
+                        <td>{{ reclamation.object }}</td>
+                        <td>{{ reclamation.description }}</td>
+                        <td>{{ reclamation.type }}</td>
+                        <td>{{ reclamation.etat }}</td>
+                        <td>{{ reclamation.date ? reclamation.date|date('Y-m-d H:i:s') : '' }}</td>
+                        <td>{{ reclamation.idUser }}</td>
+                        <td>
+                        {% if reclamation.etat == "Not Treated" or reclamation.etat == "Waiting" %}
+                            
+                            {% endif %}
+                            <a href="" class="btn btn-info btn-sm">Show</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="8">No records found</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

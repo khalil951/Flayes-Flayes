@@ -1,0 +1,77 @@
+{% extends 'back.html.twig' %}
+
+
+
+{% block title %}List of registerd users{% endblock %}
+
+{% block body %}
+{% if app.user %}
+                    <div class="mb-3">
+                        You are logged in as {{ app.user.name }}, <a href="{{ path('app_logout') }}">Logout</a>
+                    </div>
+                {% endif %}
+                {% if app.user and app.user.status != 1 %}
+    <div class="alert alert-warning" role="alert">
+        Please confirm your email to proceed.
+    </div>
+{% endif %}
+<div class="row">
+    {% for user in users %}
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+         <img class="rounded-circle" width="50" height="50" src="{{ vich_uploader_asset(user, 'imageFile') }}" alt="User Image">
+            <h5 class="card-title">{{ user.name }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">{{ user.email}} </h6>
+             <h6 class="card-subtitle mb-2 text-muted"> {{ user.tel }}</h6>
+           
+            <a href="{{ path('user.detail', {id: user.id}) }}" class="card-link">
+                <i class="fas fa-info-circle"></i>
+            </a>
+           
+                <a href="{{ path('user.delete', {id: user.id}) }}" class="card-link">
+    <i class="fas fa-user-times"></i>
+</a>
+                <a href="{{ path('app_user_edit', {id: user.id}) }}" class="card-link">
+                    <i class="fas fa-user-edit"></i>
+                </a>
+            
+        </div>
+    </div>
+    {% endfor %}
+</div>
+    {% if isPaginated is defined and isPaginated %}
+        <div class="row mt-2">
+            <nav aria-label="col Page navigation example">
+                <ul class="pagination">
+                    {% if page != 1 %}
+                        <li class="page-item">
+                            <a
+                                    class="page-link"
+                                    href="{{ path('user.list.alls', {page: page - 1, nbre: nbre}) }}"
+                            >
+                                Previous
+                            </a></li>
+                    {% endif %}
+                    {% for i in range(1, nbrePage) %}
+                        <li class="page-item">
+                            <a class="page-link"
+                               href="{{ path('user.list.alls', {page: i, nbre: nbre}) }}"
+                            >{{ i }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                    {% if page != nbrePage %}
+                        <li class="page-item">
+                            <a
+                                    class="page-link"
+                                    href="{{ path('user.list.alls', {page: page + 1, nbre: nbre}) }}"
+                            >Next</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+
+        </div>
+    {% endif %}
+{% endblock %}
+

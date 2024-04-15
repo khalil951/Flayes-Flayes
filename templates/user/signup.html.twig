@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- Mirrored from pixner.net/hyipland/demo/sign-up.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 13 Mar 2024 20:52:23 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>Hyipland - HYIP Investment HTML Template</title>
+
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/animate.css">
+    <link rel="stylesheet" href="assets/css/odometer.css">
+    <link rel="stylesheet" href="assets/css/nice-select.css">
+    <link rel="stylesheet" href="assets/css/owl.min.css">
+    <link rel="stylesheet" href="assets/css/jquery-ui.min.css">
+    <link rel="stylesheet" href="assets/css/magnific-popup.css">
+    <link rel="stylesheet" href="assets/css/flaticon.css">
+    <link rel="stylesheet" href="assets/css/main.css">
+
+    <link rel="shortcut icon" href="assets/images/favicon.png" type="image/x-icon">
+    
+  
+</head>
+
+<body>
+
+    <div class="preloader">
+        <div class="preloader-inner">
+            <div class="preloader-icon">
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+
+    <!--============= Sign In Section Starts Here =============-->
+    <div class="account-section bg_img" data-background="assets/images/account-bg.jpg">
+        <div class="container">
+            <div class="account-title text-center">
+                <a href="index.html" class="back-home"><i class="fas fa-angle-left"></i><span>Back <span class="d-none d-sm-inline-block">To Hyipland</span></span></a>
+                <a href="#0" class="logo">
+                    <img src="assets/images/logo/footer-logo.png" alt="logo">
+                </a>
+            </div>
+            <div class="account-wrapper">
+                <div class="account-header">
+                    <h4 class="title">Let's get started</h4>
+                    <a href="#0" class="sign-in-with"><img src="assets/images/icon/google.png" alt="icon"><span>Sign Up with Google</span></a>
+                </div>
+                <div class="or">
+                    <span>OR</span>
+                </div>
+                <div class="account-body">
+                    <span class="d-block mb-20">Sign up with your work email</span>
+
+
+
+                 {{ form_start(registrationForm, {'attr': {'class': 'account-form', 'onsubmit': 'return validateForm();'}}) }}
+ 
+
+                        {# Render flash messages first #}
+{% for flashType, flashMessages in app.flashes %}
+    {% for flashMessage in flashMessages %}
+        <div class="alert alert-{{ flashType }}" role="alert">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+{% endfor %}
+
+{# Render the name field #}
+<div class="form-group">
+    <label for="{{ registrationForm.name.vars.id }}" class="control-label">
+        <i class="fas fa-user fa-lg me-2 fa-fw"></i> {{ registrationForm.name.vars.label }}
+    </label>
+    {{ form_widget(registrationForm.name, {'attr': {'class': 'form-control ' ~ (form_errors(registrationForm.name) ? 'is-invalid' : '')}}) }}
+    {% if form_errors(registrationForm.name) %}
+        <div class="invalid-feedback">
+            {{ form_errors(registrationForm.name) }}
+        </div>
+    {% endif %}
+</div>
+    
+ 
+       <div class="form-group">
+    <label for="{{ registrationForm.email.vars.id }}" class="control-label">
+        <i class="fas fa-envelope fa-lg me-2 fa-fw"></i> {{ registrationForm.email.vars.label }}
+    </label>
+    {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control ' ~ (form_errors(registrationForm.email) ? 'is-invalid' : '')}}) }}
+    {% if form_errors(registrationForm.email) %}
+        <div class="invalid-feedback">
+            {{ form_errors(registrationForm.email) }}
+        </div>
+    {% endif %}
+</div>
+
+
+
+<div class="form-group">
+    <label for="{{ registrationForm.tel.vars.id }}" class="control-label">
+        <i class="fas fa-phone fa-lg me-2 fa-fw"></i> {{ registrationForm.tel.vars.label }}
+    </label>
+    {{ form_widget(registrationForm.tel, {'attr': {'class': 'form-control ' ~ (form_errors(registrationForm.tel) ? 'is-invalid' : '')}}) }}
+    {% if form_errors(registrationForm.tel) %}
+        <div class="invalid-feedback">
+            {{ form_errors(registrationForm.tel) }}
+        </div>
+    {% endif %}
+</div>
+  
+        
+
+        
+        
+
+         <div class="form-group">
+    <label for="{{ registrationForm.password.vars.id }}" class="control-label">
+        <i class="fas fa-lock fa-lg me-2 fa-fw"></i> {{ registrationForm.password.vars.label }}
+    </label>
+            
+           {{ form_widget(registrationForm.password) }}      
+              {{ form_errors(registrationForm.password) }}
+</div>
+
+      
+
+
+
+<div class="form-group">
+    <label for="{{ registrationForm.imageFile.vars.id }}" class="control-label">
+        <i class="fas fa-image"></i> {{ registrationForm.imageFile.vars.label }}
+    </label>
+    {{ form_widget(registrationForm.imageFile) }}
+    {{ form_errors(registrationForm.imageFile) }}
+
+    {% if registrationForm.vars.value.imageName %}
+        <img src="{{ vich_uploader_asset(registrationForm.vars.value, 'imageFile') }}" alt="User Image">
+    {% endif %}
+</div>
+     
+<div class="form-group" style="display: flex; justify-content: center;">
+                    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+                    <div class="g-recaptcha" data-sitekey="6LesK4gpAAAAALosDjeMzwqyYcj_4G76QX0a3HdG"></div>
+                </div>
+       
+        <div class="form-group text-center">
+                            <button type="submit">Try It Now</button>
+                            <span class="d-block mt-15">Already have an account? <a href="{{ path('app_login') }}">Sign In</a></span>
+                        </div>
+                  
+    {{ form_end(registrationForm) }}
+     </form>
+                        
+                   
+
+
+                    
+
+
+                </div>
+            </div>
+            <div class="sponsor-slider-wrapper cl-white text-center mt-40">
+                <h5 class="slider-heading mb-3">Used by over 1,000,000 people worldwide</h5>
+                <div class="sponsor-slider-4 owl-theme owl-carousel">
+                    <div class="sponsor-thumb">
+                        <img src="assets/images/sponsor/sponsor1.html" alt="sponsor">
+                    </div>
+                    <div class="sponsor-thumb">
+                        <img src="assets/images/sponsor/sponsor2.html" alt="sponsor">
+                    </div>
+                    <div class="sponsor-thumb">
+                        <img src="assets/images/sponsor/sponsor3.html" alt="sponsor">
+                    </div>
+                    <div class="sponsor-thumb">
+                        <img src="assets/images/sponsor/sponsor4.html" alt="sponsor">
+                    </div>
+                    <div class="sponsor-thumb">
+                        <img src="assets/images/sponsor/sponsor5.html" alt="sponsor">
+                    </div>
+                    <div class="sponsor-thumb">
+                        <img src="assets/images/sponsor/sponsor6.html" alt="sponsor">
+                    </div>
+                    <div class="sponsor-thumb">
+                        <img src="assets/images/sponsor/sponsor7.html" alt="sponsor">
+                    </div>
+                    <div class="sponsor-thumb">
+                        <img src="assets/images/sponsor/sponsor1.html" alt="sponsor">
+                    </div>
+                    <div class="sponsor-thumb">
+                        <img src="assets/images/sponsor/sponsor2.html" alt="sponsor">
+                    </div>
+                    <div class="sponsor-thumb">
+                        <img src="assets/images/sponsor/sponsor3.html" alt="sponsor">
+                    </div>
+                    <div class="sponsor-thumb">
+                        <img src="assets/images/sponsor/sponsor4.html" alt="sponsor">
+                    </div>
+                    <div class="sponsor-thumb">
+                        <img src="assets/images/sponsor/sponsor5.html" alt="sponsor">
+                    </div>
+                    <div class="sponsor-thumb">
+                        <img src="assets/images/sponsor/sponsor6.html" alt="sponsor">
+                    </div>
+                    <div class="sponsor-thumb">
+                        <img src="assets/images/sponsor/sponsor7.html" alt="sponsor">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--============= Sign In Section Ends Here =============-->
+
+    <script src="assets/js/jquery-3.3.1.min.js"></script>
+    <script src="assets/js/modernizr-3.6.0.min.js"></script>
+    <script src="assets/js/plugins.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/magnific-popup.min.js"></script>
+    <script src="assets/js/jquery-ui.min.js"></script>
+    <script src="assets/js/wow.min.js"></script>
+    <script src="assets/js/odometer.min.js"></script>
+    <script src="assets/js/viewport.jquery.js"></script>
+    <script src="assets/js/nice-select.js"></script>
+    <script src="assets/js/owl.min.js"></script>
+    <script src="assets/js/paroller.js"></script>
+    <script src="assets/js/main.js"></script>
+
+    <script>
+    function validateForm() {
+        var recaptchaResponse = grecaptcha.getResponse();
+        if (recaptchaResponse.length === 0) {
+            alert('Please complete the reCAPTCHA verification.');
+            return false;
+        }
+        return true;
+    }
+</script>
+
+
+</body>
+
+
+<!-- Mirrored from pixner.net/hyipland/demo/sign-up.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 13 Mar 2024 20:52:27 GMT -->
+</html>
