@@ -1,29 +1,94 @@
-<table border="1">
-    <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Date</th>
-        <th>Description</th>
-        <th>Location</th>
-        <th>Image</th>
-        <th>QR Code</th>
-        <th>Category</th>
-        <th>Delete</th>
-        <th>Update</th>
-    </tr>
-    {% for event in events %}
-    <tr> 
-        <td>{{ event.getIdevent() }}</td>
-        <td>{{ event.getName() }}</td>
-        <td>{{ event.getDate() }}</td>
-        <td>{{ event.getDescription() }}</td>
-        <td>{{ event.getLocation() }}</td>
-        <td>{{ event.getImage() }}</td>
-        <td>{{ event.getQrcode() }}</td>
-        <td>{{ event.getIdcat().getName() }}</td>
-        <td> <a href="{{ path('app_delete', {'id': event.getIdevent()}) }}">Delete</a></td>
-        <td> <a href="{{ path('event_Update', {'id': event.getIdevent()}) }}">Update</a></td>
-    </tr>
-    {% endfor %}
-</table>
-{{ dump(events) }}
+{# templates/user/registeration.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+    <section class="vh-250">
+        <div class="container h-200">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-lg-9 col-xl-11">
+                    <div class="card text-black" style="border-radius: 25px;">
+                        <div class="card-body p-md-1">
+                            <div class="row justify-content-center">
+
+     {% for event in events %}
+    <div class="offer-wrapper">
+        <div class="offer-item">
+            <div class="offer-header">
+                <h3 class="title">{{ event.getName() }}</h3>
+                <span><b>{{ event.getIdcat().getName() }}</b></span>
+            </div>
+            <div class="offer-body">
+                <span class="bal-shape"></span>
+                <div class="item first">
+                    <div class="item-thumb">
+                                    <img src="assets/images/offer/offer2.png" alt="offer">
+                    </div>
+                    <div class="item-content">
+                        <h5 class="title">Date and Place </h5>
+                        <h5 class="subtitle"><span class="min">${{ event.getDate() }}</span><span class="to">to</span><span class="max">${{ event.getLocation() }}</span></h5>
+                    </div>
+                </div>
+                <span class="bal-shape"></span>
+                <div class="item">
+                    <div class="item-thumb">
+                                    <img src="assets/images/offer/offer2.png" alt="offer">
+                    </div>
+                    <div class="item-content">
+                        <h5 class="title">Catgory</h5>
+                        <h5 class="subtitle">{{ event.getIdcat().Name }}</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="offer-footer">
+                <a href="#0" class="custom-button">invest now</a>
+            </div>
+        </div>
+    </div>
+{% else %}
+    <p>No events found.</p>
+{% endfor %}
+
+
+                            </div>
+
+                            <div class="form-title">Already have an Account? <u><a  style="display: inline; color: #216aca;" onmouseover="this.style.color='#03d9ff'" onmouseout="this.style.color='#216aca'">Log In</a></u></div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+              <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
+
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp"
+                  class="img-fluid" alt="Sample image">
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+    function validateForm() {
+        var recaptchaResponse = grecaptcha.getResponse();
+        if (recaptchaResponse.length === 0) {
+            alert('Please complete the reCAPTCHA verification.');
+            return false;
+        }
+        return true;
+    }
+</script>
+
+
+
+
+{% endblock %} 

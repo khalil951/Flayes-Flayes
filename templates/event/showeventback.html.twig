@@ -1,0 +1,48 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Event Index{% endblock %}
+
+{% block body %}
+<section>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="card shadow p-3 mb-5 bg-body rounded">
+                    <div class="card-body">
+                        <h3 class="main-title text-center mb-4">Events</h3>
+                        {{ form_start(form, {'attr': {'class': 'operation-filter'}}) }}
+                        <div class="form-group">
+                            <label for="{{ form.name.vars.id }}">Name:</label>
+                            {{ form_widget(form.name, {'attr': {'class': 'form-control', 'placeholder': 'Enter name'}}) }}
+                            {{ form_errors(form.name) }}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="{{ form.date.vars.id }}">Date:</label>
+                            {{ form_widget(form.date, {'attr': {'class': 'form-control', 'placeholder': 'Enter date'}}) }}
+                            {{ form_errors(form.date) }}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="{{ form.description.vars.id }}">Description:</label>
+                            {{ form_widget(form.description, {'attr': {'class': 'form-control', 'placeholder': 'Enter description'}}) }}
+                            {{ form_errors(form.description) }}
+                        </div>
+
+                        <div class="form-group">
+                            <label for="{{ form.location.vars.id }}">Location:</label>
+                            {{ form_widget(form.location, {'attr': {'class': 'form-control', 'placeholder': 'Enter location'}}) }}
+                            {{ form_errors(form.location) }}
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
