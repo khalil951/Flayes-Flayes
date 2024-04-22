@@ -1,3 +1,5 @@
+{# user/edit.html.twig #}
+
 {% extends 'base.html.twig' %}
 
 {% block title %}Edit User{% endblock %}
@@ -5,9 +7,11 @@
 {% block body %}
     <h1>Edit User</h1>
 
-    {{ include('admin/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('app_list') }}">back to list</a>
-
-    
+    {{ form_start(form) }}
+        {{ form_row(form.name) }}
+        {{ form_row(form.email) }}
+        {{ form_row(form.tel) }}
+       
+        <button type="submit">Save Changes</button>
+    {{ form_end(form) }}
 {% endblock %}

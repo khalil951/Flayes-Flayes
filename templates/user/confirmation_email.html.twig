@@ -1,4 +1,78 @@
-<h1>Hi! Please confirm your email!</h1>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introducing Flayes - Your Financial Project Platform</title>
+    <style>
+        /* Add your CSS styles here */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            width: 150px;
+        }
+
+        .presentation {
+            text-align: justify;
+            margin-bottom: 20px;
+        }
+
+        .presentation img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #666666;
+        }
+    </style>
+</head>
+
+<body>
+
+
+ <div class="container">
+        <div class="header">
+            <img src="{{ asset('assets/images/logo.png') }}" alt="Flayes Logo" class="logo">
+            <h1>Welcome to Flayes - Your Financial Project Platform</h1>
+        </div>
+
+        <div class="presentation">
+           <img src="http://127.0.0.1:8000/assets/images/about/hero-bg2.jpg" alt="Finance Image">
+            <p>Flayes is the ultimate platform where individuals can pitch their financial projects to be invested in by a group of people. Whether you're an entrepreneur looking for funding for your startup or an investor seeking promising investment opportunities, Flayes provides a seamless and transparent platform for connecting project owners with potential investors.</p>
+            <p>With Flayes, you can:</p>
+            <ul>
+                <li>Present your financial project to a wide audience of potential investors</li>
+                <li>Receive funding and support for your project</li>
+                <li>Discover innovative and promising investment opportunities</li>
+                <li>Connect with like-minded individuals and experts in your industry</li>
+            </ul>
+        </div>
 
 <p>
     Please confirm your email address by clicking the following link: <br><br>
@@ -9,3 +83,11 @@
 <p>
     Cheers!
 </p>
+<div class="footer">
+            <p>If you have any questions or need assistance, feel free to contact us at support@flayes.com</p>
+            <p>Follow us on <a href="https://twitter.com/flayes">Twitter</a> | Like us on <a href="https://facebook.com/flayes">Facebook</a></p>
+        </div>
+    </div>
+</body>
+
+</html>

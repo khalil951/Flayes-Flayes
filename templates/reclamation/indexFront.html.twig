@@ -1,0 +1,93 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reclamation Index{% endblock %}
+
+{% block body %}
+<style>
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination-container ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.pagination-container li {
+  margin: 0 5px;
+}
+
+.pagination-container li a {
+  display: block;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  text-decoration: none;
+  color: #333;
+}
+
+.pagination-container li.active a,
+.pagination-container li a:hover {
+  background-color: #333;
+  color: #fff;
+  border-color: #333;
+}
+
+</style>
+
+    <h1 class="mt-4 mb-4">Reclamation Index</h1>
+{% for message in app.flashes('error') %}
+            <div class="alert alert-danger">
+                {{ message }}
+            </div>
+        {% endfor %}
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>object</th>
+                    <th>Description</th>
+                    <th>Type</th>
+                    <th>Etat</th>
+                    <th>Created At</th>
+                    <th>Actions</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for reclamation in reclamations %}
+                    <tr>
+                        <td>{{ reclamation.object }}</td>
+                        <td>{{ reclamation.description }}</td>
+                        <td>{{ reclamation.type }}</td>
+                        <td>{{ reclamation.etat }}</td>
+                        <td>{{ reclamation.date ? reclamation.date|date('Y-m-d H:i:s') : '' }}</td>
+                        <td>
+                            <a href="{{ path('app_reclamation_edit', {'id': reclamation.idRec}) }}" class="btn btn-primary btn-sm" style="text-align: center;">Edit</a>
+                            </td>
+                            <td>
+                            {{ include('reclamation/_delete_form.html.twig') }}
+                            {% if reclamation.etat == "Done" %}
+                            <a href="{{ path('app_reponse_show', {'id': reclamation.reponse.idRec}) }}" class="btn-voir-tous">Voir Reponse</a>
+                             {% endif %}
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="6">No records found</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <nav class="pagination-container">
+				{{ knp_pagination_render(reclamations) }}
+			</nav>
+
+    <a href="{{ path('app_reclamation_new') }}" class="button" style="text-align: center;">Create New</a>
+{% endblock %}

@@ -51,7 +51,7 @@ public function findByIdUser($value): array
     {        return $this->createQueryBuilder('r')
            ->andWhere('r.id_user = :val')
             ->setParameter('val', $value)
-            ->orderBy('r.createdAt', 'ASC')
+            ->orderBy('r.date', 'ASC')
             ->getQuery()
            ->getResult()
         ;
@@ -63,7 +63,7 @@ public function findByIdUser($value): array
     $qb = $this->createQueryBuilder('r')
         ->select('COUNT(r)')
         ->andWhere('r.id_user = :user')
-        ->andWhere('r.createdAt >= :since')
+        ->andWhere('r.date >= :since')
         ->setParameter('user', $iduser)
         ->setParameter('since', (new \DateTime())->modify("-$days days"));
 

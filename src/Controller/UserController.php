@@ -48,6 +48,7 @@ use Symfony\Component\Mailer\Transport;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use App\Event\ListAllUsersEvent;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -73,10 +74,16 @@ public function __construct(EmailVerifier $emailVerifier)
     
 
     
-    #[Route('/user', name: 'app_user')]
+    #[Route('/msg', name: 'app_user')]
     public function index(Request $request): Response
     {  
         return $this->render('user/msg.html.twig');
+    }
+
+    #[Route('/home', name: 'app_home')]
+    public function home(Request $request): Response
+    {  
+        return $this->render('home/index.html.twig');
     }
 
     #[Route('/admin', name: 'app_admin')]
@@ -85,6 +92,29 @@ public function __construct(EmailVerifier $emailVerifier)
         return $this->render('back.html.twig');
     }
 
+ 
+
+    #[Route('/{id}/update', name: 'app_user_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, User $user, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
+    
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Handle file upload
+            
+    
+            // Persist changes to the user entity
+            $entityManager->flush();
+    
+            return $this->redirectToRoute('app_profil', [], Response::HTTP_SEE_OTHER);
+        }
+    
+        return $this->renderForm('admin/edit.html.twig', [
+            'user' => $user,
+            'form' => $form,
+        ]);
+    }
 
 
     #[Route('/register', name: 'app_register')]
@@ -260,32 +290,67 @@ public function confirmEmail(Request $request, $userId): Response
 public function add(Request $request, EntityManagerInterface $entityManager): Response
 {    
     $user = new User();
-    $form = $this->createForm(UserType::class, $user);
+    $form = $this->createForm(RegistrationType::class, $user);
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-        // Handle form submission
+             //image upload
+        
 
-        // Persist user entity
+
+// Récupérez le fichier de l'image à partir du formulaire
+$imageFile = $form->get('imageFile')->getData();
+    
+// Vérifiez s'il y a un fichier d'image
+if ($imageFile) {
+// Définissez le nom de l'image sur l'entité Event
+$user->setImageFile($imageFile);
+// Persistez l'entité Event
+$entityManager->persist($user);
+// Flush pour enregistrer l'entité dans la base de données
+$entityManager->flush();
+}
+
+        // Hash the password
+        $hashedPassword = password_hash($user->getPassword(), PASSWORD_DEFAULT);
+        $user->setPassword($hashedPassword);
+        // Save the user to the database
+        $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($user);
         $entityManager->flush();
 
-        // Redirect to a success page or login page
-        return $this->redirectToRoute('app_list');
-    }
+       
 
-    return $this->render('user/test.html.twig', [
-        'userForm' => $form->createView(),
-        'user' => $user,
-    ]);
+       
+    
+    // Redirect to a success page or login page
+    return $this->redirectToRoute('app_user');
+}
+
+return $this->render('user/test.html.twig', [
+    'registrationForm' => $form->createView(),
+    'user' => $user,
+]);
 }
 
 #[Route('/admin/list', name: 'app_list')]
-public function list(ManagerRegistry $doctrine, Request $request): Response {
-    $repository = $doctrine->getRepository(User::class);
-    $users = $repository->findAll();
-    return $this->render('admin/index.html.twig', ['users' => $users]);
-}
+    public function list(UserRepository $userRepository, PaginatorInterface $paginator, Request $request): Response
+    {
+        // Fetch all users from the UserRepository
+        $users = $userRepository->findAll();
+
+        // Paginate the results
+        $pagination = $paginator->paginate(
+            $users,
+            $request->query->getInt('page', 1), // Get the page number from the request, default to 1
+            3 // Number of items per page
+        );
+
+        return $this->render('user/index.html.twig', [
+            'users' => $pagination,
+           
+        ]);
+    }
 
 
 
@@ -323,34 +388,7 @@ public function indexAlls(ManagerRegistry $doctrine, $page, $nbre): Response {
         return $this->render('admin/detail.html.twig', ['user' => $user]);
     }
 
-    #[Route('/{id}/edit', name: 'app_user_edit', methods: ['GET', 'POST'])]
-public function edit(Request $request, User $user, EntityManagerInterface $entityManager): Response
-{
-    $form = $this->createForm(RegistrationType::class, $user);
-    $form->handleRequest($request);
-
-    if ($form->isSubmitted() && $form->isValid()) {
-        // Handle file upload
-        $imageFile = $form->get('imageFile')->getData();
-        
-        // Check if there is a new image file
-        if ($imageFile) {
-            // Set the image file on the user entity
-            $user->setImageFile($imageFile);
-        }
-
-        // Persist changes to the user entity
-        $entityManager->flush();
-
-        return $this->redirectToRoute('app_list', [], Response::HTTP_SEE_OTHER);
-    }
-
-    return $this->renderForm('admin/edit.html.twig', [
-        'user' => $user,
-        'form' => $form,
-    ]);
-}
-
+    
 
     
 
@@ -372,7 +410,7 @@ public function edit(Request $request, User $user, EntityManagerInterface $entit
             //Sinon  retourner un flashMessage d'erreur
             $this->addFlash('error', "Personne innexistante");
         }
-        return $this->redirectToRoute('app_list');
+        return $this->redirectToRoute('app_home');
     }
 
 
@@ -426,7 +464,14 @@ public function edit(Request $request, User $user, EntityManagerInterface $entit
                 $url = $this->generateUrl('reset_pass', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
 
 
-                $emailBody = "To reset your password, please visit the following link: $url";
+                $htmlContent = "
+    <html>
+    <body>
+        <p>To reset your password, please visit the following link: <a href='$url'>$url</a></p>
+        <img src='https://unsplash.com/fr/photos/personne-tenant-un-crayon-pres-dun-ordinateur-portable-5fNmWej4tAA' alt='Flayes Presentation Image'>
+    </body>
+    </html>
+";
 
 
                 $context = compact('url', 'user');
@@ -434,7 +479,7 @@ public function edit(Request $request, User $user, EntityManagerInterface $entit
                 ->from('iben46655@gmail.com')
                 ->to($email)
                 ->subject('Reset Password !')
-                ->text($emailBody);
+                ->html($htmlContent);
 
             $mailer->send($email);
     
@@ -497,5 +542,59 @@ public function edit(Request $request, User $user, EntityManagerInterface $entit
     }
 
 
+
     
+    #[Route('/user/{id}/ban', name:'ban_user')]
+    public function banUser(User $user, MailerInterface $mailer): Response
+    {
+        // Ban the user (update user status, set a flag, etc.)
+        $user->setStatus(2);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->flush();
+
+        // Send email notification to the user
+        $email = (new Email())
+            ->from('iben46655@gmail.com')
+            ->to($user->getEmail())
+            ->subject('Your account has been banned')
+            ->html('Dear ' . $user->getName() . ',<br>Your account has been banned. If you believe this is a mistake, please contact support.');
+
+        $mailer->send($email);
+
+        // Redirect back to the user profile or any other appropriate page
+        return $this->redirectToRoute('app_list', ['id' => $user->getId()]);
+    }
+
+
+    
+    #[Route('/user/{id}/deactivate', name:'user_deactivate_ban')]
+    public function deactivateBan(User $user, MailerInterface $mailer): Response
+    {
+        // Assuming 'status' field represents the ban status in your User entity
+        $user->setStatus(1); // Assuming 1 represents an active user
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->flush();
+
+        // Send an email to the user notifying them that their ban has been deactivated
+        $email = (new Email())
+            ->from('iben46655@gmail.com')
+            ->to($user->getEmail())
+            ->subject('Your account ban has been deactivated')
+            ->html('Dear ' . $user->getName() . ',<br>Your account ban has been deactivated. You can now access your account again.');
+
+        $mailer->send($email);
+
+        // Optionally, add a flash message to indicate successful deactivation
+        $this->addFlash('success', 'User ban deactivated successfully.');
+
+        // Redirect the user to a relevant page
+        return $this->redirectToRoute('app_list', ['id' => $user->getId()]);
+    }
+    
+    #[Route('/profil', name: 'app_profil')]
+    public function profil(Request $request): Response
+    {  
+        return $this->render('user/profil.html.twig');
+    }
+   
 }

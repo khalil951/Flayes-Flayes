@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="assets/css/magnific-popup.css">
     <link rel="stylesheet" href="assets/css/flaticon.css">
     <link rel="stylesheet" href="assets/css/main.css">
-
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="shortcut icon" href="assets/images/favicon.png" type="image/x-icon">
 </head>
 
@@ -104,26 +104,38 @@
                                 <a href="{{ path('app_home') }}">Home</a>
                             </li>
                             <li>
-                                <a href="dashboard.html">Dashboard</a>
+                                <a href="">Projects</a>
                             </li>
                             <li>
-                                <a href="{{ path('app_about') }}">About</a>
+                                <a href="">Offers</a>
                             </li>
                             <li>
-                                <a href="{{ path('app_affilate') }}">Affiliate</a>
+                                <a href="">Events</a>
                             </li>
                             <li>
-                                <a href="{{ path('app_plan') }}">Plan</a>
+                                <a href="">Forum</a>
                             </li>
                             <li>
-                                <a href="{{ path('app_faq') }}">Faqs</a>
+                                <a href="">Faqs</a>
                             </li>
                             <li>
-                                <a href="{{ path('app_contact') }}">Contact</a>
+                                <a href="{{ path('app_reclamation_new') }}">Contact</a>
                             </li>
-                            <li class="pr-0">
-                                <a href="{{ path('app_register') }}" class="custom-button">Join Us</a>
-                            </li>
+                          {% if app.user %}
+    <li class="pr-0">
+        <a href="{{ path('app_logout') }}" class="button" style="text-align: center;">Logout</a>
+    </li>
+    <li class="pr-0">
+        <a href="{{ path('app_profil') }}" style="text-align: center;">
+            <img src="{{ vich_uploader_asset(app.user, 'imageFile') }}" alt="User Profile" style="width: 50px; height: 50px; border-radius: 50%;">
+        </a>
+    </li>
+{% else %}
+    <li class="pr-0">
+        <a href="{{ path('app_register') }}" class="button" style="text-align: center;">Sign up</a>
+    </li>
+{% endif %}
+
                         </ul>
                         <div class="header-bar d-lg-none">
                             <span></span>
@@ -1543,6 +1555,9 @@
     <script src="assets/js/owl.min.js"></script>
     <script src="assets/js/paroller.js"></script>
     <script src="assets/js/main.js"></script>
+     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+    
 </body>
 
 

@@ -1,61 +1,85 @@
 {# templates/user/test.html.twig #}
 
-{% extends 'base.html.twig' %}
+{% extends 'back.html.twig' %}
 
 {% block title %}Register{% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
+   
 
  
 
 
-    {{ form_start(userForm, {'attr': {'onsubmit': 'return validateForm();'}}) }}
-        {{ form_row(userForm.name) }}
-        {% for flashType, flashMessages in app.flashes %}
-        {% for flashMessage in flashMessages %}
-            <div class="alert alert-{{ flashType }}" role="alert">
-                {{ flashMessage }}
-            </div>
-        {% endfor %}
-    {% endfor %}
-        {{ form_row(userForm.email) }}
-        {{ form_row(userForm.tel) }}
-        
-        {# Password field with toggle button #}
-        <div>
-           {{ form_row(userForm.password, {
-        'attr': {
-            'type': 'password',
-            'autocomplete': 'new-password',
-            'class': 'password-input',  
-            'id': 'password'  
-        }
-    }) }}
-            
+    {{ form_start(registrationForm, {'attr': {'onsubmit': 'return validateForm();'}}) }}
+       <div class="form-group">
+    <label for="{{ registrationForm.name.vars.id }}" class="control-label">
+        <i class="fas fa-user fa-lg me-2 fa-fw"></i> {{ registrationForm.name.vars.label }}
+    </label>
+    {{ form_widget(registrationForm.name, {'attr': {'class': 'form-control ' ~ (form_errors(registrationForm.name) ? 'is-invalid' : '')}}) }}
+    {% if form_errors(registrationForm.name) %}
+        <div class="invalid-feedback">
+            {{ form_errors(registrationForm.name) }}
         </div>
+    {% endif %}
+</div>
+        <div class="form-group">
+    <label for="{{ registrationForm.email.vars.id }}" class="control-label">
+        <i class="fas fa-envelope fa-lg me-2 fa-fw"></i> {{ registrationForm.email.vars.label }}
+    </label>
+    {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control ' ~ (form_errors(registrationForm.email) ? 'is-invalid' : '')}}) }}
+    {% if form_errors(registrationForm.email) %}
+        <div class="invalid-feedback">
+            {{ form_errors(registrationForm.email) }}
+        </div>
+    {% endif %}
+</div>
 
-        {{ form_row(userForm.roles) }}
-        {{ form_row(userForm.imageName) }}
-        {{ form_row(userForm.status) }}
+        <div class="form-group">
+    <label for="{{ registrationForm.tel.vars.id }}" class="control-label">
+        <i class="fas fa-phone fa-lg me-2 fa-fw"></i> {{ registrationForm.tel.vars.label }}
+    </label>
+    {{ form_widget(registrationForm.tel, {'attr': {'class': 'form-control ' ~ (form_errors(registrationForm.tel) ? 'is-invalid' : '')}}) }}
+    {% if form_errors(registrationForm.tel) %}
+        <div class="invalid-feedback">
+            {{ form_errors(registrationForm.tel) }}
+        </div>
+    {% endif %}
+</div>
+        
+         <div class="form-group">
+    <label for="{{ registrationForm.password.vars.id }}" class="control-label">
+        <i class="fas fa-lock fa-lg me-2 fa-fw"></i> {{ registrationForm.password.vars.label }}
+    </label>
+            
+           {{ form_widget(registrationForm.password) }}      
+              {{ form_errors(registrationForm.password) }}
+</div>
+
+      
+
+
+
+<div class="form-group">
+    <label for="{{ registrationForm.imageFile.vars.id }}" class="control-label">
+        <i class="fas fa-image"></i> {{ registrationForm.imageFile.vars.label }}
+    </label>
+    {{ form_widget(registrationForm.imageFile) }}
+    {{ form_errors(registrationForm.imageFile) }}
+
+    {% if registrationForm.vars.value.imageName %}
+        <img src="{{ vich_uploader_asset(registrationForm.vars.value, 'imageFile') }}" alt="User Image">
+    {% endif %}
+</div>
+        
     
 <div class="form-field" style="display: flex; justify-content: center;">
                     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
                     <div class="g-recaptcha" data-sitekey="6LesK4gpAAAAALosDjeMzwqyYcj_4G76QX0a3HdG"></div>
                 </div>
         <button type="submit">Register</button>
-    {{ form_end(userForm) }}
+    {{ form_end(registrationForm) }}
     
    
-<script>
-    function validateForm() {
-        var recaptchaResponse = grecaptcha.getResponse();
-        if (recaptchaResponse.length === 0) {
-            alert('Please complete the reCAPTCHA verification.');
-            return false;
-        }
-        return true;
-    }
-</script>
+
 
 {% endblock %}

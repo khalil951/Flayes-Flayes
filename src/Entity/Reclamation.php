@@ -17,14 +17,6 @@ class Reclamation
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message : "This field should not be blank.")]
-    #[Assert\Length(
-       min : 7,
-       minMessage : "The field should be at least {{ limit }} characters long."
-  )]
-  #[Assert\Regex(
-       pattern : "/^[a-zA-Z]+$/",
-       message : "Only letters are allowed in this field."
-  )]
     private ?string $object = null;
 
     #[ORM\Column(length: 500)]
@@ -43,8 +35,13 @@ class Reclamation
     private ?string $etat = null;
 
      #[ORM\ManyToOne(inversedBy: 'reclamations')]
-     private $idUser;
      private ?User $user = null;
+
+     #[ORM\Column]
+    private ?int $id_user = null;
+    
+    #[ORM\Column]
+    private ?int $user_id = null;
 
     public function getIdRec(): ?int
     {
@@ -110,7 +107,7 @@ class Reclamation
 
         return $this;
     }
-
+  /*
     public function getIdUser(): ?int
     {
         return $this->idUser;
@@ -122,8 +119,31 @@ class Reclamation
 
         return $this;
     }
+    */
 
-   
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getIdUser(): ?int
+    {
+        return $this->id_user;
+    }
+
+    public function setIdUser(int $id_user): static
+    {
+        $this->id_user = $id_user;
+
+        return $this;
+    }
 
 
 }

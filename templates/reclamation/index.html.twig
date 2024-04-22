@@ -1,13 +1,36 @@
-{% extends 'base.html.twig' %}
+{% extends 'back.html.twig' %}
 
 {% block title %}Reclamation index{% endblock %}
 
 {% block body %}
-    <h1>Reclamation index</h1>
+   <style>
+   .badge-soft-danger {
+            color: #f34e4e;
+            background-color: rgba(243, 78, 78, 0.1);
+        }
+        .badge-soft-warning {
+    color: #f7cc53;
+    background-color: rgba(247,204,83,.1);
+}
 
-    <div class="table-responsive">
-        <table class="table table-bordered table-striped">
-            <thead class="thead-dark">
+.badge-soft-success {
+    color: #51d28c;
+    background-color: rgba(81,210,140,.1);
+}
+
+.btn-success-soft {
+    color: #28a745;
+    background-color: rgba(40, 167, 69, 0.1);
+}
+.btn-danger-soft {
+    color: #dc3545;
+    background-color: rgba(220, 53, 69, 0.1);
+}
+
+</style>
+    <div class="table-wrapper">
+        <table class="transaction-table text-left more_space">
+            <thead>
                 <tr>
                     
                     <th scope="col">object</th>
@@ -26,21 +49,31 @@
                         <td>{{ reclamation.object }}</td>
                         <td>{{ reclamation.description }}</td>
                         <td>{{ reclamation.type }}</td>
-                        <td>{{ reclamation.etat }}</td>
+                        <td>
+    {% if reclamation.etat == 'Not Treated' %}
+        <span class="badge badge-soft-danger p-2 team-status">{{ reclamation.etat }}</span>
+    {% elseif reclamation.etat == 'Treated' %}
+        <span class="badge badge-soft-success p-2 team-status">{{ reclamation.etat }}</span>
+    {% endif %}
+</td>
                         <td>{{ reclamation.date ? reclamation.date|date('Y-m-d H:i:s') : '' }}</td>
                         <td>{{ reclamation.idUser }}</td>
-                        <td>
-                        {% if reclamation.etat == "Not Treated" or reclamation.etat == "Waiting" %}
-                            
-                            {% endif %}
-                            <a href="" class="btn btn-info btn-sm">Show</a>
-                        </td>
-                    </tr>
-                {% else %}
-                    <tr>
-                        <td colspan="8">No records found</td>
-                    </tr>
-                {% endfor %}
+                        {% if reclamation.etat == 'Not Treated' %}
+    <td>
+        <form action="{{ path('send_email', {'id': reclamation.idRec}) }}" method="post">
+            <textarea name="response" rows="4" cols="50" placeholder="Write your response here"></textarea>
+            <button type="submit" class="btn btn-primary">Send Response</button>
+        </form>
+    </td>
+{% else %}
+    <td>
+        <form action="{{ path('app_reclamation_delete', {'id': reclamation.idRec}) }}" method="post">
+            <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+    </td>
+{% endif %}
+    </tr>
+{% endfor %}
             </tbody>
         </table>
     </div>

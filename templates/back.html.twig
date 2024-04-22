@@ -94,7 +94,7 @@
                             <a href="notification.html"><i class="flaticon-bell"></i>Notifications</a>
                         </li>
                         <li>
-                            <a href="ticket.html"><i class="flaticon-sms"></i>Tickets</a>
+                            <a href="{{ path('app_reclamation_index') }}">Reclamation</a>
                         </li>
                         <li>
                             <a href="promotional-metarials.html"><i class="flaticon-deal"></i>Promotional</a>
@@ -261,22 +261,22 @@
                                         <li>
                                             <a href="#0" class="author">
                                                 <div class="thumb">
-                                                    <img src="assets/images/dashboard/author.png" alt="dashboard">
+                                                      <img src="{{ vich_uploader_asset(app.user, 'imageFile') }}" alt="dashboard">
                                                     <span class="checked">
                                                         <i class="flaticon-checked"></i>
                                                     </span>
                                                 </div>
                                                 <div class="content">
-                                                    <h6 class="title">John Doe</h6>
-                                                    <span class="country">Indonesia</span>
+                                                    <h6 class="title">{{ app.user.name }}</h6>
+                                                    <span class="country">Tunisia</span>
                                                 </div>
                                             </a>
                                             <div class="notification-area">
                                                 <div class="author-header">
                                                     <div class="thumb">
-                                                        <img src="assets/images/dashboard/author.png" alt="dashboard">
+                                                        <img src="src="{{ vich_uploader_asset(app.user, 'imageFile') }}" alt="dashboard">
                                                     </div>
-                                                    <h6 class="title">John Doe</h6>
+                                                    <h6 class="title">{{ app.user.name }}</h6>
                                                     <a href="#mailto:johndoe@gmail.com"><span class="__cf_email__" data-cfemail="0f456067616b606a4f68626e6663216c6062">[email&#160;protected]</span></a>
                                                 </div>
                                                 <div class="author-body">
