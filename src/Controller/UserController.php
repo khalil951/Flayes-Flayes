@@ -49,10 +49,14 @@ use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use App\Event\ListAllUsersEvent;
 use Knp\Component\Pager\PaginatorInterface;
+use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
+use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\JsonResponse;
+
 class UserController extends AbstractController
 {
     private MailerInterface $mailer;
@@ -595,6 +599,30 @@ public function indexAlls(ManagerRegistry $doctrine, $page, $nbre): Response {
     public function profil(Request $request): Response
     {  
         return $this->render('user/profil.html.twig');
+    }
+
+   
+    #[Route('/connect/google', name:'connect_google_star')]
+   public function connectAction(ClientRegistry $clientRegistry)
+   {
+       // will redirect to Facebook!
+       return $clientRegistry
+           ->getClient('google') // key used in config/packages/knpu_oauth2_client.yaml
+           ->redirect();
+   }
+
+   /**
+    * @Route("/connect/google/check", name="connect_google_check")
+    * @param Request $request
+    * @return JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse
+    */
+    public function connectCheckAction(Request $request )
+    {
+        if(!$this->getUser()){
+            return new JsonResponse(array('status' => false,'message'=>"user not found"));
+        } else {
+            return $this->redirectToRoute('app_login');
+        }
     }
    
 }
