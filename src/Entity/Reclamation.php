@@ -34,6 +34,9 @@ class Reclamation
     #[ORM\Column(length: 500)]
     private ?string $etat = null;
 
+    #[ORM\Column(length: 200)]
+    private ?string $response = null;
+
      #[ORM\ManyToOne(inversedBy: 'reclamations')]
      private ?User $user = null;
 
@@ -107,6 +110,17 @@ class Reclamation
 
         return $this;
     }
+    public function getRespons(): ?string
+    {
+        return $this->response;
+    }
+
+    public function setResponse(string $response): static
+    {
+        $this->response = $response;
+
+        return $this;
+    }
   /*
     public function getIdUser(): ?int
     {
@@ -143,6 +157,61 @@ class Reclamation
         $this->id_user = $id_user;
 
         return $this;
+    }
+
+    //rating//
+     /**
+     * @ORM\Column(type="integer")
+     */
+    private $totalRatings;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $totalStars;
+
+    public function __construct()
+    {
+        // Initialize ratings properties
+        $this->totalRatings = 0;
+        $this->totalStars = 0;
+    }
+
+    public function getTotalRatings(): int
+    {
+        return $this->totalRatings;
+    }
+
+    public function setTotalRatings(int $totalRatings): self
+    {
+        $this->totalRatings = $totalRatings;
+        return $this;
+    }
+
+    public function getTotalStars(): int
+    {
+        return $this->totalStars;
+    }
+
+    public function setTotalStars(int $totalStars): self
+    {
+        $this->totalStars = $totalStars;
+        return $this;
+    }
+
+    public function addRating(int $stars): self
+    {
+        $this->totalRatings++;
+        $this->totalStars += $stars;
+        return $this;
+    }
+
+    public function getAverageRating(): float
+    {
+        if ($this->totalRatings > 0) {
+            return $this->totalStars / $this->totalRatings;
+        }
+        return 0;
     }
 
 

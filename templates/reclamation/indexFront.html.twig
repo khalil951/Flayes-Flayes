@@ -68,7 +68,9 @@
                         <td>{{ reclamation.etat }}</td>
                         <td>{{ reclamation.date ? reclamation.date|date('Y-m-d H:i:s') : '' }}</td>
                         <td>
-                            <a href="{{ path('app_reclamation_edit', {'id': reclamation.idRec}) }}" class="btn btn-primary btn-sm" style="text-align: center;">Edit</a>
+                            <a href="{{ path('app_reponse_show', {'id': reclamation.idRec}) }}" class="btn btn-primary btn-sm" style="text-align: center;">
+    <i class="fas fa-edit"></i> <!-- Assuming you're using Font Awesome -->
+</a>
                             </td>
                             <td>
                             {{ include('reclamation/_delete_form.html.twig') }}

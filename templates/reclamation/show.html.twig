@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Réponse{% endblock %}
+
+{% block body %}
+<section>
+  <div class="container my-5">
+    <div class="row">
+      <div class="col-md-8 mx-auto">
+        <div class="card">
+          <div class="card-header bg-primary text-white">
+            <h3 class="mb-0">Réponse à la Réclamation</h3>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-4 font-weight-bold">Description:</div>
+              <div class="col-md-8">{{ reclamation.description }}</div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-md-4 font-weight-bold">Répondu Par:</div>
+              <div class="col-md-8">
+                <div class="d-flex align-items-center">
+                  <div class="rounded-circle bg-primary text-white px-2 py-1 mr-2">{{ app.user.email }}</div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4 font-weight-bold">Noter la réponse :</div>
+              <div class="col-md-8">
+                {% for i in 1..5 %}
+                  {% if average_rating >= i %}
+                      <span class="fa fa-star checked"></span>
+                  {% else %}
+                      <span class="fa fa-star"></span>
+                  {% endif %}
+                {% endfor %}
+                {% if average_rating is not null %}
+                    <span class="average-rating">({{ average_rating }})</span>
+                {% endif %}
+                <form method="post" action="{{ path('app_reponse_show', {'id': reclamation.idRec}) }}">
+                    {{ form_widget(rating_form) }}
+                    <button type="submit">Rate</button>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer text-center">
+            <a href="{{ path('app_reclamation_index_front') }}" class="btn btn-primary">Retour vers les Réclamations</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

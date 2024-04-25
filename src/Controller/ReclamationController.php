@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
-
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class ReclamationController extends AbstractController
 {
@@ -118,33 +118,82 @@ public function new(Request $request,PaginatorInterface $paginator, EntityManage
   
     #[Route('/{id}/rep', name: 'send_email', methods: ['POST'])]
     public function sendEmail(int $id, Request $request, MailerInterface $mailer, EntityManagerInterface $entityManager): Response
-    {
-        // Retrieve reclamation object from the database based on $id
-        $reclamation = $entityManager->getRepository(Reclamation::class)->find($id);
-    
-        // Check if reclamation exists
-        if (!$reclamation) {
-            throw $this->createNotFoundException('Reclamation not found');
-        }
-    
-        // Get response from the form
-        $response = $request->request->get('response');
-    
-        // Create and send email
-        $email = (new Email())
-            ->from('iben46655@gmail.com')
-            ->to('bennourines00@gmail.com')
-            ->subject('Regarding Your Complaint')
-            ->html($response);
-    
-        $mailer->send($email);
-    
-        // Update reclamation status
-        $reclamation->setEtat('Treated');
-        $entityManager->flush();
-    
-        // Redirect back to wherever you want
-        return $this->redirectToRoute('app_reclamation_index');
+{
+    // Retrieve reclamation object from the database based on $id
+    $reclamation = $entityManager->getRepository(Reclamation::class)->find($id);
+
+    // Check if reclamation exists
+    if (!$reclamation) {
+        throw $this->createNotFoundException('Reclamation not found');
     }
+
+    // Get response from the form
+    $response = $request->request->get('response');
+
+    // Create and send email
+    $email = (new Email())
+        ->from('iben46655@gmail.com')
+        ->to('bennourines00@gmail.com')
+        ->subject('Regarding Your Complaint')
+        ->html($response);
+
+    $mailer->send($email);
+
+    // Update reclamation status
+    $reclamation->setEtat('Treated');
+    $reclamation->setResponse($response); // Set the response in the reclamation object
+    $entityManager->flush();
+
+    // Redirect back to wherever you want
+    return $this->redirectToRoute('app_reclamation_index');
+}
+
+#[Route('/{id}/rat', name: 'app_reponse_show', methods: ['GET','POST'])]
+public function show(Reclamation $reclamation, Request $request): Response
+{
+    // Initialize variables
+    $check = 0;
+    $form = $this->createFormBuilder()
+        ->add('note', ChoiceType::class, [
+            'label' => 'Rating',
+            'choices' => [
+                '1 star' => 1,
+                '2 stars' => 2,
+                '3 stars' => 3,
+                '4 stars' => 4,
+                '5 stars' => 5,
+            ],
+            'expanded' => true,
+            'multiple' => false,
+        ])
+        ->getForm();
+    
+    $form->handleRequest($request);
+    
+    if ($form->isSubmitted() && $form->isValid()) {
+        $stars = $form->getData()['note'];
+        // Add rating to reclamation
+        $reclamation->addRating($stars);
+        
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($reclamation);
+        $entityManager->flush();
+
+        // Redirect to the same page to prevent form resubmission
+        return $this->redirectToRoute('app_reponse_show', ['id' => $reclamation->getIdRec()]);
+    }
+
+    // Calculate average rating
+    $averageRating = $reclamation->getAverageRating();
+    // Render the response show page
+    return $this->render('reclamation/show.html.twig', [
+        'reclamation' => $reclamation,
+        'check' => $check,
+        'average_rating' => $averageRating,
+        'rating_form' => $form->createView(),
+    ]);
+}
+
+
 
 }
