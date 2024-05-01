@@ -676,54 +676,16 @@ public function capturePhoto(Request $request, Security $security): Response
 
 
     /**
-     * @Route("/upload-image", name="upload_image", methods={"POST"})
-     */
-    public function uploadImage(Request $request): Response
-    {
-        // Get the image file and type from the request
-        $imageFile = $request->files->get('image');
-        $type = $request->request->get('type');
-
-        // Call the JavaScript function with the image file and type
-        $result = $this->uploadImageToAPI($imageFile, $type);
-
-        // Return a JSON response
-        return $this->json(['result' => $result]);
+ * @Route("/upload-image", name="upload_image", methods={"GET", "POST"})
+ */
+public function uploadImageForm(Request $request): Response
+{
+    // Handle POST request here if needed
+    if ($request->isMethod('POST')) {
+        // Handle form submission
     }
-
-    private function uploadImageToAPI($imageFile, $type)
-    {
-        // Here, you can call an external service or library
-        // to handle the image upload and return the result.
-        // For example, you can use Guzzle to make HTTP requests to your Node.js server.
-        // Make sure your Node.js server exposes an API endpoint to handle image uploads.
-        // Then, you can use Guzzle to send a POST request to that endpoint.
-        // After receiving the response, parse it and return the result.
-
-        // Example using Guzzle:
-        $client = new \GuzzleHttp\Client();
-        $response = $client->request('POST', 'http://your-node-server/upload-image', [
-            'multipart' => [
-                [
-                    'name' => 'image',
-                    'contents' => fopen($imageFile->getPathname(), 'r'),
-                ],
-                [
-                    'name' => 'type',
-                    'contents' => $type,
-                ],
-            ],
-        ]);
-
-        return json_decode($response->getBody()->getContents(), true);
-    }
-
-    /**
-     * @Route("/image", name="image_form", methods={"GET"})
-     */
-    public function renderUploadImageForm(): Response
-    {
-        return $this->render('upload_image.html.twig');
-    }
+    
+    return $this->render('user/upload_image.html.twig');
+}
 
 }

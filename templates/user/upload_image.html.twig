@@ -5,7 +5,7 @@
 </head>
 <body>
     <h1>Upload Image</h1>
-    <form action="{{ path('upload_image') }}" method="post" enctype="multipart/form-data" onsubmit="return handleFormSubmission()">
+    <form id="uploadForm" enctype="multipart/form-data">
         <label for="image">Image:</label>
         <input type="file" id="image" name="image" accept="image/jpeg, image/jpg, image/png" required><br><br>
 
@@ -20,37 +20,36 @@
         <button type="submit">Submit</button>
     </form>
     
+    <!-- Container to display the resulting image -->
+    <div id="resultContainer"></div>
+    
     <script>
-        async function handleFormSubmission() {
-            const imageFile = document.getElementById('image').files[0];
-            const type = document.getElementById('type').value;
-            const result = await uploadImage(imageFile, type);
-            console.log(result);
-            return false; // Prevent the form from submitting normally
-        }
-
-        async function uploadImage(imageFile, type) {
-            const url = '{{ path('upload_image') }}';
-            const formData = new FormData();
-            formData.append('image', imageFile);
-            formData.append('type', type);
-
+        document.getElementById('uploadForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(this);
+            const url = 'https://cartoon-yourself.p.rapidapi.com/facebody/api/portrait-animation/portrait-animation';
+            const options = {
+                method: 'POST',
+                headers: {
+                    'X-RapidAPI-Key': 'ad5c4baab7msh40321c9f32c3d6cp188e07jsn872a99fb52c7',
+                    'X-RapidAPI-Host': 'cartoon-yourself.p.rapidapi.com'
+                },
+                body: formData
+            };
+            
             try {
-                const response = await fetch(url, {
-                    method: 'POST',
-                    body: formData
-                });
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const data = await response.json();
-                console.log(data);
-                return data;
+                const response = await fetch(url, options);
+                const result = await response.text();
+                console.log(result);
+                
+                // Display the resulting image in the container
+                document.getElementById('resultContainer').innerHTML = `<img src="${result}" alt="Resulting Image">`;
             } catch (error) {
                 console.error(error);
-                return null;
             }
-        }
+        });
     </script>
-</body>      
+</body>
 </html>
+
