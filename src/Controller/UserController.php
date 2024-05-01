@@ -16,7 +16,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 use App\Form\ResetPasswordRequestFormType;
 use App\Form\ResetPasswordFormType;
-
+use Symfony\Component\Security\Core\Security;
 use App\Security\EmailVerifier;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\AbstractType;
@@ -624,5 +624,106 @@ public function indexAlls(ManagerRegistry $doctrine, $page, $nbre): Response {
             return $this->redirectToRoute('app_login');
         }
     }
-   
+
+
+
+  
+    #[Route('/capture', name: 'capture_photo')]
+public function capturePhoto(Request $request, Security $security): Response
+{
+    // Get the image directory path from Symfony configuration
+    $imageDirectory = $this->getParameter('image_directory');
+
+    // Ensure that the image directory path ends with a trailing slash
+    $imageDirectory = rtrim($imageDirectory, '/') . '/';
+
+    // Get the image data from the request
+    $imageData = $request->request->get('image');
+
+    // Split the base64-encoded image data into its parts
+    $image_parts = explode(";base64,", $imageData);
+
+    // Extract the image type from the data
+    $image_type_aux = explode("image/", $image_parts[0]);
+    $image_type = $image_type_aux[1];
+
+    // Decode the base64-encoded image data
+    $image_base64 = base64_decode($image_parts[1]);
+
+    // Generate a unique filename for the image and save it to the specified folder
+    $fileName = uniqid() . '.png';
+    $filePath = $imageDirectory . $fileName;
+    file_put_contents($filePath, $image_base64);
+
+    // Update the authenticated user's imageName
+    $user = $security->getUser();
+    if ($user) {
+        $user->setImageName($fileName);
+        $this->getDoctrine()->getManager()->flush();
+    }
+
+    // Return a JSON response indicating the success of the upload
+    return new JsonResponse(["message" => "Image uploaded successfully."]);
+}
+
+
+
+    #[Route('/capture-page', name: 'capture_page')]
+    public function capturePage(): Response
+    {
+        return $this->render('user/capture.html.twig');
+    }
+
+
+    /**
+     * @Route("/upload-image", name="upload_image", methods={"POST"})
+     */
+    public function uploadImage(Request $request): Response
+    {
+        // Get the image file and type from the request
+        $imageFile = $request->files->get('image');
+        $type = $request->request->get('type');
+
+        // Call the JavaScript function with the image file and type
+        $result = $this->uploadImageToAPI($imageFile, $type);
+
+        // Return a JSON response
+        return $this->json(['result' => $result]);
+    }
+
+    private function uploadImageToAPI($imageFile, $type)
+    {
+        // Here, you can call an external service or library
+        // to handle the image upload and return the result.
+        // For example, you can use Guzzle to make HTTP requests to your Node.js server.
+        // Make sure your Node.js server exposes an API endpoint to handle image uploads.
+        // Then, you can use Guzzle to send a POST request to that endpoint.
+        // After receiving the response, parse it and return the result.
+
+        // Example using Guzzle:
+        $client = new \GuzzleHttp\Client();
+        $response = $client->request('POST', 'http://your-node-server/upload-image', [
+            'multipart' => [
+                [
+                    'name' => 'image',
+                    'contents' => fopen($imageFile->getPathname(), 'r'),
+                ],
+                [
+                    'name' => 'type',
+                    'contents' => $type,
+                ],
+            ],
+        ]);
+
+        return json_decode($response->getBody()->getContents(), true);
+    }
+
+    /**
+     * @Route("/image", name="image_form", methods={"GET"})
+     */
+    public function renderUploadImageForm(): Response
+    {
+        return $this->render('upload_image.html.twig');
+    }
+
 }

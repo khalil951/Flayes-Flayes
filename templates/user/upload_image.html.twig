@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload Image</title>
+</head>
+<body>
+    <h1>Upload Image</h1>
+    <form action="{{ path('upload_image') }}" method="post" enctype="multipart/form-data" onsubmit="return handleFormSubmission()">
+        <label for="image">Image:</label>
+        <input type="file" id="image" name="image" accept="image/jpeg, image/jpg, image/png" required><br><br>
+
+        <label for="type">Type:</label>
+        <select id="type" name="type" required>
+            <option value="">Select Type</option>
+            <option value="pixar">Pixar</option>
+            <option value="pixar_plus">Pixar Pro</option>
+            <!-- Add other options here -->
+        </select><br><br>
+
+        <button type="submit">Submit</button>
+    </form>
+    
+    <script>
+        async function handleFormSubmission() {
+            const imageFile = document.getElementById('image').files[0];
+            const type = document.getElementById('type').value;
+            const result = await uploadImage(imageFile, type);
+            console.log(result);
+            return false; // Prevent the form from submitting normally
+        }
+
+        async function uploadImage(imageFile, type) {
+            const url = '{{ path('upload_image') }}';
+            const formData = new FormData();
+            formData.append('image', imageFile);
+            formData.append('type', type);
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    body: formData
+                });
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                console.log(data);
+                return data;
+            } catch (error) {
+                console.error(error);
+                return null;
+            }
+        }
+    </script>
+</body>      
+</html>
