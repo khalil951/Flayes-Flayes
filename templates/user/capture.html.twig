@@ -1,60 +1,67 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Upload Image</title>
-</head>
-<body>
-    <h1>Upload Image</h1>
-    <form id="uploadForm">
-        <!-- Hidden input field to store the image URL -->
-        <input type="hidden" id="imageUrl" value="{{ vich_uploader_asset(app.user, 'imageFile') }}" required><br><br>
+{% extends 'base.html.twig' %}
+{% block title %}take a selfie{% endblock %}
+{% block body %}
+<!-- Required library for webcam -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" ></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.24/webcam.js"></script>
+<!-- Bootstrap theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<div class="container">	
+  <div class="row">
+	<div class="col-lg-6" align="center">
+		<label>Capture live photo</label>
+		<div id="my_camera" class="pre_capture_frame" ></div>
+		<input type="hidden" name="captured_image_data" id="captured_image_data">
+		<br>
+		<input type="button" class="btn btn-info btn-round btn-file" value="Take Snapshot" onClick="take_snapshot()">	
+	</div>
+	<div class="col-lg-6" align="center">
+		<label>Result</label>
+		<div id="results" >
+			<img style="width: 350px;" class="after_capture_frame" src="image_placeholder.jpg" />
+		</div>
+		<br>
+		<button type="button" class="btn btn-success" onclick="saveSnap()">Save Picture</button> 
+	</div>	
+  </div><!--  end row -->
+</div><!-- end container -->
 
-        <label for="type">Type:</label>
-        <select id="type" name="type" required>
-            <option value="">Select Type</option>
-            <option value="pixar">Pixar</option>
-            <option value="pixar_plus">Pixar Pro</option>
-            <!-- Add other options here -->
-        </select><br><br>
 
-        <button type="submit">Submit</button>
-    </form>
-    
-    <!-- Container to display the resulting image -->
-    <div id="resultContainer"></div>
-    
-    <script>
-        document.getElementById('uploadForm').addEventListener('submit', async function(event) {
-            event.preventDefault();
-            
-            const formData = new FormData(this);
-            
-            // Fetch the image URL from the hidden input field
-            const imageUrl = document.getElementById('imageUrl').value;
-            
-            const url = 'https://cartoon-yourself.p.rapidapi.com/facebody/api/portrait-animation/portrait-animation';
-            const options = {
-                method: 'POST',
-                headers: {
-                    'X-RapidAPI-Key': '0de95cf9a0mshde653bb78bead1ep13c51cjsn401d254f977e',
-                    'X-RapidAPI-Host': 'cartoon-yourself.p.rapidapi.com'
-                },
-                body: formData
-            };
-            
-            try {
-                const response = await fetch(url, options);
-                const result = await response.text();
-                
-                console.log('Image URL:', imageUrl);
-                console.log('Resulting Image URL:', result);
-                
-                // Display the resulting image in the container
-                document.getElementById('resultContainer').innerHTML = `<img src="${result}" alt="Resulting Image">`;
-            } catch (error) {
-                console.error(error);
-            }
-        });
-    </script>
-</body>
-</html>
+<script language="JavaScript">
+	 // Configure a few settings and attach camera 250x187
+	 Webcam.set({
+	  width: 350,
+	  height: 287,
+	  image_format: 'jpeg',
+	  jpeg_quality: 90
+	 });	 
+	 Webcam.attach( '#my_camera' );
+	
+	function take_snapshot() {
+	 // play sound effect
+	 //shutter.play();
+	 // take snapshot and get image data
+	 Webcam.snap( function(data_uri) {
+	 // display results in page
+	 document.getElementById('results').innerHTML = 
+	  '<img class="after_capture_frame" src="'+data_uri+'"/>';
+	 $("#captured_image_data").val(data_uri);
+	 });	 
+	}
+
+	function saveSnap(){
+	var base64data = $("#captured_image_data").val();
+	 $.ajax({
+			type: "POST",
+			dataType: "json",
+			url: "/capture",
+			data: {image: base64data},
+			success: function(data) { 
+				alert(data);
+			}
+		});
+        window.location.href = "{{ path('upload_image') }}";
+	}
+</script>
+{% endblock %}

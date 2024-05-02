@@ -100,25 +100,24 @@ public function __construct(EmailVerifier $emailVerifier)
 
     #[Route('/{id}/update', name: 'app_user_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, User $user, EntityManagerInterface $entityManager): Response
-    {
-        $form = $this->createForm(UserType::class, $user);
-        $form->handleRequest($request);
-    
-        if ($form->isSubmitted() && $form->isValid()) {
-            // Handle file upload
-            
-    
-            // Persist changes to the user entity
-            $entityManager->flush();
-    
-            return $this->redirectToRoute('app_profil', [], Response::HTTP_SEE_OTHER);
-        }
-    
-        return $this->renderForm('admin/edit.html.twig', [
-            'user' => $user,
-            'form' => $form,
-        ]);
+{
+    $form = $this->createForm(UserType::class, $user);
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+        // Handle file upload
+
+        // Persist changes to the user entity
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_profil', [], Response::HTTP_SEE_OTHER);
     }
+
+    return $this->renderForm('user/profile.html.twig', [
+        'user' => $user,
+        'form' => $form, // Pass the form directly, not as a FormView
+    ]);
+}
 
 
     #[Route('/register', name: 'app_register')]

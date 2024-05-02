@@ -126,7 +126,7 @@
         <a href="{{ path('app_logout') }}" class="button" style="text-align: center;">Logout</a>
     </li>
     <li class="pr-0">
-        <a href="{{ path('app_profil') }}" style="text-align: center;">
+        <a href="{{ path('app_user_edit', {'id': app.user.id}) }}" style="text-align: center;">
              <img src="{{ app.user.imageName }}" alt="User Profile" style="width: 50px; height: 50px; border-radius: 50%;">
         </a>
     </li>
