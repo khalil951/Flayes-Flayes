@@ -27,15 +27,26 @@ body{
 }
 </style>
 
-  <link rel='stylesheet' href='https://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>                                            <div class="container bootstrap snippets bootdey">
+  <link rel='stylesheet' href='https://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>                                            
 <div class="row ng-scope">
     <div class="col-md-4">
         <div class="panel panel-default">
             <div class="panel-body text-center">
-                <div class="pv-lg"><img class="center-block img-responsive img-circle img-thumbnail thumb96" src="{{ app.user.imageName }}" alt="Contact"></div>
+                
+
+                {% if app.user.imageName starts with 'https://' %}
+    <div>
+        <img class="center-block img-responsive img-circle img-thumbnail thumb96" src="{{ app.user.imageName }}" alt="profil">
+    </div>
+{% else %}
+    <div>
+        <img class="center-block img-responsive img-circle img-thumbnail thumb96" src="{{ vich_uploader_asset(app.user, 'imageFile') }}" alt="Uploaded Image">
+    </div>
+{% endif %}
+
                 <h3 class="m0 text-bold">{{ app.user.name }}</h3>
                 
-                <div class="text-center"><a class="btn btn-primary" href="">Edit Photo</a></div>
+                <div class="text-center"><a class="btn btn-primary" href="{{ path('capture_page') }}">Edit Photo</a></div>
             </div>
         </div>
         <div class="panel panel-default hidden-xs hidden-sm">
@@ -145,11 +156,11 @@ body{
                             
                             <div class="form-group text-center">
                             <button type="submit">Update</button>
-                            <span class="d-block mt-15">forget password? <a href="{{ path('app_login') }}">Sign In</a></span>
+                            <span class="d-block mt-15">forget password? <a href="{{ path('app_login') }}">Recover password</a></span>
                         </div>
                             {{ form_end(form) }}
                         </form>
-                        <div class="text-right"><a class="text-muted" href="#">Delete this contact?</a></div>
+                        <div class="text-right"><a class="text-muted" href="{{ path('user.delete', {'id': app.user.id}) }}">Delete this account?</a></div>
                     </div>
                 </div>
             </div>

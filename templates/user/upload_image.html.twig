@@ -6,7 +6,15 @@
         <!-- Display currently uploaded image if available -->
         <div>
             <label>Currently Uploaded Image:</label><br>
-            <img id="uploadedImage" src="{{ vich_uploader_asset(app.user, 'imageFile') }}" alt="Uploaded Image">
+            {% if app.user.imageName starts with 'https://' %}
+    <div>
+        <img id="uploadedImage" src="{{ app.user.imageName }}" alt="profil">
+    </div>
+{% else %}
+    <div>
+        <img id="uploadedImage" src="{{ vich_uploader_asset(app.user, 'imageFile') }}" alt="Uploaded Image">
+    </div>
+{% endif %}
         </div>
         
         <label for="type">Type:</label>
@@ -15,6 +23,33 @@
             <option value="pixar">Pixar</option>
             <option value="pixar_plus">Pixar Pro</option>
             <!-- Add other options here -->
+            <option value="3d_cartoon">3D Cartoon</option>
+    <option value="angel">Angel</option>
+    <option value="angel_plus">Angel Pro</option>
+    <option value="demon">Demon</option>
+    <option value="ukiyoe_cartoon">Ukiyo-e</option>
+    <option value="bopu_cartoon">Popper</option>
+    <option value="amcartoon">American Manga</option>
+    <option value="western">Western</option>
+    <option value="avatar">Avatar</option>
+    <option value="famous">World famous paintings</option>
+    <option value="jpcartoon">Japanese Manga (I)</option>
+    <option value="jpcartoon_head">Japanese Manga (portrait)</option>
+    <option value="hkcartoon">China Comics</option>
+    <option value="classic_cartoon">Retro Cartoon</option>
+    <option value="tccartoon">Moe Manga</option>
+    <option value="anime">Japanese Manga (II)</option>
+    <option value="3d">3D Effects</option>
+    <option value="handdrawn">Hand-painted</option>
+    <option value="sketch">Pencil Drawing (I)</option>
+    <option value="artstyle">Artistic Effects</option>
+    <option value="claborate">Chinese Fine Brushwork Painting</option>
+    <option value="hongkong">Hong Kong-style Comic Style</option>
+    <option value="comic">Comic</option>
+    <option value="animation3d">3D Animation</option>
+    <option value="head">Pencil Drawing (Head)</option>
+    <option value="full">Pencil Drawing (II)</option>
+    <option value="3d_game">3D Game Effects</option>
         </select><br><br>
 
         <button type="submit">Submit</button>
@@ -46,7 +81,7 @@
         const options = {
             method: 'POST',
             headers: {
-                'X-RapidAPI-Key': 'cb22a5cf3dmshc722bad38d25493p17e71djsn92403f9d744e',
+                'X-RapidAPI-Key': 'bc67395695msh06b38745172dd4ep1240ffjsnfaf7f84af7b3',
                 'X-RapidAPI-Host': 'cartoon-yourself.p.rapidapi.com'
             },
             body: formData

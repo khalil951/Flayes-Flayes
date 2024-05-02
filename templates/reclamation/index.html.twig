@@ -59,12 +59,14 @@
                         <td>{{ reclamation.date ? reclamation.date|date('Y-m-d H:i:s') : '' }}</td>
                         <td>{{ reclamation.idUser }}</td>
                         {% if reclamation.etat == 'Not Treated' %}
-    <td>
-        <form action="{{ path('send_email', {'id': reclamation.idRec}) }}" method="post">
+    <td onmouseover="showTextarea(this)" onmouseout="hideTextarea(this)">
+    <form action="{{ path('send_email', {'id': reclamation.idRec}) }}" method="post">
+        <div id="textareaContainer" style="display: none;">
             <textarea name="response" rows="4" cols="50" placeholder="Write your response here"></textarea>
-            <button type="submit" class="btn btn-primary">Send Response</button>
-        </form>
-    </td>
+        </div>
+        <button type="submit" class="btn btn-primary">Send Response</button>
+    </form>
+</td>
 {% else %}
     <td>
         <form action="{{ path('app_reclamation_delete', {'id': reclamation.idRec}) }}" method="post">
@@ -77,5 +79,21 @@
             </tbody>
         </table>
     </div>
+    <script>
+    function showTextarea(element) {
+    const textareaContainer = element.querySelector('#textareaContainer');
+    if (textareaContainer) {
+        textareaContainer.style.display = 'block';
+    }
+}
+
+function hideTextarea(element) {
+    const textareaContainer = element.querySelector('#textareaContainer');
+    if (textareaContainer) {
+        textareaContainer.style.display = 'none';
+    }
+}
+    </script>
+
 
 {% endblock %}

@@ -340,7 +340,15 @@
                                         <li>
                                             <a href="#0" class="author">
                                                 <div class="thumb">
-                                                    <img src="{{ vich_uploader_asset(app.user, 'imageFile') }}" alt="dashboard">
+                                                    {% if app.user.imageName starts with 'https://' %}
+    <div>
+        <img  src="{{ app.user.imageName }}" alt="profil" style="width: 50px; height: 50px; border-radius: 50%;">
+    </div>
+{% else %}
+    <div>
+        <img  src="{{ vich_uploader_asset(app.user, 'imageFile') }}" alt="Uploaded Image" style="width: 50px; height: 50px; border-radius: 50%;">
+    </div>
+{% endif %}
                                                     <span class="checked">
                                                         <i class="flaticon-checked"></i>
                                                     </span>
@@ -353,7 +361,15 @@
                                             <div class="notification-area">
                                                 <div class="author-header">
                                                     <div class="thumb">
-                                                        <img src="src="{{ vich_uploader_asset(app.user, 'imageFile') }}" alt="dashboard">
+                                                        {% if app.user.imageName starts with 'https://' %}
+    <div>
+        <img  src="{{ app.user.imageName }}" alt="profil" style="width: 50px; height: 50px; border-radius: 50%;">
+    </div>
+{% else %}
+    <div>
+        <img  src="{{ vich_uploader_asset(app.user, 'imageFile') }}" alt="Uploaded Image" style="width: 50px; height: 50px; border-radius: 50%;">
+    </div>
+{% endif %}
                                                     </div>
                                                     <h6 class="title">{{ app.user.name }}</h6>
                                                     <a href="#mailto:{{ app.user.email }}"><span class="__cf_email__" data-cfemail="eca6838482888389ac8b818d8580c28f8381">[email&#160;protected]</span></a>
@@ -495,7 +511,18 @@
         {% if not loop.last %}, {% endif %}
     {% endfor %}
 </td>
-                        <td> <img class="rounded-circle" width="50" height="50" src="{{ vich_uploader_asset(user, 'imageFile') }}" alt="User Image"> </td>
+                        <td>
+                         
+                         {% if user.imageName starts with 'https://' %}
+    <div>
+        <img class="rounded-circle" width="50" height="50"  src="{{ user.imageName }}" alt="profil" style="width: 50px; height: 50px; border-radius: 50%;">
+    </div>
+{% else %}
+    <div>
+        <img class="rounded-circle" width="50" height="50"  src="{{ vich_uploader_asset(user, 'imageFile') }}" alt="Uploaded Image" style="width: 50px; height: 50px; border-radius: 50%;">
+    </div>
+{% endif %}
+                         </td>
                         <td>
                         {% if user.status == 1 %}
     <span class="badge badge-soft-success p-2 team-status">Activated</span>

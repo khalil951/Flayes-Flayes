@@ -449,6 +449,7 @@ public function indexAlls(ManagerRegistry $doctrine, $page, $nbre): Response {
         TokenGeneratorInterface $tokenGenerator,
         EntityManagerInterface $entityManager,
         MailerInterface $mailer
+        
     ): Response
     {
         $form = $this->createForm(ResetPasswordRequestFormType::class);
@@ -466,15 +467,26 @@ public function indexAlls(ManagerRegistry $doctrine, $page, $nbre): Response {
                 
                 $url = $this->generateUrl('reset_pass', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
 
+                 // Generate absolute URL to the image
+            // Get the base URL of your Symfony application
+            $baseUrl = $request->getSchemeAndHttpHost();
+            // Define the absolute URL of the image directly
+         $imageUrl = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTQZXYjiy-qY1mjlMTPBx3aOKKYCUFhV8PfA&s';
+            
+            
+            $htmlContent = "
+                <html>
+                <body>
+                    <p>Dear " . $user->getName() . ",</p>
+                    <p>To reset your password, please visit the following link: <a href='" . $url . "'>" . $url . "</a></p>
+                    <img src='" . $imageUrl . "' alt='Flayes Presentation Image'>
+                    If you have any questions or need assistance, feel free to contact us at support@flayes.com
 
-                $htmlContent = "
-    <html>
-    <body>
-        <p>To reset your password, please visit the following link: <a href='$url'>$url</a></p>
-        <img src='https://unsplash.com/fr/photos/personne-tenant-un-crayon-pres-dun-ordinateur-portable-5fNmWej4tAA' alt='Flayes Presentation Image'>
-    </body>
-    </html>
-";
+Follow us on Twitter | Like us on Facebook
+                </body>
+                </html>
+            ";
+
 
 
                 $context = compact('url', 'user');

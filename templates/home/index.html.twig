@@ -100,9 +100,19 @@
                             </a>
                         </div>
                         <ul class="menu">
-                            <li>
-                                <a href="{{ path('app_home') }}">Home</a>
-                            </li>
+                           <ul>
+    {% if app.user is not null %}
+        {% if app.user.status == 1 or app.user.status is null %}
+            <li><a href="{{ path('app_home') }}">Home</a></li>
+        {% elseif app.user.status == 2 %}
+            <li><a href="{{ path('app_login') }}">Home</a></li>
+        {% elseif app.user.status == 0 %}
+            <li><a href="{{ path('app_user') }}">Home</a></li>
+        {% endif %}
+    {% else %}
+        <li><a href="{{ path('app_home') }}">Home</a></li>
+    {% endif %}
+</ul>
                             <li>
                                 <a href="">Projects</a>
                             </li>
@@ -118,16 +128,36 @@
                             <li>
                                 <a href="">Faqs</a>
                             </li>
-                            <li>
-                                <a href="{{ path('app_reclamation_new') }}">Contact</a>
-                            </li>
+
+
+<ul>
+    {% if app.user is not null %}
+        {% if app.user.status == 1 or app.user.status is null %}
+            <li><a href="{{ path('app_reclamation_new') }}">Contact</a></li>
+        {% elseif app.user.status == 2 %}
+            <li><a href="{{ path('app_login') }}">Contact</a></li>
+        {% elseif app.user.status == 0 %}
+            <li><a href="{{ path('app_user') }}">Contact</a></li>
+        {% endif %}
+    {% else %}
+        <li><a href="{{ path('app_home') }}">Contact</a></li>
+    {% endif %}
+</ul>
                           {% if app.user %}
     <li class="pr-0">
         <a href="{{ path('app_logout') }}" class="button" style="text-align: center;">Logout</a>
     </li>
     <li class="pr-0">
         <a href="{{ path('app_user_edit', {'id': app.user.id}) }}" style="text-align: center;">
-             <img src="{{ app.user.imageName }}" alt="User Profile" style="width: 50px; height: 50px; border-radius: 50%;">
+             {% if app.user.imageName starts with 'https://' %}
+    <div>
+        <img  src="{{ app.user.imageName }}" alt="profil" style="width: 50px; height: 50px; border-radius: 50%;">
+    </div>
+{% else %}
+    <div>
+        <img  src="{{ vich_uploader_asset(app.user, 'imageFile') }}" alt="Uploaded Image" style="width: 50px; height: 50px; border-radius: 50%;">
+    </div>
+{% endif %}
         </a>
     </li>
 {% else %}

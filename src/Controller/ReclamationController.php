@@ -19,11 +19,14 @@ class ReclamationController extends AbstractController
 {
     #[Route('/reclamation', name: 'app_reclamation_index', methods: ['GET'])]
     public function index(ReclamationRepository $reclamationRepository): Response
-    {
-        return $this->render('reclamation/index.html.twig', [
-            'reclamations' => $reclamationRepository->findAll(),
-        ]);
-    }
+{
+    // Fetch reclamations ordered by etat (Not Treated first)
+    $reclamations = $reclamationRepository->findBy([], ['etat' => 'ASC']);
+
+    return $this->render('reclamation/index.html.twig', [
+        'reclamations' => $reclamations,
+    ]);
+}
 
 
 #[Route('/new', name: 'app_reclamation_new', methods: ['GET', 'POST'])]
