@@ -6,9 +6,12 @@
 <body>
     <h1>Upload Image</h1>
     <form id="uploadForm" enctype="multipart/form-data">
-        <label for="image">Image:</label>
-        <input type="file" id="image" name="image" accept="image/jpeg, image/jpg, image/png" required><br><br>
-
+        <!-- Display currently uploaded image if available -->
+        <div>
+            <label>Currently Uploaded Image:</label><br>
+            <img id="uploadedImage" src="{{ vich_uploader_asset(app.user, 'imageFile') }}" alt="Uploaded Image">
+        </div>
+        
         <label for="type">Type:</label>
         <select id="type" name="type" required>
             <option value="">Select Type</option>
@@ -24,32 +27,66 @@
     <div id="resultContainer"></div>
     
     <script>
-        document.getElementById('uploadForm').addEventListener('submit', async function(event) {
-            event.preventDefault();
-            
-            const formData = new FormData(this);
-            const url = 'https://cartoon-yourself.p.rapidapi.com/facebody/api/portrait-animation/portrait-animation';
-            const options = {
-                method: 'POST',
-                headers: {
-                    'X-RapidAPI-Key': 'ad5c4baab7msh40321c9f32c3d6cp188e07jsn872a99fb52c7',
-                    'X-RapidAPI-Host': 'cartoon-yourself.p.rapidapi.com'
-                },
-                body: formData
-            };
-            
-            try {
-                const response = await fetch(url, options);
-                const result = await response.text();
-                console.log(result);
-                
-                // Display the resulting image in the container
-                document.getElementById('resultContainer').innerHTML = `<img src="${result}" alt="Resulting Image">`;
-            } catch (error) {
-                console.error(error);
+    // Define a JavaScript variable to hold the user data
+    const userData = JSON.parse('{{ app.user | json_encode | raw }}');
+    
+    document.getElementById('uploadForm').addEventListener('submit', async function(event) {
+        event.preventDefault();
+        
+        const formData = new FormData();
+        const imageUrl = document.getElementById('uploadedImage').src;
+        const type = document.getElementById('type').value;
+
+        // Convert the image URL to a Blob object
+        const response = await fetch(imageUrl);
+        const blob = await response.blob();
+
+        // Append the Blob object to the FormData
+        formData.append('image', blob);
+        formData.append('type', type);
+        
+        const url = 'https://cartoon-yourself.p.rapidapi.com/facebody/api/portrait-animation/portrait-animation';
+        const options = {
+            method: 'POST',
+            headers: {
+                'X-RapidAPI-Key': 'cb22a5cf3dmshc722bad38d25493p17e71djsn92403f9d744e',
+                'X-RapidAPI-Host': 'cartoon-yourself.p.rapidapi.com'
+            },
+            body: formData
+        };
+        
+        try {
+            const response = await fetch(url, options);
+            const result = await response.json(); // Parse JSON response
+
+            // Check if the response contains the image URL
+            if (result && result.data && result.data.image_url) {
+                // Send an AJAX request to update the user's image URL
+                const updateUrl = '/update-image-url';
+                const updateOptions = {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ imageUrl: result.data.image_url }),
+                };
+
+                const updateResponse = await fetch(updateUrl, updateOptions);
+                const updateResult = await updateResponse.json();
+
+                if (updateResult.success) {
+                    // Display the resulting image in the container
+                    document.getElementById('resultContainer').innerHTML = `<img src="${result.data.image_url}" alt="Resulting Image">`;
+                } else {
+                    console.error('Failed to update image URL');
+                }
+            } else {
+                console.error('No image URL found in the response');
             }
-        });
-    </script>
+        } catch (error) {
+            console.error(error);
+        }
+    });
+</script>
 </body>
 </html>
-

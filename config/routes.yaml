@@ -3,5 +3,5 @@
 #    controller: App\Controller\DefaultController::index
 upload_image:
     path: /upload-image
-    controller: App\Controller\UserController::uploadImageForm
-    methods: GET
+    controller: 'App\Controller\UserController::uploadImageForm'
+    methods: [GET, POST]

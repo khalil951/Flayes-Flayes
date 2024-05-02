@@ -96,8 +96,9 @@ hr .new1 {
 <div class="container mt-4 mb-4 p-3 d-flex justify-content-center">
  <div class="card p-4"> 
  <div class=" image d-flex flex-column justify-content-center align-items-center"> 
- <button class="btn btn-secondary"> <img src="{{ vich_uploader_asset(app.user, 'imageFile') }}" height="100" width="100" />
- </button> 
+ <button class="btn btn-secondary">
+    <img src="{{ app.user.imageName }}" height="100" width="100" />
+</button> 
  <span class="name mt-3">{{ app.user.name }}</span>
   <span class="idd">{{ app.user.email }}</span> 
   <div class="d-flex flex-row justify-content-center align-items-center gap-2"> 

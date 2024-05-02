@@ -598,7 +598,7 @@ public function indexAlls(ManagerRegistry $doctrine, $page, $nbre): Response {
     #[Route('/profil', name: 'app_profil')]
     public function profil(Request $request): Response
     {  
-        return $this->render('user/profil.html.twig');
+        return $this->render('user/profile.html.twig');
     }
 
    
@@ -675,17 +675,40 @@ public function capturePhoto(Request $request, Security $security): Response
     }
 
 
-    /**
+  /**
  * @Route("/upload-image", name="upload_image", methods={"GET", "POST"})
  */
-public function uploadImageForm(Request $request): Response
+public function uploadImageForm(Request $request, Security $security): Response
 {
-    // Handle POST request here if needed
-    if ($request->isMethod('POST')) {
-        // Handle form submission
-    }
+    // Get the authenticated user
+    $user = $security->getUser();
+    
+  
     
     return $this->render('user/upload_image.html.twig');
 }
 
+/**
+ * @Route("/update-image-url", name="update_image_url", methods={"POST"})
+ */
+public function updateImageUrl(Request $request, Security $security)
+{
+    // Get the authenticated user
+    $user = $security->getUser();
+
+    // Parse the JSON request body
+    $data = json_decode($request->getContent(), true);
+
+    // Check if the imageUrl key exists in the data
+    if (isset($data['imageUrl'])) {
+        // Set the image URL for the user entity
+        $user->setImageName($data['imageUrl']);
+        // Save the changes to the database
+        $this->getDoctrine()->getManager()->flush();
+
+        return new JsonResponse(['success' => true]);
+    } else {
+        return new JsonResponse(['error' => 'Image URL not found in the request'], 400);
+    }
+}
 }
