@@ -110,7 +110,19 @@
                             <li>
                                 <a href="">Faqs</a>
                             </li>
-                            Contact
+                            <ul>
+    {% if app.user is not null %}
+        {% if app.user.status == 1 or app.user.status is null %}
+            <li><a href="{{ path('app_reclamation_new') }}">Contact</a></li>
+        {% elseif app.user.status == 2 %}
+            <li><a href="{{ path('app_login') }}">Contact</a></li>
+        {% elseif app.user.status == 0 %}
+            <li><a href="{{ path('app_user') }}">Contact</a></li>
+        {% endif %}
+    {% else %}
+        <li><a href="{{ path('app_user') }}">Contact</a></li>
+    {% endif %}
+</ul>
                              {% if app.user %}
     <li class="pr-0">
         <a href="{{ path('app_logout') }}">Logout</a>

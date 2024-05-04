@@ -42,6 +42,7 @@ class ReclamationType extends AbstractType
         ])
         ->add('description', TextareaType::class, [
             'attr' => [
+                'id' => 'reclamation_description', // Add the id attribute
                 'class' => 'form-control', // Add any specific form field options or classes
                 'rows' => 5, // Specify the number of rows in the textarea
             ],

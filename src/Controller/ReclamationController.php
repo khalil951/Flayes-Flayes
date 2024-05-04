@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
+use App\Entity\User;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class ReclamationController extends AbstractController
@@ -124,7 +125,11 @@ public function new(Request $request,PaginatorInterface $paginator, EntityManage
 {
     // Retrieve reclamation object from the database based on $id
     $reclamation = $entityManager->getRepository(Reclamation::class)->find($id);
+    $userId = $reclamation->getIdUser();
 
+// Retrieve the user entity using Doctrine's entity manager
+$userRepository = $this->getDoctrine()->getRepository(User::class); // Replace User::class with your actual User entity class
+$user = $userRepository->find($userId);
     // Check if reclamation exists
     if (!$reclamation) {
         throw $this->createNotFoundException('Reclamation not found');
@@ -136,7 +141,7 @@ public function new(Request $request,PaginatorInterface $paginator, EntityManage
     // Create and send email
     $email = (new Email())
         ->from('iben46655@gmail.com')
-        ->to('bennourines00@gmail.com')
+        ->to($user->getEmail())
         ->subject('Regarding Your Complaint')
         ->html($response);
 
