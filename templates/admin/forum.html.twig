@@ -1,0 +1,13 @@
+{% extends 'back.html.twig' %}
+
+{% block body %}
+                <div class ='container-fluid' style='margin-bottom:2rem;'>
+                    <h4 style='text-align:center; margin-bottom:1rem;'> Room Categories Distribution </h2>
+                    <div class="col-lg-4 mx-auto" id="roomCategories" width="400" height="400">
+                        {{ render_chart(chart)}}
+                        {# {% for category , count in topRoomCategories %}
+                            <p class='topRoomCategories' style='display:none;'> {{category}},{{count}} </p>
+                        {% endfor %} #}
+                    </div>
+                </div>  
+{% endblock %}

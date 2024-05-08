@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PostReact{% endblock %}
+
+{% block body %}
+    <h1>PostReact</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ post_react.id }}</td>
+            </tr>
+            <tr>
+                <th>Post_id</th>
+                <td>{{ post_react.postId }}</td>
+            </tr>
+            <tr>
+                <th>User_id</th>
+                <td>{{ post_react.userId }}</td>
+            </tr>
+            <tr>
+                <th>Isliked</th>
+                <td>{{ post_react.Isliked ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_post_react_index') }}">back to list</a>
+
+    <a href="{{ path('app_post_react_edit', {'id': post_react.id}) }}">edit</a>
+
+    {{ include('post_react/_delete_form.html.twig') }}
+{% endblock %}

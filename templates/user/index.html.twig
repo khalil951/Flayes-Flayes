@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- Mirrored from pixner.net/hyipland/demo/ticket.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 13 Mar 2024 20:53:30 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>Hyipland - HYIP Investment HTML Template</title>
+
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/animate.css">
+    <link rel="stylesheet" href="assets/css/odometer.css">
+    <link rel="stylesheet" href="assets/css/nice-select.css">
+    <link rel="stylesheet" href="assets/css/owl.min.css">
+    <link rel="stylesheet" href="assets/css/jquery-ui.min.css">
+    <link rel="stylesheet" href="assets/css/magnific-popup.css">
+    <link rel="stylesheet" href="assets/css/flaticon.css">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/7.2.96/css/materialdesignicons.min.css" integrity="sha512-LX0YV/MWBEn2dwXCYgQHrpa9HJkwB+S+bn
+
+    <link rel="shortcut icon" href="assets/images/favicon.png" type="image/x-icon">
+   #6.5.1
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+
+#5.15.4
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+
+#4.7
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+    <style>
+        .badge-soft-danger {
+            color: #f34e4e;
+            background-color: rgba(243, 78, 78, 0.1);
+        }
+        .badge-soft-warning {
+    color: #f7cc53;
+    background-color: rgba(247,204,83,.1);
+}
+
+.badge-soft-success {
+    color: #51d28c;
+    background-color: rgba(81,210,140,.1);
+}
+
+.btn-success-soft {
+    color: #28a745;
+    background-color: rgba(40, 167, 69, 0.1);
+}
+.btn-danger-soft {
+    color: #dc3545;
+    background-color: rgba(220, 53, 69, 0.1);
+}
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination-container ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.pagination-container li {
+  margin: 0 5px;
+}
+
+.pagination-container li a {
+  display: block;
+  padding: 10px; /* Increase padding for circles */
+  border-radius: 50%; /* Make circles */
+  border: 1px solid #ccc;
+  text-decoration: none;
+  color: #333;
+}
+
+.pagination-container li.active a,
+.pagination-container li a:hover {
+  background-color: #333;
+  color: #fff;
+  border-color: #333;
+}
+
+/* Style for next icon */
+.pagination-container li:last-child a {
+  padding: 5px 10px; /* Adjust padding */
+  border-radius: 0; /* Remove border-radius for the next icon */
+}
+
+    </style>
+</head>
+
+    
+
+    <body>
+    <div class="main--body dashboard-bg">
+        <!--========== Preloader ==========-->
+        <div class="loader">
+            <div class="loader-inner">
+                <div class="loader-line-wrap">
+                    <div class="loader-line"></div>
+                </div>
+                <div class="loader-line-wrap">
+                    <div class="loader-line"></div>
+                </div>
+                <div class="loader-line-wrap">
+                    <div class="loader-line"></div>
+                </div>
+                <div class="loader-line-wrap">
+                    <div class="loader-line"></div>
+                </div>
+                <div class="loader-line-wrap">
+                    <div class="loader-line"></div>
+                </div>
+            </div>
+        </div>
+        <div class="overlay"></div>
+        <!--========== Preloader ==========-->
+        
+        
+        <!--=======SideHeader-Section Starts Here=======-->
+        <div class="notify-overlay"></div>
+        <section class="dashboard-section">
+            <div class="side-header oh">
+                <div class="cross-header-bar d-xl-none">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <div class="site-header-container">
+                    <div class="side-logo">
+                        <a href="dashboard.html">
+                            <img src="assets/images/logo/logo.png" alt="logo">
+                        </a>
+                    </div>
+                    <ul class="dashboard-menu">
+                        <li>
+                            <a href="dashboard.html"><i class="flaticon-man"></i>Dashboard</a>
+                        </li>
+                        <li>
+                            <a href="operations.html"><i class="flaticon-coin"></i>Operations</a>
+                        </li>
+                        <li>
+                            <a href="deposit.html"><i class="flaticon-interest"></i>Deposits</a>
+                        </li>
+                        <li>
+                            <a href="withdraw.html"><i class="flaticon-atm"></i>Withdraw</a>
+                        </li>
+                        <li>
+                            <a href="fund-transfer.html"><i class="flaticon-exchange"></i>Fund Transfer </a>
+                        </li>
+                        <li>
+                            <a href="partners.html"><i class="flaticon-deal"></i>Partners</a>
+                        </li>
+                        <li>
+                            <a href="setting.html"><i class="flaticon-gears"></i>Settings</a>
+                        </li>
+                        <li>
+                            <a href="notification.html"><i class="flaticon-bell"></i>Notifications</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('app_reclamation_index') }}">Reclamation</a>
+                        </li>
+                        <li>
+                            <a href="promotional-metarials.html"><i class="flaticon-deal"></i>Promotional</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)"><i class="flaticon-right-arrow"></i>Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="dasboard-body">
+                <div class="dashboard-hero">
+                    <div class="header-top">
+                        <div class="container">
+                            <div class="mobile-header d-flex justify-content-between d-lg-none align-items-center">
+                                <div class="author">
+                                    <img src="assets/images/dashboard/author.png" alt="dashboard">
+                                </div>
+                                <div class="cross-header-bar">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                            </div>
+                            <div class="mobile-header-content d-lg-flex flex-wrap justify-content-lg-between align-items-center">
+                                <ul class="support-area">
+                                    <li>
+                                        <a href="#0"><i class="flaticon-support"></i>Support</a>
+                                    </li>
+                                    <li>
+                                        <a href="Mailto:info@hyipland.com"><i class="flaticon-email"></i><span class="__cf_email__" data-cfemail="ef86818980af8796869f838e818bc18c8082">[email&#160;protected]</span> </a>
+                                    </li>
+                                    <li>
+                                        <i class="flaticon-globe"></i>
+                                        <div class="select-area">
+                                            <select class="select-bar" style="display: none;">
+                                                <option value="en">English</option>
+                                                <option value="bn">Bangla</option>
+                                                <option value="sp">Spanish</option>
+                                            </select>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <div class="dashboard-header-right d-flex flex-wrap justify-content-center justify-content-sm-between justify-content-lg-end align-items-center">
+                                    <form class="dashboard-header-search mr-sm-4">
+                                        <label for="search"><i class="flaticon-magnifying-glass"></i></label>
+                                        <input type="text" placeholder="Search...">
+                                    </form>
+                                    <ul class="dashboard-right-menus">
+                                        <li>
+                                            <a href="#0">
+                                                <i class="flaticon-email-1"></i>
+                                                <span class="number bg-theme-2">4</span>
+                                            </a>
+                                            <div class="notification-area">
+                                                <div class="notifacation-header d-flex flex-wrap justify-content-between">
+                                                    <span>4 New Notifications</span>
+                                                    <a href="#0">Clear</a>
+                                                </div>
+                                                <ul class="notification-body">
+                                                    <li>
+                                                        <a href="#0">
+                                                            <div class="icon">
+                                                                <img src="assets/images/dashboard/author.png" alt="dashboard">
+                                                            </div>
+                                                            <div class="cont">
+                                                                <span class="title">Robinhood Pandey</span>
+                                                                <div class="message">Electus rem placeat perspiciatis saepe</div>
+                                                                <span class="info">2 Sec ago</span>
+                                                            </div>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#0">
+                                                            <div class="icon">
+                                                                <img src="assets/images/dashboard/author.png" alt="dashboard">
+                                                            </div>
+                                                            <div class="cont">
+                                                                <span class="title">Robinhood Pandey</span>
+                                                                <div class="message">Electus rem placeat perspiciatis saepe</div>
+                                                                <span class="info">2 Sec ago</span>
+                                                            </div>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#0">
+                                                            <div class="icon">
+                                                                <img src="assets/images/dashboard/author.png" alt="dashboard">
+                                                            </div>
+                                                            <div class="cont">
+                                                                <span class="title">Robinhood Pandey</span>
+                                                                <div class="message">Electus rem placeat perspiciatis saepe</div>
+                                                                <span class="info">2 Sec ago</span>
+                                                            </div>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                                <div class="notifacation-footer text-center">
+                                                    <a href="#0" class="view-all">View All</a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <a href="#0">
+                                                <i class="flaticon-notification"></i>
+                                                <span class="number bg-theme">4</span>
+                                            </a>
+                                            <div class="notification-area">
+                                                <div class="notifacation-header d-flex flex-wrap justify-content-between">
+                                                    <span>4 New Notifications</span>
+                                                    <a href="#0">Clear</a>
+                                                </div>
+                                                <ul class="notification-body">
+                                                    <li>
+                                                        <a href="#0">
+                                                            <div class="icon">
+                                                                <i class="flaticon-man"></i>
+                                                            </div>
+                                                            <div class="cont">
+                                                                <span class="subtitle">New Affiliate Registered</span>
+                                                                <span class="info">2 Sec ago</span>
+                                                            </div>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#0">
+                                                            <div class="icon">
+                                                                <i class="flaticon-atm"></i>
+                                                            </div>
+                                                            <div class="cont">
+                                                                <span class="subtitle">New deposit completed</span>
+                                                                <span class="info">2 Sec ago</span>
+                                                            </div>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#0">
+                                                            <div class="icon">
+                                                                <i class="flaticon-wallet"></i>
+                                                            </div>
+                                                            <div class="cont">
+                                                                <span class="subtitle">New Withdraw completed</span>
+                                                                <span class="info">2 Sec ago</span>
+                                                            </div>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#0">
+                                                            <div class="icon">
+                                                                <i class="flaticon-exchange"></i>
+                                                            </div>
+                                                            <div class="cont">
+                                                                <span class="subtitle">Fund Transfer Completed</span>
+                                                                <span class="info">2 Sec ago</span>
+                                                            </div>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                                <div class="notifacation-footer text-center">
+                                                    <a href="#0" class="view-all">View All</a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <a href="#0" class="author">
+                                                <div class="thumb">
+                                                    {% if app.user.imageName starts with 'https://' %}
+    <div>
+        <img  src="{{ app.user.imageName }}" alt="profil" style="width: 50px; height: 50px; border-radius: 50%;">
+    </div>
+{% else %}
+    <div>
+        <img  src="{{ vich_uploader_asset(app.user, 'imageFile') }}" alt="Uploaded Image" style="width: 50px; height: 50px; border-radius: 50%;">
+    </div>
+{% endif %}
+                                                    <span class="checked">
+                                                        <i class="flaticon-checked"></i>
+                                                    </span>
+                                                </div>
+                                                <div class="content">
+                                                    <h6 class="title">{{ app.user.name }}</h6>
+                                                    <span class="country">Indonesia</span>
+                                                </div>
+                                            </a>
+                                            <div class="notification-area">
+                                                <div class="author-header">
+                                                    <div class="thumb">
+                                                        {% if app.user.imageName starts with 'https://' %}
+    <div>
+        <img  src="{{ app.user.imageName }}" alt="profil" style="width: 50px; height: 50px; border-radius: 50%;">
+    </div>
+{% else %}
+    <div>
+        <img  src="{{ vich_uploader_asset(app.user, 'imageFile') }}" alt="Uploaded Image" style="width: 50px; height: 50px; border-radius: 50%;">
+    </div>
+{% endif %}
+                                                    </div>
+                                                    <h6 class="title">{{ app.user.name }}</h6>
+                                                    <a href="#mailto:{{ app.user.email }}"><span class="__cf_email__" data-cfemail="eca6838482888389ac8b818d8580c28f8381">[email&#160;protected]</span></a>
+                                                </div>
+                                                <div class="author-body">
+                                                    <ul>
+                                                        <li>
+                                                            <a href="#0"><i class="far fa-user"></i>Profile</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#0"><i class="fas fa-user-edit"></i>Edit Profile</a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="#0"><i class="fas fa-sign-out-alt"></i>Log Out</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dashboard-hero-content text-white">
+                        <h3 class="title">Users</h3>
+                        <ul class="breadcrumb">
+                            <li>
+                                <a href="index.html">Home</a>
+                            </li>
+                            <li>
+                               Users
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="container-fluid">
+                    <div class="row justify-content-center mt--85">
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="dashboard-item">
+                                <div class="dashboard-inner">
+                                    <div class="cont">
+                                        <span class="title">Balance</span>
+                                        <h5 class="amount">0 USD</h5>
+                                    </div>
+                                    <div class="thumb">
+                                        <img src="assets/images/dashboard/dashboard1.png" alt="dasboard">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="dashboard-item">
+                                <div class="dashboard-inner">
+                                    <div class="cont">
+                                        <span class="title">Balance</span>
+                                        <h5 class="amount">0 BTC</h5>
+                                    </div>
+                                    <div class="thumb">
+                                        <img src="assets/images/dashboard/dashboard2.png" alt="dasboard">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="dashboard-item">
+                                <div class="dashboard-inner">
+                                    <div class="cont">
+                                        <span class="title">Balance</span>
+                                        <h5 class="amount">0 ETH</h5>
+                                    </div>
+                                    <div class="thumb">
+                                        <img src="assets/images/dashboard/dashboard3.png" alt="dasboard">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-lg-3">
+                            <div class="dashboard-item">
+                                <div class="dashboard-inner">
+                                    <div class="cont">
+                                        <span class="title">Balance</span>
+                                        <h5 class="amount">0 XRP</h5>
+                                    </div>
+                                    <div class="thumb">
+                                        <img src="assets/images/dashboard/dashboard4.png" alt="dasboard">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="partners">
+                        <h3 class="main-title">Users</h3>
+                        <a href="{{ path('app_add') }}" class="custom-button btn-sm mb-30">New Users <i class="flaticon-right-arrow"></i></a>
+                        <form class="operation-filter ticket-filter">
+                            <div class="filter-item">
+                                <label>Show Entries:</label>
+                                <div class="select-item">
+                                    <select class="select-bar">
+                                        <option value="o1">10</option>
+                                        <option value="o2">20</option>
+                                        <option value="o4">30</option>
+                                        <option value="o3">40</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="filter-item">
+                                <label for="date">Search:</label>
+                                <input type="text" id="date">
+                            </div>
+                        </form>
+{% for message in app.flashes('error') %}
+            <div class="alert alert-danger">
+                {{ message }}
+            </div>
+        {% endfor %}
+     <div class="table-wrapper">
+         <table class="transaction-table text-left more_space">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Telphone</th>
+                    <th>Role</th>
+                    <th>Image</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr>
+                       <td>{{ user.name }}</td>
+                        <td>{{ user.email }}</td>
+                        <td> <i class="fas fa-phone"></i></i> {{ user.tel }}</td>
+                        <td>
+    {% for role in user.roles %}
+        {{ role }}
+        {% if not loop.last %}, {% endif %}
+    {% endfor %}
+</td>
+                        <td>
+                         
+                         {% if user.imageName starts with 'https://' %}
+    <div>
+        <img class="rounded-circle" width="50" height="50"  src="{{ user.imageName }}" alt="profil" style="width: 50px; height: 50px; border-radius: 50%;">
+    </div>
+{% else %}
+    <div>
+        <img class="rounded-circle" width="50" height="50"  src="{{ vich_uploader_asset(user, 'imageFile') }}" alt="Uploaded Image" style="width: 50px; height: 50px; border-radius: 50%;">
+    </div>
+{% endif %}
+                         </td>
+                        <td>
+                        {% if user.status == 1 %}
+    <span class="badge badge-soft-success p-2 team-status">Activated</span>
+{% elseif user.status == 0 %}
+    <span class="badge badge-soft-warning p-2 team-status">Unactivated</span>
+{% elseif user.status == 2 %}
+    <span class="badge badge-soft-danger p-2 team-status">Banned</span>
+{% endif %}
+                        
+                        </td>
+                        
+                        <td>
+                      
+                       {% if user.status == 1 or user.status == 0 %}
+    <a href="{{ path('ban_user', {'id': user.id}) }}" class="btn btn-danger-soft"><i class="fa-solid fa-user-lock"></i></a>
+    
+{% elseif user.status == 2 %}
+   <a href="{{ path('user_deactivate_ban', {'id': user.id}) }}" class="btn btn-success-soft"><i class="fa-solid fa-unlock"></i></a>
+{% else %}
+    <span class="badge badge-danger">Banned</span>
+{% endif %}
+                       </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="6">No records found</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <nav class="pagination-container">
+				{{ knp_pagination_render(users) }}
+			</nav>
+                <div class="container-fluid sticky-bottom">
+                    <div class="dashboard-footer">
+                        <div class="d-flex flex-wrap justify-content-between m-0-15-none">
+                            <div class="left">
+                                &copy; 2020 <a href="#0">Hyipland</a>  |  All right reserved.
+                            </div>
+                            <div class="right">
+                                <ul>
+                                    <li>
+                                        <a href="#0">Terms of use</a>
+                                    </li>
+                                    <li>
+                                        <a href="#0">Privacy policy</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--=======SideHeader-Section Ends Here=======-->
+
+        </div>
+
+    <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="assets/js/jquery-3.3.1.min.js"></script>
+    <script src="assets/js/modernizr-3.6.0.min.js"></script>
+    <script src="assets/js/plugins.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/magnific-popup.min.js"></script>
+    <script src="assets/js/jquery-ui.min.js"></script>
+    <script src="assets/js/wow.min.js"></script>
+    <script src="assets/js/odometer.min.js"></script>
+    <script src="assets/js/viewport.jquery.js"></script>
+    <script src="assets/js/nice-select.js"></script>
+    <script src="assets/js/owl.min.js"></script>
+    <script src="assets/js/paroller.js"></script>
+    <script src="assets/js/chart.js"></script>
+    <script src="assets/js/circle-progress.js"></script>
+    <script src="assets/js/main.js"></script>
+
+
+</body>
+
+
+<!-- Mirrored from pixner.net/hyipland/demo/ticket.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 13 Mar 2024 20:53:30 GMT -->
+</html>

@@ -1,0 +1,123 @@
+{% extends 'base.html.twig' %}
+{% block title %}take a selfie{% endblock %}
+{% block body %}
+    <h1>Upload Image</h1>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <!-- Display currently uploaded image if available -->
+        <div>
+            <label>Currently Uploaded Image:</label><br>
+            {% if app.user.imageName starts with 'https://' %}
+    <div>
+        <img id="uploadedImage" src="{{ app.user.imageName }}" alt="profil">
+    </div>
+{% else %}
+    <div>
+        <img id="uploadedImage" src="{{ vich_uploader_asset(app.user, 'imageFile') }}" alt="Uploaded Image">
+    </div>
+{% endif %}
+        </div>
+        
+        <label for="type">Type:</label>
+        <select id="type" name="type" required>
+            <option value="">Select Type</option>
+            <option value="pixar">Pixar</option>
+            <option value="pixar_plus">Pixar Pro</option>
+            <!-- Add other options here -->
+            <option value="3d_cartoon">3D Cartoon</option>
+    <option value="angel">Angel</option>
+    <option value="angel_plus">Angel Pro</option>
+    <option value="demon">Demon</option>
+    <option value="ukiyoe_cartoon">Ukiyo-e</option>
+    <option value="bopu_cartoon">Popper</option>
+    <option value="amcartoon">American Manga</option>
+    <option value="western">Western</option>
+    <option value="avatar">Avatar</option>
+    <option value="famous">World famous paintings</option>
+    <option value="jpcartoon">Japanese Manga (I)</option>
+    <option value="jpcartoon_head">Japanese Manga (portrait)</option>
+    <option value="hkcartoon">China Comics</option>
+    <option value="classic_cartoon">Retro Cartoon</option>
+    <option value="tccartoon">Moe Manga</option>
+    <option value="anime">Japanese Manga (II)</option>
+    <option value="3d">3D Effects</option>
+    <option value="handdrawn">Hand-painted</option>
+    <option value="sketch">Pencil Drawing (I)</option>
+    <option value="artstyle">Artistic Effects</option>
+    <option value="claborate">Chinese Fine Brushwork Painting</option>
+    <option value="hongkong">Hong Kong-style Comic Style</option>
+    <option value="comic">Comic</option>
+    <option value="animation3d">3D Animation</option>
+    <option value="head">Pencil Drawing (Head)</option>
+    <option value="full">Pencil Drawing (II)</option>
+    <option value="3d_game">3D Game Effects</option>
+        </select><br><br>
+
+        <button type="submit">Submit</button>
+    </form>
+    
+    <!-- Container to display the resulting image -->
+    <div id="resultContainer"></div>
+    
+    <script>
+    // Define a JavaScript variable to hold the user data
+    const userData = JSON.parse('{{ app.user | json_encode | raw }}');
+    
+    document.getElementById('uploadForm').addEventListener('submit', async function(event) {
+        event.preventDefault();
+        
+        const formData = new FormData();
+        const imageUrl = document.getElementById('uploadedImage').src;
+        const type = document.getElementById('type').value;
+
+        // Convert the image URL to a Blob object
+        const response = await fetch(imageUrl);
+        const blob = await response.blob();
+
+        // Append the Blob object to the FormData
+        formData.append('image', blob);
+        formData.append('type', type);
+        
+        const url = 'https://cartoon-yourself.p.rapidapi.com/facebody/api/portrait-animation/portrait-animation';
+        const options = {
+            method: 'POST',
+            headers: {
+                'X-RapidAPI-Key': 'df425e31fdmsh93a483776aeb1eap1a395fjsn75f3f494efd5',
+                'X-RapidAPI-Host': 'cartoon-yourself.p.rapidapi.com'
+            },
+            body: formData
+        };
+        
+        try {
+            const response = await fetch(url, options);
+            const result = await response.json(); // Parse JSON response
+
+            // Check if the response contains the image URL
+            if (result && result.data && result.data.image_url) {
+                // Send an AJAX request to update the user's image URL
+                const updateUrl = '/update-image-url';
+                const updateOptions = {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ imageUrl: result.data.image_url }),
+                };
+
+                const updateResponse = await fetch(updateUrl, updateOptions);
+                const updateResult = await updateResponse.json();
+
+                if (updateResult.success) {
+                    // Display the resulting image in the container
+                    document.getElementById('resultContainer').innerHTML = `<img src="${result.data.image_url}" alt="Resulting Image">`;
+                } else {
+                    console.error('Failed to update image URL');
+                }
+            } else {
+                console.error('No image URL found in the response');
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    });
+</script>
+{% endblock %}

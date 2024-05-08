@@ -1,0 +1,174 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profile{% endblock %}
+{% block body %}
+<style>
+
+body{
+    margin-top:20px;
+    background:#f5f7fa;
+}
+.panel.panel-default {
+    border-top-width: 3px;
+}
+.panel {
+    box-shadow: 0 3px 1px -2px rgba(0,0,0,.14),0 2px 2px 0 rgba(0,0,0,.098),0 1px 5px 0 rgba(0,0,0,.084);
+    border: 0;
+    border-radius: 4px;
+    margin-bottom: 16px;
+}
+.thumb96 {
+    width: 96px!important;
+    height: 96px!important;
+}
+.thumb48 {
+    width: 48px!important;
+    height: 48px!important;
+}
+</style>
+
+  <link rel='stylesheet' href='https://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>                                            
+<div class="row ng-scope">
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-body text-center">
+                
+
+                {% if app.user.imageName starts with 'https://' %}
+    <div>
+        <img class="center-block img-responsive img-circle img-thumbnail thumb96" src="{{ app.user.imageName }}" alt="profil">
+    </div>
+{% else %}
+    <div>
+        <img class="center-block img-responsive img-circle img-thumbnail thumb96" src="{{ vich_uploader_asset(app.user, 'imageFile') }}" alt="Uploaded Image">
+    </div>
+{% endif %}
+
+                <h3 class="m0 text-bold">{{ app.user.name }}</h3>
+                
+                <div class="text-center"><a class="btn btn-primary" href="{{ path('capture_page') }}">Edit Photo</a></div>
+            </div>
+        </div>
+        <div class="panel panel-default hidden-xs hidden-sm">
+            <div class="panel-heading">
+                <div class="panel-title text-center">Recent activities</div>
+            </div>
+            <div class="panel-body">
+                <div class="media">
+                    <div class="media-left media-middle">
+                        <a href="#"><img class="media-object img-circle img-thumbnail thumb48" src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="Contact"></a>
+                    </div>
+                    <div class="media-body pt-sm">
+                        <div class="text-bold">Projects
+                            <div class="text-sm text-muted">10</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="media">
+                    <div class="media-left media-middle">
+                        <a href="#"><img class="media-object img-circle img-thumbnail thumb48" src="https://bootdey.com/img/Content/avatar/avatar3.png" alt="Contact"></a>
+                    </div>
+                    <div class="media-body pt-sm">
+                        <div class="text-bold">Offers
+                            <div class="text-sm text-muted">0</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="media">
+                    <div class="media-left media-middle">
+                        <a href="#"><img class="media-object img-circle img-thumbnail thumb48" src="https://bootdey.com/img/Content/avatar/avatar4.png" alt="Contact"></a>
+                    </div>
+                    <div class="media-body pt-sm">
+                        <div class="text-bold">Events
+                            <div class="text-sm text-muted">8</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="media">
+                    <div class="media-left media-middle">
+                        <a href="#"><img class="media-object img-circle img-thumbnail thumb48" src="https://bootdey.com/img/Content/avatar/avatar5.png" alt="Contact"></a>
+                    </div>
+                    <div class="media-body pt-sm">
+                        <div class="text-bold">Posts
+                            <div class="text-sm text-muted">20</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="pull-right">
+                    <div class="btn-group dropdown" uib-dropdown="dropdown">
+                        <button class="btn btn-link dropdown-toggle" uib-dropdown-toggle="" aria-haspopup="true" aria-expanded="false"><em class="fa fa-ellipsis-v fa-lg text-muted"></em></button>
+                        <ul class="dropdown-menu dropdown-menu-right animated fadeInLeft" role="menu">
+                            <li><a href=""><span>Send by message</span></a></li>
+                            <li><a href=""><span>Share contact</span></a></li>
+                            <li><a href=""><span>Block contact</span></a></li>
+                            <li><a href=""><span class="text-warning">Delete contact</span></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="h4 text-center">Contact Information</div>
+                <div class="row pv-lg">
+                    <div class="col-lg-2"></div>
+                    <div class="col-lg-8">
+                          {{ form_start(form) }}
+                            <div class="form-group">
+    <label for="{{ form.name.vars.id }}" class="control-label" value="{{ app.user.email }}">
+        <i class="fas fa-user fa-lg me-2 fa-fw"></i> {{ form.name.vars.label }}
+    </label>
+    {{ form_widget(form.name, {'attr': {'class': 'form-control ' ~ (form_errors(form.name) ? 'is-invalid' : '')}}) }}
+    {% if form_errors(form.name) %}
+        <div class="invalid-feedback">
+            {{ form_errors(form.name) }}
+        </div>
+    {% endif %}
+</div>
+                            <div class="form-group">
+    <label for="{{ form.email.vars.id }}" class="control-label">
+        <i class="fas fa-envelope fa-lg me-2 fa-fw"></i> {{ form.email.vars.label }}
+    </label>
+    {{ form_widget(form.email, {'attr': {'class': 'form-control ' ~ (form_errors(form.email) ? 'is-invalid' : '')}}) }}
+    {% if form_errors(form.email) %}
+        <div class="invalid-feedback">
+            {{ form_errors(form.email) }}
+        </div>
+    {% endif %}
+</div>
+
+
+                          <div class="form-group">
+    <label for="{{ form.tel.vars.id }}" class="control-label">
+        <i class="fas fa-phone fa-lg me-2 fa-fw"></i> {{ form.tel.vars.label }}
+    </label>
+    {{ form_widget(form.tel, {'attr': {'class': 'form-control ' ~ (form_errors(form.tel) ? 'is-invalid' : '')}}) }}
+    {% if form_errors(form.tel) %}
+        <div class="invalid-feedback">
+            {{ form_errors(form.tel) }}
+        </div>
+    {% endif %}
+</div>
+                            
+                            
+                            
+                            <div class="form-group text-center">
+                            <button type="submit">Update</button>
+                            <span class="d-block mt-15">forget password? <a href="{{ path('app_login') }}">Recover password</a></span>
+                        </div>
+                            {{ form_end(form) }}
+                        </form>
+                        <div class="text-right"><a class="text-muted" href="{{ path('user.delete', {'id': app.user.id}) }}">Delete this account?</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<script>
+<script src='https://netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'></script>
+</script>
+{% endblock %}
