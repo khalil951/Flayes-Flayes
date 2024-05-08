@@ -1,11 +1,62 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Offer{% endblock %}
+{% block title %}New Funding{% endblock %}
+
+{#{% block banner %}#}
+{#    {% include 'twig elements/banner_invest.html.twig' %}#}
+{#{% endblock %}#}
 
 {% block body %}
-    <h1>Create new Offer</h1>
+    <section class="offer-section padding-top padding-bottom">
+        <div class="ball-group-1" data-paroller-factor="-0.30" data-paroller-factor-lg="0.60"
+             data-paroller-type="foreground" data-paroller-direction="horizontal">
+            <img src="{{ asset('assets/images/balls/ball-group1.png') }}" alt="balls">
+        </div>
+        <div class="ball-group-2" data-paroller-factor="0.30" data-paroller-factor-lg="-0.30"
+             data-paroller-type="foreground" data-paroller-direction="horizontal">
+            <img src="{{ asset('assets/images/balls/ball-group2.png') }}" alt="balls">
+        </div>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 col-xl-7">
+                    <div class="section-header">
+                        <span class="cate">INVESTMENT OFFER</span>
+                        <h2 class="title">OUR INVESTMENT PLANS</h2>
+                        <p>
+                            Flayes provides a straightforward and transparent mechanism to attract investments and make
+                            more profits.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="offer-wrapper">
+                {% block projectCards %}
+                    {{ include('OfferFunding components/projectCard.html.twig') }}
+                {% endblock projectCards %}
+            </div>
+            {# ********** OFFERSSSSSSSSSSSSSSSSSSSSSSSSSS SECTION STARTS HERE ************#}
 
-    {{ form(form) }}
 
-    <a href="{{ path('app_offer_index') }}">back to list</a>
+        </div>
+    </section>
+    <!--=======Offer-Section Ends Here=======-->
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="addOfferForm" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Offer</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {{ include('OfferFunding/_form.html.twig', {'button_label': 'Save'}) }}
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
 {% endblock %}
