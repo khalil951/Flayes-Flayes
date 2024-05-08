@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My Tickets{% endblock %}
+
+{% block body %}
+<section class="vh-500">
+    <div class="container h-200">
+        <!-- Back Arrow Link -->
+        <div class="row">
+            <div class="col-12">
+                <a href="javascript:history.back()" class="btn btn-light mb-3">
+                    <i class="fas fa-arrow-left"></i> Back
+                </a>
+            </div>
+        </div>
+<section class="vh-500">
+    <div class="container h-400">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-lg-9 col-xl-11">
+                <div class="card text-black" style="border-radius: 25px;">
+                    <div class="card-body p-md-1">
+                        <div class="row justify-content-center mb-30-none">
+                            {% if tickets is not empty %}
+                                {% for ticket in tickets %}
+                                    <!-- Repeat the design format used for events -->
+                                    <div class="col-md-6 col-lg-4 col-sm-10">
+                                        <div class="how-item">
+                                            <div class="how-thumb-area">
+                                                <div class="how-thumb">
+    <!-- Use the 'qr_directory' from the context, and assuming 'ticket.getQrcode()' returns just the filename -->
+                            <img src="{{ asset(images_directory ~ '/' ~ ticket.Event.getImage()) }}" alt="Image for {{ ticket.Event.getName() }}" class="img-fluid">
+</div>
+
+                                            </div>
+                                           <div class="how-content">
+    <!-- Display Event and Ticket details -->
+    <h5 class="title">{{ ticket.Event.getName() }}</h5>
+    
+    <!-- Using an unordered list for ticket details -->
+    <ul class="ticket-details">
+        <li><strong>Ticket ID:</strong> {{ ticket.getIdticket() }}</li>
+        <li><strong>Event Date:</strong> {{ ticket.Event.getDate() }}</li>
+        <li><strong>Event Location:</strong> {{ ticket.Event.getLocation() }}</li>
+    </ul>
+
+    <!-- Link to an event-specific page or action, using event ID -->
+     <form action="{{ path('app_deleteticketsssnow', {'ticketId': ticket.idticket, 'userId': 12}) }}" method="post">
+        <button type="submit" class="btn btn-primary">Delete my ticket</button>
+    </form>
+</div></div>
+</div>
+
+
+                                {% endfor %}
+                            {% else %}
+                                <div class="col-12">
+                                    <p>No tickets available.</p>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+                                    
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

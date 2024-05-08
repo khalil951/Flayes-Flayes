@@ -23,11 +23,12 @@
 			<link href="{{ asset('assets/css/main.css') }}" rel="stylesheet">   
             <link href="{{ asset('css/style.css') }}" rel="stylesheet">
             <link href="{{ asset('assets/css/forum.css') }}" rel="stylesheet">
+
 		{% endblock %}
 
 
 		{% block js %}
-	    <script src="{{ asset("https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js")}}"></script>
+	      <script src="{{ asset("https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js")}}"></script>
 	    <script src="{{ asset("https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js") }}" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 		<script src="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/email-decode.min.js') }}"></script>
 		<script src="{{ asset('assets/js/jquery-3.3.1.min.js') }}"></script>
@@ -101,7 +102,7 @@
                                 <a href="">Offers</a>
                             </li>
                             <li>
-                                <a href="">Events</a>
+                                <a href="{{ path('show_myevents') }}">Events</a>
                             </li>
                             <li>
                                 <a href="{{ path('app_room_index') }}">Forum</a>
@@ -142,7 +143,7 @@
     </li>
 {% else %}
     <li class="pr-0">
-        <a href="{{ path('app_register') }}" class="button" style="text-align: center; text_decoration:none; color:white;">Sign up</a>
+        <a href="{{ path('app_register') }}" class="button" style="text-align: center; text-decoration:none; color:white;">Sign up</a>
     </li>
 {% endif %} 
                         </ul>

@@ -1,6 +1,18 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+# config/routes.yaml
+
+autocomplete_action:
+    path: /autocomplete
+    controller: App\Controller\YourController::autocompleteAction
+
+# config/routes.yaml
+
+api_cities:
+    path: /api/cities
+    controller: App\Controller\CityController::index
+    
 upload_image:
     path: /upload-image
     controller: 'App\Controller\UserController::uploadImageForm'

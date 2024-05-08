@@ -1,0 +1,148 @@
+
+
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+<style>
+    @keyframes drawLine {
+        from { width: 0; }
+        to { width: 100%; }
+    }
+    .line-animation {
+        width: 100%;
+        height: 2px;
+        background-color: #007BFF;
+        animation: drawLine 2s forwards ease-out;
+    }
+</style>
+{% endblock %}
+{% block title %}Events{% endblock %}
+
+{% block body %}
+    <section class="vh-250">
+        <div class="container h-200">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-lg-9 col-xl-11">
+                    <div class="card text-black" style="border-radius: 25px;">
+                        <div class="card-body p-md-1">
+                            <div class="row justify-content-center">
+
+     
+
+
+
+                            </div>
+                             {% for event in events %}
+    <div class="row justify-content-center mb-30-none">
+        <div class="col-12">
+            <div class="how-item">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="how-thumb">
+                            <!-- Dynamic image for the event -->
+                            <img src="{{ asset(images_directory ~ '/' ~ event.image) }}" alt="Image for {{ event.name }}" class="img-fluid">
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="how-content">
+                            <h5 class="title">{{ event.name }}</h5>
+                            <p class="description">{{ event.description }}</p>
+<a href="{{ path('app_add_ticket', {'eventId': event.Idevent, 'userId':app.user.id}) }}" class="btn btn-primary">Join Now <i class="flaticon-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+
+
+
+                            <div class="form-title">Already have an Account? <u><a  style="display: inline; color: #216aca;" onmouseover="this.style.color='#03d9ff'" onmouseout="this.style.color='#216aca'">Log In</a></u></div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+             <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center">
+                <div class="line-animation"></div>
+            </div>
+        </div>
+    </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+   <section class="why-affiliate-section padding-bottom padding-top pt-max-lg-0">
+            <div class="why--thumb">
+                <img src="assets/images/why/how.png" alt="why">
+            </div>
+            <div class="container">
+                <div class="row align-items-end">
+                    <div class="col-lg-6">
+                        <div class="why-affiliate-content">
+                            <div class="section-header left-style">
+                                <span class="cate">Get Access to your tickets </span>
+                                <h2 class="title">Your Tickets </h2>
+                                <p>
+                                   Check your regstration for the events and print your ticket
+                                </p>
+                            </div>
+                            <div class="why-area">
+                                <div class="why-item">
+                                    <div class="why-inner">
+                                        <div class="why-thumb">
+                                            <img src="assets/images/why/why1.png" alt="why">
+                                        </div>
+                                        <div class="why-content">
+                           <a href="{{ path('view_tickets', {'userId':12}) }}" class="title-link" style="font-size: 1.25rem; font-weight: bold; text-decoration: none;">
+        Print my tickets
+    </a>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="why-item">
+                                    <div class="why-inner">
+                                        <div class="why-thumb">
+                                            <img src="assets/images/why/why2.png" alt="why">
+                                        </div>
+                                        <div class="why-content">
+           <a href="{{ path('app_ticketdeleteshow', {'userId': 12}) }}" class="title-link" style="font-size: 1.25rem; font-weight: bold; text-decoration: none;">
+    Delete one of my tickets
+</a>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <a href="#0" class="custom-button">join Now!</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+</section>
+
+<script>
+    function validateForm() {
+        var recaptchaResponse = grecaptcha.getResponse();
+        if (recaptchaResponse.length === 0) {
+            alert('Please complete the reCAPTCHA verification.');
+            return false;
+        }
+        return true;
+    }
+</script>
+
+
+
+
+{% endblock %} 

@@ -18,6 +18,7 @@ use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 use App\Form\ResetPasswordRequestFormType;
 use App\Form\ResetPasswordFormType;
 use Symfony\Component\Security\Core\Security;
+use App\Repository\EventRepository;
 use App\Security\EmailVerifier;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\AbstractType;
@@ -758,4 +759,7 @@ public function updateImageUrl(Request $request, Security $security)
         return new JsonResponse(['error' => 'Image URL not found in the request'], 400);
     }
 }
+
+
+
 }

@@ -1,0 +1,23 @@
+<html>
+<head>
+    <title>Ticket Details</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .ticket-info { margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <div class="ticket-info">
+        <h1>Ticket for {{ ticket.event.name }}</h1>
+        <p>Ticket ID: {{ ticket.idticket }}</p>
+        <p>User: {{ ticket.user.name }}</p>
+        <p>Date of Event: {{ ticket.event.date }}</p>
+        <p>Location: {{ ticket.event.location }}</p>
+        <p>Description of Event: {{ ticket.event.description }}</p>
+        <img src="{{ ticket.qrcode }}" alt="QR Code">
+        <p>QR Code Path: {{  ticket.qrcode }}</p>
+                                    <img src="{{ asset(images_directory ~ '/' ~ ticket.Event.getImage()) }}" alt="Image" class="img-fluid">
+
+    </div>
+</body>
+</html>

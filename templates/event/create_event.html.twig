@@ -1,0 +1,70 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Event Add{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row justify-content-center mt--85">
+        <div class="col-sm-6 col-lg-3">
+            <div class="dashboard-item">
+                <div class="dashboard-inner">
+                    {# Your existing HTML content #}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="partners">
+        <h3 class="main-title">Events</h3>
+        <div class="create_wrapper">
+            <h5 class="subtitle">New Events</h5>
+            <div class="d-flex align-items-center mb-30">
+                <img src="assets/images/dashboard/ticket.png" alt="dashboard">
+                <span class="pl-3 sub_subtitle cl-title"> New Event  :</span>
+            </div>
+            {{ form_start(form, {'attr': {'class': 'create_ticket_form'}}) }}
+            
+            <div class="create_form_group">
+                <label for="{{ form.name.vars.id }}">Name:</label>
+                {{ form_widget(form.name, {'attr': {'class': 'form-control', 'placeholder': 'Enter name'}}) }}
+                <span class="text-danger">{{ form_errors(form.name) }}</span>
+            </div>
+
+            <div class="create_form_group">
+                <label for="{{ form.date.vars.id }}">Date:</label>
+                {{ form_widget(form.date, {'attr': {'class': 'form-control', 'placeholder': 'Select date'}}) }}
+                <span class="text-danger">{{ form_errors(form.date) }}</span>
+            </div>
+
+            <div class="create_form_group">
+                <label for="{{ form.description.vars.id }}">Description:</label>
+                {{ form_widget(form.description, {'attr': {'class': 'form-control', 'placeholder': 'Enter description'}}) }}
+                <span class="text-danger">{{ form_errors(form.description) }}</span>
+            </div>
+
+            <div class="create_form_group">
+                <label for="{{ form.location.vars.id }}">Location:</label>
+                {{ form_widget(form.location, {'attr': {'class': 'form-control'}}) }}
+                <span class="text-danger">{{ form_errors(form.location) }}</span>
+            </div>
+
+            <div class="create_form_group">
+                <label for="{{ form.image.vars.id }}">Image:</label>
+                {{ form_widget(form.image, {'attr': {'class': 'form-control', 'placeholder': 'Enter image'}}) }}
+                <span class="text-danger">{{ form_errors(form.image) }}</span>
+            </div>
+
+            <div class="create_form_group">
+                <label for="{{ form.idcat.vars.id }}">Category:</label>
+                {{ form_widget(form.idcat, {'attr': {'class': 'form-control', 'placeholder': 'Select category'}}) }}
+                <span class="text-danger">{{ form_errors(form.idcat) }}</span>
+            </div>
+
+            <div class="create_form_group mb-0">
+                <button type="submit" class="custom-button border-0">Send</button>
+            </div>
+
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>
+{% endblock %}

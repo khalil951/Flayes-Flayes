@@ -49,8 +49,10 @@
         </tbody>
     </table>
 
+    {% if app.user != null %}
     {% if (app.user.id == post.userId) %}
     {{ include('post/_delete_form.html.twig') }}
+    {% endif %}
     {% endif %}
 
     <div style='transform: translate(10rem,-2.5rem);'>

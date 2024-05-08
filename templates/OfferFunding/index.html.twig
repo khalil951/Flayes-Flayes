@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Offer index{% endblock %}
+
+{% block body %}
+    <h1>Offer index</h1>
+    {{ dump(offers) }}
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>DateCreated</th>
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for offer in offers %}
+            <tr>
+                <td>{{ offer.id }}</td>
+                <td>{{ offer.title }}</td>
+                <td>{{ offer.description }}</td>
+                <td>{{ offer.status }}</td>
+                <td>{{ offer.dateCreated ? offer.dateCreated|date('Y-m-d') : '' }}</td>
+                <td>
+{#                    <a href="{{ path('', {'id': offer.id}) }}">show</a>#}
+{#                    <a href="{{ path('', {'id': offer.id}) }}">edit</a>#}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{#    <a href="{{ path('app_offer_new') }}">Create new</a>#}
+{% endblock %}

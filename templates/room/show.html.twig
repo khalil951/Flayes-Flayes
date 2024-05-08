@@ -29,8 +29,10 @@
             </tr>
         </tbody>
     </table>
+    {% if app.user != null %}
     {% if 'ROLE_ADMIN' in app.user.roles %}
       {{ include('room/_delete_form.html.twig') }}
+    {% endif %}
     {% endif %}
       <p style='transform: translate(-15em,3em); margin-bottom:10px;'> Need Assistance? </p>
     	<div class="container-chat" style='transform: translate(-15em,3em); margin-bottom:2rem;'>
