@@ -1,47 +1,47 @@
-
 {% extends 'base.html.twig' %}
 
 {% block title %}
-	Project Management
+    Project Management
 {% endblock %}
+
 {% block body %}
-	Project Management
+    Project Management
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<!-- HTML canvas element to render the chart -->
-<canvas id="category-chart" width="400" height="400"></canvas>
+<div style="width: 1000px; height: 1000px; overflow: hidden; position: relative; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+    <canvas id="category-chart" width="200" height="150"></canvas>
 
-<script>
-    // Retrieve data from PHP variables passed from the controller
-    var categoryNames = JSON.parse('{{ categoryNames|raw }}');
-    var projectCounts = JSON.parse('{{ projectCounts|raw }}');
+    <script>
+        // Retrieve data from PHP variables passed from the controller
+        var categoryNames = JSON.parse('{{ categoryNames|raw }}');
+        var projectCounts = JSON.parse('{{ projectCounts|raw }}');
 
-    // Render chart
-    var ctx = document.getElementById('category-chart').getContext('2d');
-    var myChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: categoryNames,
-            datasets: [{
-                label: 'Number of Projects',
-                data: projectCounts,
-                backgroundColor: 'rgba(75, 192, 192, 0.2)', // Set background color for bars
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1,
-                borderRadius: 0, // Set border radius to 0 for straight edges
-            }]
-        },
-        options: {
-            indexAxis: 'y', // Display bars horizontally
-            scales: {
-                y: {
-                    beginAtZero: true
+        // Render chart
+        var ctx = document.getElementById('category-chart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: categoryNames,
+                datasets: [{
+                    label: 'Number of Projects',
+                    data: projectCounts,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)', // Set background color for bars
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1,
+                    borderRadius: 0, // Set border radius to 0 for straight edges
+                }]
+            },
+            options: {
+                indexAxis: 'y', // Display bars horizontally
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
                 }
             }
-        }
-    });
-</script>
-
+        });
+    </script>
+</div>
 
 {% endblock %}
