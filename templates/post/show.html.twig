@@ -50,7 +50,7 @@
     </table>
 
     {% if app.user != null %}
-    {% if (app.user.id == post.userId) %}
+    {% if (app.user.id == post.userId or 'ROLE_ADMIN' in app.user.roles) %}
     {{ include('post/_delete_form.html.twig') }}
     {% endif %}
     {% endif %}

@@ -37,7 +37,7 @@
 
 
 <div class='mb-3' style="text-align:center">
-    <button class="bg-indigo-900 text-gray-100 border border-indigo-900 border-b-4 font-medium overflow-hidden relative px-4 py-2 rounded-md hover:brightness-150 hover:border-t-4 hover:border-b active:opacity-75 outline-none duration-300 group">
+    <button id="save" class="bg-indigo-900 text-gray-100 border border-indigo-900 border-b-4 font-medium overflow-hidden relative px-4 py-2 rounded-md hover:brightness-150 hover:border-t-4 hover:border-b active:opacity-75 outline-none duration-300 group">
     <span class="bg-gray-100 shadow-indigo-900 absolute -top-[150%] left-0 inline-flex w-80 h-[5px] rounded-md opacity-50 group-hover:top-[150%] duration-500 shadow-[0_0_10px_10px_rgba(0,0,0,0.3)]"></span>
         Save
     </button>
@@ -52,16 +52,31 @@
     </style>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const cards = document.getElementsByClassName('card');
-        
-        // Loop through each element with the class 'card'
-        for (let i = 0; i < cards.length; i++) {
-            cards[i].addEventListener('click', event => {
-                alert('Card clicked'); 
-            });
+       
+        const descriptionField = document.querySelector('#room_description');
+        const button = document.querySelector('#save');
+
+        async function BadWordDetection() {
+            const options = {
+            method: 'GET',
+            url: 'https://profanity-filter-by-api-ninjas.p.rapidapi.com/v1/profanityfilter',
+            params: {text: descriptionField.value },
+            headers: {
+                'X-RapidAPI-Key': '77280ef4bfmsh5a1c660eaa091abp16b165jsned5b547e4d20',
+                'X-RapidAPI-Host': 'profanity-filter-by-api-ninjas.p.rapidapi.com'
+            }
+            };
+
+            try {
+                const response = await axios.request(options);
+                descriptionField.value = response.data.content;
+            } catch (error) {
+                console.error(error);
+            }
         }
-    });
+
+        button.addEventListener('click', BadWordDetection);
+
 </script>
 
       

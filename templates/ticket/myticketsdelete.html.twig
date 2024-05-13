@@ -44,7 +44,7 @@
     </ul>
 
     <!-- Link to an event-specific page or action, using event ID -->
-     <form action="{{ path('app_deleteticketsssnow', {'ticketId': ticket.idticket, 'userId': 12}) }}" method="post">
+     <form action="{{ path('app_deleteticketsssnow', {'ticketId': ticket.idticket, 'userId': app.user.id}) }}" method="post">
         <button type="submit" class="btn btn-primary">Delete my ticket</button>
     </form>
 </div></div>

@@ -18,30 +18,9 @@ use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 use App\Form\ResetPasswordRequestFormType;
 use App\Form\ResetPasswordFormType;
 use Symfony\Component\Security\Core\Security;
-use App\Repository\EventRepository;
-use App\Security\EmailVerifier;
-use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Validator\Constraints\Regex;
-use Symfony\Component\Validator\Constraints\Length;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface as AuthenticationUserAuthenticatorInterface;
-use Symfony\Component\Security\Http\Authenticator\AbstractLoginFormAuthenticator;
-use Symfony\Component\Security\Http\Authenticator\Passport\UserPassportInterface;
-use Symfony\Component\Security\Http\Authenticator\UserAuthenticatorInterface;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
-use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
-use Symfony\Component\Mime\Address;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
@@ -128,6 +107,7 @@ public function __construct(EmailVerifier $emailVerifier)
         // Add any custom options here if needed
     
         return $this->render('admin/forum.html.twig', [
+            'rooms' => $roomRepository->findAll(),
             'chart' => $chart,
         ]);
     }
@@ -147,7 +127,7 @@ public function __construct(EmailVerifier $emailVerifier)
         // Persist changes to the user entity
         $entityManager->flush();
 
-        return $this->redirectToRoute('app_profil', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_user_edit', ['id' => $user->getId()], Response::HTTP_SEE_OTHER);
     }
 
     return $this->renderForm('user/profile.html.twig', [
@@ -486,70 +466,65 @@ public function indexAlls(ManagerRegistry $doctrine, $page, $nbre): Response {
         TokenGeneratorInterface $tokenGenerator,
         EntityManagerInterface $entityManager,
         MailerInterface $mailer
-        
-    ): Response
-    {
+    ): Response {
         $form = $this->createForm(ResetPasswordRequestFormType::class);
         $form->handleRequest($request);
     
         if ($form->isSubmitted() && $form->isValid()) {
             $email = $form->get('email')->getData();
-            $user = $usersRepository->findOneByEmail($form->get('email')->getData());
+            $user = $usersRepository->findOneByEmail($email);
     
-            if($user){
+            if ($user) {
                 $token = $tokenGenerator->generateToken();
                 $user->setResetToken($token);
                 $entityManager->persist($user);
                 $entityManager->flush();
-                
-                $url = $this->generateUrl('reset_pass', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
-
-                 // Generate absolute URL to the image
-            // Get the base URL of your Symfony application
-            $baseUrl = $request->getSchemeAndHttpHost();
-            // Define the absolute URL of the image directly
-         $imageUrl = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTQZXYjiy-qY1mjlMTPBx3aOKKYCUFhV8PfA&s';
-            
-            
-            $htmlContent = "
-                <html>
-                <body>
-                    <p>Dear " . $user->getName() . ",</p>
-                    <p>To reset your password, please visit the following link: <a href='" . $url . "'>" . $url . "</a></p>
-                    <img src='" . $imageUrl . "' alt='Flayes Presentation Image'>
-                    If you have any questions or need assistance, feel free to contact us at support@flayes.com
-
-Follow us on Twitter | Like us on Facebook
-                </body>
-                </html>
-            ";
-
-
-
-                $context = compact('url', 'user');
-                $email = (new TemplatedEmail())
-                ->from('iben46655@gmail.com')
-                ->to($email)
-                ->subject('Reset Password !')
-                ->html($htmlContent);
-
-            $mailer->send($email);
     
+                $url = $this->generateUrl('reset_pass', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
+    
+                // HTML content of the email
+                $htmlContent = "
+                    <html>
+                    <body>
+                        <p>Dear " . $user->getName() . ",</p>
+                        <p>To reset your password, please visit the following link: <a href='" . $url . "'>" . $url . "</a></p>
+                        <p>If you have any questions or need assistance, feel free to contact us at support@flayes.com</p>
+                        <p>Follow us on Twitter | Like us on Facebook</p>
+                    </body>
+                    </html>
+                ";
+    
+                // Create and send email
+                $transport = Transport::fromDsn('smtp://iben46655@gmail.com:hvgetegqlqdnzola@smtp.gmail.com:587');
+                $mailer = new Mailer($transport);
+    
+                $email = (new Email())
+                    ->from('iben46655@gmail.com')
+                    ->to($email)
+                    ->subject('Reset Password')
+                    ->html($htmlContent);
+    
+                try {
+                    $mailer->send($email);
+                    // Add flash message and redirect
                     $this->addFlash('success', 'Email sent successfully! Please check your email to reset your password.');
                     return $this->redirectToRoute('app_login');
-
-
+                } catch (TransportExceptionInterface $e) {
+                    // Handle email sending failure
+                    $this->addFlash('danger', 'Failed to send email. Please try again later.');
+                    return $this->redirectToRoute('app_login');
+                }
             }
+    
+            // If user does not exist, show error message
             $this->addFlash('danger', 'Un problème est survenu');
             return $this->redirectToRoute('app_login');
-                
         }
     
         return $this->render('user/reset_password_request.html.twig', [
             'requestPassForm' => $form->createView()
         ]);
     }
-    
                   
                    
     #[Route('/forgotten/{token}', name:'reset_pass')]
@@ -626,27 +601,28 @@ Follow us on Twitter | Like us on Facebook
         $user->setStatus(1); // Assuming 1 represents an active user
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->flush();
-
+    
         // Send an email to the user notifying them that their ban has been deactivated
+        $transport = Transport::fromDsn('smtp://iben46655@gmail.com:hvgetegqlqdnzola@smtp.gmail.com:587');
+        $mailer = new Mailer($transport);
+    
         $email = (new Email())
             ->from('iben46655@gmail.com')
             ->to($user->getEmail())
             ->subject('Your account ban has been deactivated')
-            ->html('Dear ' . $user->getName() . ',<br>Your account ban has been deactivated. You can now access your account again.');
-
-        $mailer->send($email);
-
-        // Optionally, add a flash message to indicate successful deactivation
-        $this->addFlash('success', 'User ban deactivated successfully.');
-
+            ->html('Dear ' . $user->getName() . ',<br>Your account ban has been desactivated. .');
+    
+        try {
+            $mailer->send($email);
+            // Optionally, add a flash message to indicate successful deactivation
+            $this->addFlash('success', 'User ban deactivated successfully.');
+        } catch (TransportExceptionInterface $e) {
+            // Handle error if email sending fails
+            $this->addFlash('error', 'Failed to send email: ' . $e->getMessage());
+        }
+    
         // Redirect the user to a relevant page
         return $this->redirectToRoute('app_list', ['id' => $user->getId()]);
-    }
-    
-    #[Route('/profil', name: 'app_profil')]
-    public function profil(Request $request): Response
-    {  
-        return $this->render('user/profile.html.twig');
     }
 
    

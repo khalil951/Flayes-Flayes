@@ -208,11 +208,43 @@ class PostController extends AbstractController
         $like->setPost($post);
         $user_id = $security->getUser()->getId();
         $like->setUserId($user_id);
+        $post->setNumLikes($postReactRepository->count(['post' => $post]));
         // $like->setIsliked(true);
         // Persist and flush the like entity
         $entityManager->persist($like);
         $entityManager->flush();
-        $post->setNumLikes($postReactRepository->count(['post' => $post]));
+        // Return a JSON response indicating success and the updated like count
+        return $this->json(['code' => 200, 'message' => 'Post liked successfully', 'likes' => $postReactRepository->count(['post' => $post])], 200);
+    }
+
+    #[Route('/{id}/dislike', name: 'app_post_dislike')]
+    public function dislike(Post $post, EntityManagerInterface $entityManager, PostReactRepository $postReactRepository, Security $security): Response
+    {
+        // Check if the post is already liked
+        if ($post->isNotLiked($entityManager)) {
+            // If liked, find the corresponding PostReact entity
+            $dislike = $postReactRepository->findOneBy([
+                'post' => $post
+            ]);
+            
+            // If like exists, remove it
+            if ($dislike) {
+                $entityManager->remove($dislike);
+                $entityManager->flush();
+            }
+            return $this->json(['code' => 200, 'message' => 'Post unliked successfully', 'likes' => $postReactRepository->count(['post' => $post])], 200);
+        }
+
+        // If not liked, create a new PostReact entity to represent the like
+        $dislike = new PostReact();
+        $dislike->setPost($post);
+        $user_id = $security->getUser()->getId();
+        $dislike->setUserId($user_id);
+        $post->setNumDislikes($postReactRepository->count(['post' => $post]));
+        // $like->setIsliked(true);
+        // Persist and flush the like entity
+        $entityManager->persist($dislike);
+        $entityManager->flush();
         // Return a JSON response indicating success and the updated like count
         return $this->json(['code' => 200, 'message' => 'Post liked successfully', 'likes' => $postReactRepository->count(['post' => $post])], 200);
     }

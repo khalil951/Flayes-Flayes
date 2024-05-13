@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Funding{% endblock %}
+{% block banner %}
+    {% include 'twig elements/banner_invest.html.twig' %}
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+    <h1>Edit Offer</h1>
+
+    {{ include('OfferFunding/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_Offerfunding_index') }}">back to list</a>
+
+    </div>
+{% endblock %}

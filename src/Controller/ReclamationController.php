@@ -14,6 +14,9 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use App\Entity\User;
+use Symfony\Component\Mailer\Transport;
+use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class ReclamationController extends AbstractController
@@ -122,41 +125,68 @@ public function new(Request $request,PaginatorInterface $paginator, EntityManage
   
     #[Route('/{id}/rep', name: 'send_email', methods: ['POST'])]
     public function sendEmail(int $id, Request $request, MailerInterface $mailer, EntityManagerInterface $entityManager): Response
-{
-    // Retrieve reclamation object from the database based on $id
+    {
+        
+        // Retrieve reclamation object from the database based on $id
     $reclamation = $entityManager->getRepository(Reclamation::class)->find($id);
     $userId = $reclamation->getIdUser();
 
 // Retrieve the user entity using Doctrine's entity manager
 $userRepository = $this->getDoctrine()->getRepository(User::class); // Replace User::class with your actual User entity class
 $user = $userRepository->find($userId);
-    // Check if reclamation exists
-    if (!$reclamation) {
-        throw $this->createNotFoundException('Reclamation not found');
+    
+        // Check if reclamation exists
+        if (!$reclamation) {
+            throw $this->createNotFoundException('Reclamation not found');
+        }
+    
+        
+    
+        // Get response from the form
+        $response = $request->request->get('response');
+    
+        // Create HTML content for the email
+        $emailContent = "
+            <html>
+            <body>
+                <p>Dear " . $user->getName() . ",</p>
+                <p>Regarding your complaint:</p>
+                <blockquote>" . $reclamation->getDescription() . "</blockquote>
+                <p>We have processed your complaint and here is our response:</p>
+                <blockquote>" . $response . "</blockquote>
+                <p>Thank you for reaching out to us.</p>
+            </body>
+            </html>
+        ";
+    
+        // Create and send email
+        $transport = Transport::fromDsn('smtp://iben46655@gmail.com:hvgetegqlqdnzola@smtp.gmail.com:587');
+        $mailer = new Mailer($transport);
+    
+        $email = (new Email())
+            ->from('iben46655@gmail.com')
+            ->to($user->getEmail())
+            ->subject('Regarding Your Complaint')
+            ->html($emailContent);
+    
+        try {
+            $mailer->send($email);
+        } catch (TransportExceptionInterface $e) {
+            // Handle email sending exception here
+            // You may log the error or show an error message to the user
+            return new Response('Failed to send email: ' . $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    
+        // Update reclamation status
+        $reclamation->setEtat('Treated');
+        $reclamation->setResponse($response); // Set the response in the reclamation object
+        $entityManager->flush();
+    
+        // Redirect back to wherever you want
+        return $this->redirectToRoute('app_reclamation_index');
     }
 
-    // Get response from the form
-    $response = $request->request->get('response');
-
-    // Create and send email
-    $email = (new Email())
-        ->from('iben46655@gmail.com')
-        ->to($user->getEmail())
-        ->subject('Regarding Your Complaint')
-        ->html($response);
-
-    $mailer->send($email);
-
-    // Update reclamation status
-    $reclamation->setEtat('Treated');
-    $reclamation->setResponse($response); // Set the response in the reclamation object
-    $entityManager->flush();
-
-    // Redirect back to wherever you want
-    return $this->redirectToRoute('app_reclamation_index');
-}
-
-#[Route('/{id}/rat', name: 'app_reponse_show', methods: ['GET','POST'])]
+    #[Route('/{id}/rat', name: 'app_reponse_show', methods: ['GET','POST'])]
 public function show(Reclamation $reclamation, Request $request): Response
 {
     // Initialize variables
@@ -192,16 +222,13 @@ public function show(Reclamation $reclamation, Request $request): Response
     }
 
     // Calculate average rating
-    $averageRating = $reclamation->getAverageRating();
+   
     // Render the response show page
     return $this->render('reclamation/show.html.twig', [
         'reclamation' => $reclamation,
         'check' => $check,
-        'average_rating' => $averageRating,
         'rating_form' => $form->createView(),
     ]);
 }
-
-
 
 }

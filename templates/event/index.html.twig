@@ -101,7 +101,7 @@
                                             <img src="assets/images/why/why1.png" alt="why">
                                         </div>
                                         <div class="why-content">
-                           <a href="{{ path('view_tickets', {'userId':12}) }}" class="title-link" style="font-size: 1.25rem; font-weight: bold; text-decoration: none;">
+                           <a href="{{ path('view_tickets', {'userId':app.user.id}) }}" class="title-link" style="font-size: 1.25rem; font-weight: bold; text-decoration: none;">
         Print my tickets
     </a>
 
@@ -114,7 +114,7 @@
                                             <img src="assets/images/why/why2.png" alt="why">
                                         </div>
                                         <div class="why-content">
-           <a href="{{ path('app_ticketdeleteshow', {'userId': 12}) }}" class="title-link" style="font-size: 1.25rem; font-weight: bold; text-decoration: none;">
+           <a href="{{ path('app_ticketdeleteshow', {'userId': app.user.id}) }}" class="title-link" style="font-size: 1.25rem; font-weight: bold; text-decoration: none;">
     Delete one of my tickets
 </a>
 

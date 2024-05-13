@@ -1,0 +1,101 @@
+{% extends 'dashboard.html.twig' %}
+
+{% block title %}Offer admin index{% endblock %}
+
+
+
+{% block body %}
+
+    <div class="container-fluid">
+        <div class="operations">
+            <h3 class="main-title">Manage Offers</h3>
+{#            <div class="select-item">#}
+{#                <select class="select-bar">#}
+            <form class="operation-filter" action="{{ path('app_offer_funding_admin') }}" method="get">
+                <div class="filter-item">
+                    <label for="date_from">Date from:</label>
+                    <input type="date" id="date_from" name="date_from" placeholder="Date from">
+                </div>
+                <div class="filter-item">
+                    <label for="date_to">Date To:</label>
+                    <input type="date" id="date_to" name="date_to" placeholder="Date to">
+                </div>
+                <div class="filter-item">
+                    <label for="status">Status:</label>
+                    <div>
+                    <select id="status" name="status" class="select-bar">
+                        <option value="">Select status</option>
+                        <option value="0">On hold</option>
+                        <option value="1">Rejected</option>
+                        <option value="2">Accepted by admin</option>
+                        <option value="3">Accepted</option>
+                        <option value="4">Accepted</option>
+                        <option value="5">Accepted</option>
+                        <!-- Add more status options if needed -->
+                    </select>
+                    </div>
+                </div>
+                <div class="filter-item">
+                    <button type="submit" class="custom-button">Filter</button>
+                </div>
+            </form>
+
+            <div class="table-wrapper">
+                <table class="transaction-table">
+                    <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>DateCreated</th>
+                        <th>actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for offer in offers %}
+                        <tr>
+
+                            <td>{{ offer.title }}</td>
+                            <td>{{ offer.description }}</td>
+
+                                {% set status = offer.status %}
+                                {% if status == 0 %}
+                            <td style="color: #a0a003">
+                                    on hold
+                                {% elseif status == 2 %}
+                            <td style="color: green">
+                                    accepted
+                                {% elseif status == 1 %}
+                            <td style="color: red">
+                                    rejected
+                                {% endif %}
+                            </td>
+
+                            <td><i class="far fa-calendar"></i>{{ offer.dateCreated ? offer.dateCreated|date('Y-m-d') : '' }}</td>
+                            <td>
+                                {#                    <a href="{{ path('', {'id': offer.id}) }}">show</a>#}
+                                {% if status == 0 %}
+                                    <a class="btn btn-outline-success btn-sm" href="{{ path('app_offer_admin_accept', {'id': offer.id}) }}" >accept</a>
+                                    <a class="btn btn-outline-warning btn-sm" href="{{ path('app_offer_admin_reject', {'id': offer.id}) }}" >reject</a>
+                                    <a class="btn btn-outline-danger btn-sm" href="{{ path('app_offer_admin_delete', {'id': offer.id}) }}">delete</a>
+                                {% elseif status == 2 %}
+                                    <a class="btn btn-outline-warning btn-sm" href="{{ path('app_offer_admin_reject', {'id': offer.id}) }}" >reject</a>
+                                    <a class="btn btn-outline-danger btn-sm" href="{{ path('app_offer_admin_delete', {'id': offer.id}) }}">delete</a>
+                                {% elseif status == 1 %}
+                                    <a class="btn btn-outline-success btn-sm" href="{{ path('app_offer_admin_accept', {'id': offer.id}) }}" >accept</a>
+                                    <a class="btn btn-outline-danger btn-sm" href="{{ path('app_offer_admin_delete', {'id': offer.id}) }}">delete</a>
+                                {% endif %}
+
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="6">no records found</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -210,6 +210,16 @@ class Post
         // Return true if there are likes, false otherwise
         return $postLikeCount > 0;
     }
+
+    public function isNotLiked(EntityManagerInterface $entityManager): bool
+    {
+        // Query the database to check if the post has any likes
+        $postDisLikeCount = $entityManager->getRepository(PostReact::class)
+            ->count(['post' => $this, 'Isliked' => false]);
+
+        // Return true if there are likes, false otherwise
+        return $postDisLikeCount > 0;
+    }
    
 
 }
