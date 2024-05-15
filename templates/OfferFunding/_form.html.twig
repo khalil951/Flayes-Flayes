@@ -1,0 +1,54 @@
+{{ form_start(form,{'attr':{'novalidate':'novalidate'}}) }}
+
+    {{form_label(form.title)}}
+    {{form_widget(form.title,{'attr':{'class':'form-control' , 'id':'offer_funding'}})}}
+    <div  style="color : red;">
+        {{ form_errors(form.title) }}
+    </div>
+
+    {{form_label(form.description)}}
+        {{form_widget(form.description,{'attr':{'class':'form-control'}})}}
+    <div style="color : red;">
+        {{ form_errors(form.description) }}
+    </div>
+
+    {{form_label(form.funding.type)}}
+            {{form_widget(form.funding.type,{'attr':{'class':'form-control'}})}}
+    <div style="color : red;">
+        {{ form_errors(form.funding.type) }}
+    </div>
+
+    {{form_label(form.funding.attribute1)}}
+            {{form_widget(form.funding.attribute1,{'attr':{'class':'form-control'}})}}
+    <div style="color : red;">
+        {{ form_errors(form.funding.attribute1) }}
+    </div>
+
+
+
+    {{form_label(form.funding.attribute2)}}
+                {{form_widget(form.funding.attribute2,{'attr':{'class':'form-control'}})}}
+    <div style="color : red;">
+        {{ form_errors(form.funding.attribute2) }}
+    </div>
+
+    {{form_label(form.funding.attribute3)}}
+                    {{form_widget(form.funding.attribute3,{'attr':{'class':'form-control'}})}}
+    <div style="color : red;">
+        {{ form_errors(form.funding.attribute3) }}
+    </div>
+
+    {{form_label(form.funding.textattribute)}}
+                    {{form_widget(form.funding.textattribute,{'attr':{'class':'form-control'}})}}
+    <div style="color : red;">
+        {{ form_errors(form.funding.textattribute) }}
+    </div>
+</div>
+<div class="modal-footer">
+    {{ form_widget(form.Submit, {'label': button_label, 'attr': {'class': 'btn btn-success'}}) }}
+{#    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>#}
+</div>
+
+{{ form_end(form) }}
+
+

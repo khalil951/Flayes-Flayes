@@ -1,0 +1,156 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}User index{% endblock %}
+
+
+{% block body %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+        .badge-soft-danger {
+            color: #f34e4e;
+            background-color: rgba(243, 78, 78, 0.1);
+        }
+        .badge-soft-warning {
+    color: #f7cc53;
+    background-color: rgba(247,204,83,.1);
+}
+
+.badge-soft-success {
+    color: #51d28c;
+    background-color: rgba(81,210,140,.1);
+}
+
+.btn-success-soft {
+    color: #28a745;
+    background-color: rgba(40, 167, 69, 0.1);
+}
+.btn-danger-soft {
+    color: #dc3545;
+    background-color: rgba(220, 53, 69, 0.1);
+}
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination-container ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.pagination-container li {
+  margin: 0 5px;
+}
+
+.pagination-container li a {
+  display: block;
+  padding: 10px; /* Increase padding for circles */
+  border-radius: 50%; /* Make circles */
+  border: 1px solid #ccc;
+  text-decoration: none;
+  color: #333;
+}
+
+.pagination-container li.active a,
+.pagination-container li a:hover {
+  background-color: #333;
+  color: #fff;
+  border-color: #333;
+}
+
+/* Style for next icon */
+.pagination-container li:last-child a {
+  padding: 5px 10px; /* Adjust padding */
+  border-radius: 0; /* Remove border-radius for the next icon */
+}
+
+    </style>
+     <div class="table-wrapper">
+         <table class="transaction-table text-left more_space">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Telphone</th>
+                    <th>Role</th>
+                    <th>Image</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr>
+                       <td>{{ user.name }}</td>
+                        <td>{{ user.email }}</td>
+                        <td> <i class="fas fa-phone"></i></i> {{ user.tel }}</td>
+                        <td>
+    {% for role in user.roles %}
+        {{ role }}
+        {% if not loop.last %}, {% endif %}
+    {% endfor %}
+</td>
+                        <td>
+                         
+                         {% if user.imageName starts with 'https://' %}
+    <div>
+        <img class="rounded-circle" width="50" height="50"  src="{{ user.imageName }}" alt="profil" style="width: 50px; height: 50px; border-radius: 50%;">
+    </div>
+{% else %}
+    <div>
+        <img class="rounded-circle" width="50" height="50"  src="{{ vich_uploader_asset(user, 'imageFile') }}" alt="Uploaded Image" style="width: 50px; height: 50px; border-radius: 50%;">
+    </div>
+{% endif %}
+                         </td>
+                        <td>
+                        {% if user.status == 1 %}
+    <span class="badge badge-soft-success p-2 team-status">Activated</span>
+{% elseif user.status == 0 %}
+    <span class="badge badge-soft-warning p-2 team-status">Unactivated</span>
+{% elseif user.status == 2 %}
+    <span class="badge badge-soft-danger p-2 team-status">Banned</span>
+{% endif %}
+                        
+                        </td>
+                        
+                        <td>
+                      
+                       {% if user.status == 1 or user.status == 0 %}
+    <a href="{{ path('ban_user', {'id': user.id}) }}" class="btn btn-danger-soft"><i class="fa-solid fa-user-lock"></i></a>
+    
+{% elseif user.status == 2 %}
+   <a href="{{ path('user_deactivate_ban', {'id': user.id}) }}" class="btn btn-success-soft"><i class="fa-solid fa-unlock"></i></a>
+{% else %}
+    <span class="badge badge-danger">Banned</span>
+{% endif %}
+                       </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="6">No records found</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <nav class="pagination-container">
+				{{ knp_pagination_render(users) }}
+			</nav>
+                {% endblock %}

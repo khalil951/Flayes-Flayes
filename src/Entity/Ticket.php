@@ -1,15 +1,10 @@
 <?php
-
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * Ticket
- *
- * @ORM\Table(name="ticket", indexes={@ORM\Index(name="Iduser", columns={"Iduser"}), @ORM\Index(name="Idevent", columns={"Idevent"})})
- * @ORM\Entity
- */
+#[ORM\Entity(repositoryClass: TicketRepository::class)]
+#[ORM\Table(name: "ticket")]
 class Ticket
 {
     #[ORM\Id]
@@ -20,18 +15,17 @@ class Ticket
     #[ORM\Column(length: 255)]
     private ?string $qrcode = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="tickets")
-     * @ORM\JoinColumn(name="Iduser", referencedColumnName="id")
-     */
-    private ?User $iduser = null;
+    // Relationship to User with cascade operations
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "tickets", cascade: ["persist"])]
+    #[ORM\JoinColumn(name: "Iduser", referencedColumnName: "id", nullable: false)]
+    private User $iduser;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Event", inversedBy="tickets")
-     * @ORM\JoinColumn(name="Idevent", referencedColumnName="idevent")
-     */
-    private ?Event $idevent = null;
-
+    // Relationship to Event with cascade operations
+    #[ORM\ManyToOne(targetEntity: Event::class, inversedBy: "tickets", cascade: ["persist"])]
+    #[ORM\JoinColumn(name: "Idevent", referencedColumnName: "Idevent", nullable: false)]
+    private Event $idevent;
+   
+    // Getters and Setters
     public function getIdticket(): ?int
     {
         return $this->idticket;
@@ -42,29 +36,29 @@ class Ticket
         return $this->qrcode;
     }
 
-    public function setQrcode(string $qrcode): static
+    public function setQrcode(string $qrcode): self
     {
         $this->qrcode = $qrcode;
         return $this;
     }
 
-    public function getIdevent(): ?Event
+    public function getEvent(): Event
     {
         return $this->idevent;
     }
 
-    public function setIdevent(?Event $idevent): static
+    public function setEvent(Event $idevent): self
     {
         $this->idevent = $idevent;
         return $this;
     }
 
-    public function getIduser(): ?User
+    public function getUser(): User
     {
         return $this->iduser;
     }
 
-    public function setIduser(?User $iduser): static
+    public function setUser(User $iduser): self
     {
         $this->iduser = $iduser;
         return $this;

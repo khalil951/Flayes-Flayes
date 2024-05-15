@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\FundingRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+
 #[ORM\Entity(repositoryClass: FundingRepository::class)]
 #[ORM\Table(name: "funding")]
 class Funding
@@ -17,19 +18,24 @@ class Funding
 
 
     #[ORM\Column(length: 255)]
+
     private ?string $type = null;
 
 
     #[ORM\Column]
+
     private ?float $attribute1= null;
 
     #[ORM\Column(name: "attribute2", type: "float", precision: 10, scale: 0, nullable: true)]
+
     private ?float $attribute2;
 
     #[ORM\Column(name: "attribute3", type: "float", precision: 10, scale: 0, nullable: true)]
+
     private ?float $attribute3;
 
     #[ORM\Column(name: "textAttribute", type: "string",  length:255, nullable:false)]
+
     private ?string $textattribute;
 
     #[ORM\Column(name: "score", type: "float", precision: 10, scale: 0, nullable: true)]

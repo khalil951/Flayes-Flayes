@@ -3,30 +3,27 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\CatRepository;
 
-/**
- * Category
- *
- * @ORM\Table(name="category")
- * @ORM\Entity
- */
+#[ORM\Entity(repositoryClass: CatRepository::class)]
+#[ORM\Table(name: "category")]
 class Category
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $idcat = null;
+    #[ORM\GeneratedValue(strategy: "IDENTITY")]
+    #[ORM\Column(name: "idcat", type: "integer", nullable: false)]
+    private int $idcat;
 
     #[ORM\Column(length: 255)]
-    private ?string $name = null;
+    private string $name;
 
     #[ORM\Column(length: 255)]
-    private ?string $type = null;
+    private string $type;
 
     #[ORM\Column(length: 255)]
-    private ?string $target = null;
+    private string $target;
 
-    public function getIdcat(): ?int
+    public function getIdcat(): int
     {
         return $this->idcat;
     }
@@ -36,10 +33,9 @@ class Category
         return $this->name;
     }
 
-    public function setName(string $name): static
+    public function setName(string $name): void
     {
         $this->name = $name;
-        return $this;
     }
 
     public function getType(): ?string
@@ -47,10 +43,9 @@ class Category
         return $this->type;
     }
 
-    public function setType(string $type): static
+    public function setType(string $type): void
     {
         $this->type = $type;
-        return $this;
     }
 
     public function getTarget(): ?string
@@ -58,9 +53,8 @@ class Category
         return $this->target;
     }
 
-    public function setTarget(string $target): static
+    public function setTarget(string $target): void
     {
         $this->target = $target;
-        return $this;
     }
 }

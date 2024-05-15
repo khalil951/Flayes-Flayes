@@ -1,0 +1,26 @@
+<div class="form-container">
+    <form action="{{ path('app_reclamation_new') }}" method="post" class="your-custom-form-class">
+        {{ form_start(form, {'attr': {'class': 'your-custom-form-start-class'}}) }}
+        
+        <div class="form-group">
+            {{ form_widget(form.object, {'attr': {'class': 'form-control', 'placeholder': 'Title'}}) }}
+             {{ form_errors(form.object) }}
+        </div>
+        
+        
+        <div class="form-group">
+            {{ form_widget(form.description, {'attr': {'class': 'form-control', 'placeholder': 'Description'}}) }}
+            {# Add any specific form field options or classes #}
+        </div>
+        <div class="form-group">
+            {{ form_widget(form.type, {'attr': {'class': 'form-control', 'placeholder': 'Type'}}) }}
+            {# Add any specific form field options or classes #}
+        </div>
+
+        {# Add more form fields as needed #}
+
+        <button type="submit" class="btn btn-primary">{{ button_label|default('Save') }}</button>
+
+        {{ form_end(form) }}
+    </form>
+</div>

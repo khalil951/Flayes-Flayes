@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+
+
+    <title>{% block title %} Flayes {% endblock %}</title>
+
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }} ">
+        <link rel="stylesheet" href="{{  asset('assets/css/all.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/animate.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/odometer.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/nice-select.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/owl.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/jquery-ui.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/magnific-popup.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/flaticon.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
+
+        <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}" type="image/x-icon">
+
+        {{ encore_entry_link_tags('app') }}
+
+    {% endblock %}
+
+    {% block javascripts %}
+        <script src="{{ asset('assets/js/jquery-3.3.1.min.js') }}"></script>
+        <script src="{{ asset('assets/js/modernizr-3.6.0.min.js') }}"></script>
+        <script src="{{ asset('assets/js/plugins.js') }}"></script>
+        <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('assets/js/magnific-popup.min.js') }}"></script>
+        <script src="{{ asset('assets/js/jquery-ui.min.js') }}"></script>
+        <script src="{{ asset('assets/js/wow.min.js') }}"></script>
+        <script src="{{ asset('assets/js/odometer.min.js') }}"></script>
+        <script src="{{ asset('assets/js/viewport.jquery.js') }}"></script>
+        <script src="{{ asset('assets/js/nice-select.js') }}"></script>
+        <script src="{{ asset('assets/js/owl.min.js') }}"></script>
+        <script src="{{ asset('assets/js/paroller.js') }}"></script>
+        <script src="{{ asset('assets/js/main.js') }}"></script>
+
+        {{ encore_entry_script_tags('app') }}
+
+    {% endblock %}
+</head>
+<body>
+<div class="main--body dashboard-bg">
+    <section class="dashboard-section">
+       
+
+
+        {% block sideHeader %}
+            {% include'twig elements/side_header_dashboard.html.twig' %}
+        {% endblock %}
+
+        <div class="dasboard-body">
+            {% block hero %}
+                {% include 'twig elements/hero_dashboard.html.twig' %}
+            {% endblock %}
+        {% block body %}
+
+
+        {% endblock %}
+
+        {% block footer %}
+            <div class="container-fluid sticky-bottom">
+                <div class="dashboard-footer">
+                    <div class="d-flex flex-wrap justify-content-between m-0-15-none">
+                        <div class="left">
+                            &copy; 2020 <a href="#0">Flayes</a>  |  All right reserved.
+                        </div>
+                        <div class="right">
+                            <ul>
+                                <li>
+                                    <a href="#0">Terms of use</a>
+                                </li>
+                                <li>
+                                    <a href="#0">Privacy policy</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endblock %}
+        </div>
+    </section>
+</div>
+</body>
+</html>

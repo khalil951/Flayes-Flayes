@@ -6,68 +6,49 @@ use App\Repository\RoomRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * Room
- *
- * @ORM\Table(name="room")
- * @ORM\Entity
- */
 #[ORM\Entity(repositoryClass: RoomRepository::class)]
 class Room
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="room_id", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $roomId = null;
+    private ?int $id = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="category", type="string", length=100, nullable=false)
-     */
     #[ORM\Column(length: 255)]
-    private ?string $category = null;
+    private ?string $catgory = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="sub_category", type="string", length=100, nullable=false)
-     */
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message:"Name is required")]
+    #[Assert\Regex(pattern:"/^[a-zA-Z\s]+$/",message:"Name must contain only letters")]
     private ?string $sub_category = null;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="description", type="string", length=200, nullable=true)
-     */
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\NotBlank(message:"Description is required")]
     private ?string $description = null;
 
-    #[ORM\OneToMany(mappedBy: 'room', targetEntity: Post::class)]
+    #[ORM\OneToMany(mappedBy: 'room', targetEntity: Post::class, cascade: ['remove'])]
     private Collection $posts;
 
-    public function getRoomId(): ?int
+    public function __construct()
     {
-        return $this->roomId;
+        $this->posts = new ArrayCollection();
     }
 
-    public function getCategory(): ?string
+    public function getId(): ?int
     {
-        return $this->category;
+        return $this->id;
     }
 
-    public function setCategory(string $category): static
+    public function getCatgory(): ?string
     {
-        $this->category = $category;
+        return $this->catgory;
+    }
+
+    public function setCatgory(string $catgory): static
+    {
+        $this->catgory = $catgory;
 
         return $this;
     }
@@ -77,9 +58,9 @@ class Room
         return $this->sub_category;
     }
 
-    public function setSubCategory(string $subCategory): static
+    public function setSubCategory(string $sub_category): static
     {
-        $this->sub_category = $subCategory;
+        $this->sub_category = $sub_category;
 
         return $this;
     }
@@ -125,6 +106,4 @@ class Room
 
         return $this;
     }
-
-
 }

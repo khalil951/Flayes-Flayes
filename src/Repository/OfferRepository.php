@@ -21,6 +21,32 @@ class OfferRepository extends ServiceEntityRepository
         parent::__construct($registry, Offer::class);
     }
 
+    public function findOffersImade($value): array
+    {
+        return $this->createQueryBuilder('o')
+            ->where('o.user =:val')
+//            ->andWhere('o.exampleField = :val')
+            ->setParameter('val', $value)
+//            ->orderBy('o.id', 'ASC')
+//            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+    public function findOffersIgot($value): array
+    {
+        return $this->createQueryBuilder('o')
+            ->where('o.reciever =:val')
+            ->andWhere('o.status > 1')
+            ->setParameter('val', $value)
+//            ->orderBy('o.id', 'ASC')
+//            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+
 //    /**
 //     * @return OfferFunding[] Returns an array of OfferFunding objects
 //     */
@@ -45,4 +71,25 @@ class OfferRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+    public function findFilteredOffers($dateFrom, $dateTo, $status): array
+    {
+        $qb = $this->createQueryBuilder('o');
+
+        if ($dateFrom) {
+            $qb->andWhere('o.dateCreated >= :dateFrom')
+                ->setParameter('dateFrom', $dateFrom);
+        }
+
+        if ($dateTo) {
+            $qb->andWhere('o.dateCreated <= :dateTo')
+                ->setParameter('dateTo', $dateTo);
+        }
+
+        if ($status) {
+            $qb->andWhere('o.status = :status')
+                ->setParameter('status', $status);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
 }

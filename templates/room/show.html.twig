@@ -1,0 +1,287 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Room{% endblock %}
+
+{% block body %}
+    <h1>Room</h1>
+    <div style='transform: translate(-25rem,-5rem);'>
+        <button id='BackBtn'>
+            <svg height="16" width="16" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1024 1024"><path d="M874.690416 495.52477c0 11.2973-9.168824 20.466124-20.466124 20.466124l-604.773963 0 188.083679 188.083679c7.992021 7.992021 7.992021 20.947078 0 28.939099-4.001127 3.990894-9.240455 5.996574-14.46955 5.996574-5.239328 0-10.478655-1.995447-14.479783-5.996574l-223.00912-223.00912c-3.837398-3.837398-5.996574-9.046027-5.996574-14.46955 0-5.433756 2.159176-10.632151 5.996574-14.46955l223.019353-223.029586c7.992021-7.992021 20.957311-7.992021 28.949332 0 7.992021 8.002254 7.992021 20.957311 0 28.949332l-188.073446 188.073446 604.753497 0C865.521592 475.058646 874.690416 484.217237 874.690416 495.52477z"></path></svg>
+            <a href="{{ path('app_room_index') }}">
+            <span>Back</span>
+            </a>
+        </button>
+    </div>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Catgory</th>
+                <td>{{ room.catgory }}</td>
+            </tr>
+            <tr>
+                <th>Sub_category</th>
+                <td>{{ room.subCategory }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ room.description }}</td>
+            </tr>
+        </tbody>
+    </table>
+    {% if app.user != null %}
+    {% if 'ROLE_ADMIN' in app.user.roles %}
+      {{ include('room/_delete_form.html.twig') }}
+    {% endif %}
+    {% endif %}
+      <p style='transform: translate(-15em,3em); margin-bottom:10px;'> Need Assistance? </p>
+    	<div class="container-chat" style='transform: translate(-15em,3em); margin-bottom:2rem;'>
+      <div class="nav-bar">
+      	<a>Chat</a>
+        <div class="close">
+         	<div class="line one"></div>
+         	<div class="line two"></div>
+        </div>
+      </div>
+      <div class="messages-area">
+        
+        <div class="message one" ></div>
+        <div class="message two"></div>
+        <div class="message three"></div>
+        <div class="message four"></div>
+        <div class="message five"></div>
+        <div class="message six"></div>
+      </div>
+      <div class="sender-area">
+        <div class="input-place">
+        	<input placeholder="Send a message." class="send-input" type="text">
+            <div class="send">
+				<svg class="send-icon" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve"><g><g><path fill="#6B6C7B" d="M481.508,210.336L68.414,38.926c-17.403-7.222-37.064-4.045-51.309,8.287C2.86,59.547-3.098,78.551,1.558,96.808 L38.327,241h180.026c8.284,0,15.001,6.716,15.001,15.001c0,8.284-6.716,15.001-15.001,15.001H38.327L1.558,415.193 c-4.656,18.258,1.301,37.262,15.547,49.595c14.274,12.357,33.937,15.495,51.31,8.287l413.094-171.409 C500.317,293.862,512,276.364,512,256.001C512,235.638,500.317,218.139,481.508,210.336z"></path></g></g></svg>
+        	</div>
+      	</div>
+      </div>
+    <div></div></div>
+
+
+    <style>
+    .container-chat {
+  width: 300px;
+  height: 320px;
+  background-color: #343541;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-bar {
+  width: 100%;
+  height: 40px;
+  background-color: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-bar a {
+  color: #6B6C7B;
+  white-space: nowrap;
+  margin-left: 10px;
+  user-select: none;
+}
+
+.close {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+}
+
+.line {
+  position: absolute;
+  width: 20px;
+  height: 3px;
+  background-color: #6B6C7B;
+  border-radius: 30px;
+}
+
+.line.one {
+  transform: rotate(45deg)
+}
+
+.line.two {
+  transform: rotate(135deg)
+}
+
+.messages-area {
+  background-color: green;
+  width: 100%;
+  height: 210px;
+}
+
+.sender-area {
+  background-color: #343541;
+  width: 100%;
+  height: 70px;
+  display: flex;
+  border-radius: 8px;
+}
+
+.message {
+  width: 100%;
+  height: 40px;
+  max-width: 100%;
+  overflow-y: auto; 
+}
+
+.message.one,
+.message.three,
+.message.five {
+  background-color: #2E2F3A;
+  
+}
+
+.message p {
+    word-wrap: break-word; /* Enable word wrapping */
+    max-width: 100%; /* Ensure the message doesn't overflow */
+}
+
+
+
+
+.message.two,
+.message.four,
+.message.six {
+  background-color: #343541;
+}
+
+.send-img {
+  width: 30px;
+}
+
+.send-input {
+  outline: none;
+  display: flex;
+  border: none;
+  background: none;
+  height: 40px;
+  width: 230px;
+  border-radius: 7px;
+  background: none;
+  color: white;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  margin-left: 5px;
+}
+
+.send-input::placeholder {
+  color: #828E9E;
+}
+
+.input-place {
+  display: flex;
+  flex-direction: row;
+  margin-top: 15px;
+  margin-left: 10px;
+  align-items: center;
+  background-color: #40414F;
+  border-radius: 7px;
+  height: 40px;
+  width: 280px;
+  gap: 5px;
+  border: 1px solid #2E2F3A;
+}
+
+.send {
+  width: 30px;
+  height: 30px;
+  background-color: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.send-icon {
+  width: 17px;
+}
+</style>
+
+
+<script>
+// Selecting elements
+const input = document.querySelector(".send-input");
+const send = document.querySelector(".send");
+const messageContainers = document.querySelectorAll(".message");
+
+// Function to handle the API call
+async function chatgpt() {
+    // Check if input is empty or contains only whitespace
+    if (!input.value.trim()) {
+        console.error("Input is empty.");
+        return;
+    }
+
+    // Configuring the API request
+    const options = {
+        method: 'POST',
+        url: 'https://open-ai21.p.rapidapi.com/chatgpt',
+        headers: {
+            'content-type': 'application/json',
+            'X-RapidAPI-Key': '77280ef4bfmsh5a1c660eaa091abp16b165jsned5b547e4d20',
+            'X-RapidAPI-Host': 'open-ai21.p.rapidapi.com'
+        },
+        data: {
+            messages: [{
+                role: 'user',
+                content: input.value
+            }],
+            web_access: false
+        }
+    };
+
+    try {
+        // Sending the API request
+        const response = await axios.request(options);
+        console.log(response.data.result);
+
+        // Find the first available message container
+        let messageContainer;
+        for (const container of messageContainers) {
+            if (!container.textContent.trim()) {
+                messageContainer = container;
+                break;
+            }
+        }
+
+        // If all containers are filled, clear them all
+        if (!messageContainer) {
+            messageContainers.forEach(container => container.innerHTML = "");
+            messageContainer = messageContainers[0]; // Assign the first container
+        }
+
+        // Creating a new message element
+        const messageElement = document.createElement("p");
+        messageElement.textContent = response.data.result;
+
+        // Append the message to the selected container
+        messageContainer.innerHTML = "";
+        messageContainer.appendChild(messageElement);
+
+        // Clear the input field
+        input.value = "";
+    } catch (error) {
+        console.error("Error fetching response:", error);
+    }
+}
+
+// Event listener for the send button click
+send.addEventListener('click', chatgpt);
+
+</script>
+
+
+{% endblock %}

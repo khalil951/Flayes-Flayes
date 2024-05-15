@@ -21,6 +21,22 @@ class RoomRepository extends ServiceEntityRepository
         parent::__construct($registry, Room::class);
     }
 
+    public function getRoomCountsPerCategory(): array
+    {
+        $qb = $this->createQueryBuilder('r')
+            ->select('r.catgory, COUNT(r.id) as count')
+            ->groupBy('r.catgory');
+
+        $result = $qb->getQuery()->getResult();
+
+        $counts = [];
+        foreach ($result as $row) {
+            $counts[$row['catgory']] = $row['count'];
+        }
+
+        return $counts;
+    }
+
 //    /**
 //     * @return Room[] Returns an array of Room objects
 //     */

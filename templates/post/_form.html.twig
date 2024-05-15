@@ -1,0 +1,12 @@
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+    <div style="text-align: center; margin: 2rem;">
+    {# <button class="btn btn-success">{{ button_label|default('Save') }}</button> #}
+    <div class='mb-3' style="text-align:center">
+    <button style ='width:130px; margin-bottom:0rem;'class="bg-indigo-900 text-gray-100 border border-indigo-900 border-b-4 font-medium overflow-hidden relative px-2 py-2 rounded-md hover:brightness-150 hover:border-t-4 hover:border-b active:opacity-75 outline-none duration-300 group text-sm">
+    <span class="bg-gray-100 shadow-indigo-900 absolute -top-[150%] left-0 inline-flex w-64 h-[5px] rounded-md opacity-50 group-hover:top-[150%] duration-500 shadow-[0_0_10px_10px_rgba(0,0,0,0.3)]"></span>
+        Update
+    </button>
+    </div>
+    </div>
+    {{ form_end(form) }}

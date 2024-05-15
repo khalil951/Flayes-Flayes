@@ -1,0 +1,167 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Post{% endblock %}
+
+{% block body %}
+    <h1>Post</h1>
+
+    <div style='transform: translate(-25rem,-5rem);'>
+        <button id='BackBtn'>
+            <svg height="16" width="16" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1024 1024"><path d="M874.690416 495.52477c0 11.2973-9.168824 20.466124-20.466124 20.466124l-604.773963 0 188.083679 188.083679c7.992021 7.992021 7.992021 20.947078 0 28.939099-4.001127 3.990894-9.240455 5.996574-14.46955 5.996574-5.239328 0-10.478655-1.995447-14.479783-5.996574l-223.00912-223.00912c-3.837398-3.837398-5.996574-9.046027-5.996574-14.46955 0-5.433756 2.159176-10.632151 5.996574-14.46955l223.019353-223.029586c7.992021-7.992021 20.957311-7.992021 28.949332 0 7.992021 8.002254 7.992021 20.957311 0 28.949332l-188.073446 188.073446 604.753497 0C865.521592 475.058646 874.690416 484.217237 874.690416 495.52477z"></path></svg>
+            <a href="{{ path('app_room_show_posts', {'id': room.id}) }}">
+            <span>Back</span>
+            </a>
+        </button>
+    </div>
+
+
+    <div class="col-4">
+    <img src="http://localhost/uploads/{{post.imgUrl}}" alt="#">  
+    </div>
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Author</th>
+                <td>{{ post.author }}</td>
+            </tr>
+            <tr>
+                <th>Content</th>
+                <td id='content'>{{ post.content }}</td>
+            </tr>
+            <tr>
+                <th>NumLikes</th>
+                <td>{% if post.NumLikes is null %}
+                         0
+                    {% else %}
+                        {{ post.NumLikes }}
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>NumDislikes</th>
+                <td>{% if post.NumDislikes is null %}
+                         0
+                    {% else %}
+                        {{ post.NumDislikes }}
+                    {% endif %}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    {% if app.user != null %}
+    {% if (app.user.id == post.userId) %}
+    {{ include('post/_delete_form.html.twig') }}
+    {% endif %}
+    {% endif %}
+
+    <div style='transform: translate(10rem,-2.5rem);'>
+        <button id="translateButton" >
+        Translate
+        <div class="iconButton">
+            <svg
+            height="24"
+            width="24"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+            >
+            <path d="M0 0h24v24H0z" fill="none"></path>
+            <path
+                d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z"
+                fill="currentColor"
+            ></path>
+            </svg>
+        </div>
+        </button>
+</div>
+
+    <style>
+            #translateButton {
+                background: #7079f0;
+                color: white;
+                font-family: inherit;
+                padding: 0.45em;
+                padding-left: 1em;
+                font-size: 17px;
+                font-weight: 500;
+                border-radius: 0.9em;
+                border: none;
+                cursor: pointer;
+                letter-spacing: 0.05em;
+                display: flex;
+                align-items: center;
+                box-shadow: inset 0 0 1.6em -0.6em #714da6;
+                overflow: hidden;
+                position: relative;
+                height: 2.8em;
+                padding-right: 3em;
+                }
+
+                .iconButton {
+                margin-left: 1em;
+                position: absolute;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 2.2em;
+                width: 2.2em;
+                border-radius: 0.7em;
+                box-shadow: 0.1em 0.1em 0.6em 0.2em #7a8cf3;
+                right: 0.3em;
+                transition: all 0.3s;
+                }
+
+                #translateButton:hover {
+                transform: translate(-0.05em, -0.05em);
+                box-shadow: 0.15em 0.15em #5566c2;
+                }
+
+                #translateButton:active {
+                transform: translate(0.05em, 0.05em);
+                box-shadow: 0.05em 0.05em #5566c2;
+                }    
+    </style>
+
+
+    <script>
+       const translateBtn = document.getElementById('translateButton');
+       const content = document.querySelector('#content');
+       const oldContent = content.innerHTML;
+
+        async function translateText() {
+        const encodedParams = new URLSearchParams();
+        encodedParams.set('source_language', 'en');
+        encodedParams.set('target_language', 'fr');
+        encodedParams.set('text', content.innerHTML);
+
+        const options = {
+        method: 'POST',
+        url: 'https://text-translator2.p.rapidapi.com/translate',
+        headers: {
+            'content-type': 'application/x-www-form-urlencoded',
+            'X-RapidAPI-Key': '77280ef4bfmsh5a1c660eaa091abp16b165jsned5b547e4d20',
+            'X-RapidAPI-Host': 'text-translator2.p.rapidapi.com'
+        },
+        data: encodedParams,
+        };
+
+        try {
+            const response = await axios.request(options);
+            content.innerHTML = response.data.data.translatedText;
+        } catch (error) {
+            console.error(error);
+        }
+        }  
+
+        translateBtn.addEventListener('click', () => {
+            if (translateBtn.classList.contains('translated')) {
+                content.innerHTML = oldContent;
+                translateBtn.classList.remove('translated');
+            } else {
+                translateText();
+                translateBtn.classList.add('translated');
+            }
+        });
+    </script>
+
+{% endblock %}

@@ -1,0 +1,189 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Room index{% endblock %}
+
+{% block body %}
+    <h1>Room index</h1>
+
+    <div class="searchBox" style='transform: translate(24rem,-3rem);'>
+    <input class="searchInput" type="text" id="searchInput" placeholder="Search by category..." onkeyup="searchForms()">
+    <button class="searchButton" href="#">
+        <svg xmlns="http://www.w3.org/2000/svg" width="29" height="29" viewBox="0 0 29 29" fill="none">
+            <g clip-path="url(#clip0_2_17)">
+                <g filter="url(#filter0_d_2_17)">
+                    <path d="M23.7953 23.9182L19.0585 19.1814M19.0585 19.1814C19.8188 18.4211 20.4219 17.5185 20.8333 16.5251C21.2448 15.5318 21.4566 14.4671 21.4566 13.3919C21.4566 12.3167 21.2448 11.252 20.8333 10.2587C20.4219 9.2653 19.8188 8.36271 19.0585 7.60242C18.2982 6.84214 17.3956 6.23905 16.4022 5.82759C15.4089 5.41612 14.3442 5.20435 13.269 5.20435C12.1938 5.20435 11.1291 5.41612 10.1358 5.82759C9.1424 6.23905 8.23981 6.84214 7.47953 7.60242C5.94407 9.13789 5.08145 11.2204 5.08145 13.3919C5.08145 15.5634 5.94407 17.6459 7.47953 19.1814C9.01499 20.7168 11.0975 21.5794 13.269 21.5794C15.4405 21.5794 17.523 20.7168 19.0585 19.1814Z" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" shape-rendering="crispEdges"></path>
+                </g>
+            </g>
+            <defs>
+                <filter id="filter0_d_2_17" x="-0.418549" y="3.70435" width="29.7139" height="29.7139" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                    <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
+                    <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"></feColorMatrix>
+                    <feOffset dy="4"></feOffset>
+                    <feGaussianBlur stdDeviation="2"></feGaussianBlur>
+                    <feComposite in2="hardAlpha" operator="out"></feComposite>
+                    <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"></feColorMatrix>
+                    <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2_17"></feBlend>
+                    <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2_17" result="shape"></feBlend>
+                </filter>
+                <clipPath id="clip0_2_17">
+                    <rect width="28.0702" height="28.0702" fill="white" transform="translate(0.403503 0.526367)"></rect>
+                </clipPath>
+            </defs>
+        </svg>
+    </button>
+</div>
+
+
+    {% for room in rooms %}
+    <a href="{{ path('app_room_show_posts', {'id': room.id}) }}" style='text-decoration:none;'>
+    <div class="card" style="width: 40rem; margin:1.5rem;">
+        <div class="card-body">
+        <h5 class="card-title">{{ room.catgory }}</h5>
+        <h6 class="card-subtitle mb-2 text-body-secondary">{{ room.subCategory }}</h6>
+        <p class="card-text" style='color:black !important;'>{{ room.description }}</p>
+        <div class="container text-center">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <a href="{{ path('app_room_show', {'id': room.id}) }}" style='color:#FAFAFA;'>show
+                                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M12 6C8.76722 6 5.95965 8.31059 4.2048 11.7955C4.17609 11.8526 4.15483 11.8948 4.1369 11.9316C4.12109 11.964 4.11128 11.9853 4.10486 12C4.11128 12.0147 4.12109 12.036 4.1369 12.0684C4.15483 12.1052 4.17609 12.1474 4.2048 12.2045C5.95965 15.6894 8.76722 18 12 18C15.2328 18 18.0404 15.6894 19.7952 12.2045C19.8239 12.1474 19.8452 12.1052 19.8631 12.0684C19.8789 12.036 19.8888 12.0147 19.8952 12C19.8888 11.9853 19.8789 11.964 19.8631 11.9316C19.8452 11.8948 19.8239 11.8526 19.7952 11.7955C18.0404 8.31059 15.2328 6 12 6ZM2.41849 10.896C4.35818 7.04403 7.7198 4 12 4C16.2802 4 19.6419 7.04403 21.5815 10.896C21.5886 10.91 21.5958 10.9242 21.6032 10.9389C21.6945 11.119 21.8124 11.3515 21.8652 11.6381C21.9071 11.8661 21.9071 12.1339 21.8652 12.3619C21.8124 12.6485 21.6945 12.8811 21.6032 13.0611C21.5958 13.0758 21.5886 13.09 21.5815 13.104C19.6419 16.956 16.2802 20 12 20C7.7198 20 4.35818 16.956 2.41849 13.104C2.41148 13.09 2.40424 13.0758 2.39682 13.0611C2.3055 12.881 2.18759 12.6485 2.13485 12.3619C2.09291 12.1339 2.09291 11.8661 2.13485 11.6381C2.18759 11.3515 2.3055 11.119 2.39682 10.9389C2.40424 10.9242 2.41148 10.91 2.41849 10.896ZM12 10C10.8954 10 10 10.8954 10 12C10 13.1046 10.8954 14 12 14C13.1046 14 14 13.1046 14 12C14 10.8954 13.1046 10 12 10ZM8.00002 12C8.00002 9.79086 9.79088 8 12 8C14.2092 8 16 9.79086 16 12C16 14.2091 14.2092 16 12 16C9.79088 16 8.00002 14.2091 8.00002 12Z" fill="#0F1729"></path> </g></svg>
+                                    </a>
+                                   {# display update button if user is admin else hide it #}
+                                   {% if app.user != null %}
+                                   {% if 'ROLE_ADMIN' in app.user.roles %}
+                                <a href="{{ path('app_room_edit', {'id': room.id}) }}" style="color: #FAFAFA; margin-left: 2em; margin-right: 4rem;">edit
+                                    <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                        <g id="SVGRepo_iconCarrier">
+                                            <rect width="48" height="48" fill="white" fill-opacity="0.01"></rect>
+                                            <path d="M42 26V40C42 41.1046 41.1046 42 40 42H8C6.89543 42 6 41.1046 6 40V8C6 6.89543 6.89543 6 8 6L22 6" stroke="#000000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path>
+                                            <path d="M14 26.7199V34H21.3172L42 13.3081L34.6951 6L14 26.7199Z" fill="#2F88FF" stroke="#000000" stroke-width="4" stroke-linejoin="round"></path>
+                                        </g>
+                                    </svg>
+                                </a>
+                            {% else %}
+                                <a href="{{ path('app_room_edit', {'id': room.id}) }}" style="color: #FAFAFA; margin-left: 2em; margin-right: 4rem; display: none;">edit
+                                    <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                        <g id="SVGRepo_iconCarrier">
+                                            <rect width="48" height="48" fill="white" fill-opacity="0.01"></rect>
+                                            <path d="M42 26V40C42 41.1046 41.1046 42 40 42H8C6.89543 42 6 41.1046 6 40V8C6 6.89543 6.89543 6 8 6L22 6" stroke="#000000" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path>
+                                            <path d="M14 26.7199V34H21.3172L42 13.3081L34.6951 6L14 26.7199Z" fill="#2F88FF" stroke="#000000" stroke-width="4" stroke-linejoin="round"></path>
+                                        </g>
+                                    </svg>
+                                </a>
+                            {% endif %}
+                            {% endif %}
+
+                                </div>
+                                <div class="col-sm-3 d-flex align-items-center justify-content-center" >
+                                    <div class="rating">
+                                    <input type="radio" id="star5" name="rate" value="5" />
+                                    <label for="star5" title="text"></label>
+                                    <input type="radio" id="star4" name="rate" value="4" />
+                                    <label for="star4" title="text"></label>
+                                    <input type="radio" id="star3" name="rate" value="3" />
+                                    <label for="star3" title="text"></label>
+                                    <input type="radio" id="star2" name="rate" value="2" />
+                                    <label for="star2" title="text"></label>
+                                    <input checked="" type="radio" id="star1" name="rate" value="1" />
+                                    <label for="star1" title="text"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+            </div>
+    </div>
+    </a>
+    {% else %}
+            <div>
+                <p><b>no records found</b></p>
+            </div>
+    {% endfor %}
+
+    <div style="text-align: center; ">
+    <button class="group cursor-pointer outline-none hover:rotate-90 duration-300" title="Add New" style="border: none;">
+        <a href="{{ path('app_room_new') }}">
+            <svg class="stroke-teal-500 fill-none group-hover:fill-teal-800 group-active:stroke-teal-200 group-active:fill-teal-600 group-active:duration-0 duration-300"
+                viewBox="0 0 24 24"
+                height="50px"
+                width="50px"
+                xmlns="http://www.w3.org/2000/svg">
+                <path stroke-width="1.5" d="M12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z"></path>
+                <path stroke-width="1.5" d="M8 12H16"></path>
+                <path stroke-width="1.5" d="M12 16V8"></path>
+            </svg>
+        </a>
+    </button>
+</div>
+
+<style>
+.searchBox {
+  display: flex;
+  max-width: 230px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  background: #2f3640;
+  border-radius: 50px;
+  position: relative;
+}
+
+.searchButton {
+  color: white;
+  position: absolute;
+  right: 8px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #33406a;
+  border: 0;
+  display: inline-block;
+  transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
+}
+/*hover effect*/
+.searchButton:hover {
+  color: #fff;
+  background-color: #1A1A1A;
+  box-shadow: rgba(0, 0, 0, 0.5) 0 10px 20px;
+  transform: translateY(-3px);
+}
+/*button pressing effect*/
+.searchButton:active {
+  box-shadow: none;
+  transform: translateY(0);
+}
+
+.searchInput {
+  border: none;
+  background: none;
+  outline: none;
+  color: white;
+  font-size: 15px;
+  padding: 24px 46px 24px 26px;
+}
+
+
+</style>
+
+
+<script>
+    function searchForms() {
+        var input = document.getElementById("searchInput").value.toUpperCase();
+        var cards = document.getElementsByClassName("card");
+
+        for (var i = 0; i < cards.length; i++) {
+            var categoryElement = cards[i].getElementsByTagName("h5")[0];
+            if (categoryElement) {
+                var categoryText = categoryElement.textContent || categoryElement.innerText;
+                var displayValue = (categoryText.toUpperCase().indexOf(input) > -1) ? "" : "none";
+                cards[i].style.display = displayValue;
+            }
+        }
+    }
+</script>
+
+{% endblock %}
+
+

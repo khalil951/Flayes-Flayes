@@ -2,56 +2,67 @@
 
 namespace App\Entity;
 
-use App\Entity\Post;
-use App\Entity\User;
 use App\Repository\PostReactRepository;
+use App\Repository\PostRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-
 #[ORM\Entity(repositoryClass: PostReactRepository::class)]
-#[ORM\Table(name: "post" )]
-
-class Postreact
+class PostReact
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $reactId = null;
+    private ?int $id = null;
+
+    #[ORM\Column]
+    private ?int $post_id = null;
+
+    #[ORM\Column]
+    private ?int $user_id = null;
 
     #[ORM\Column(nullable: true)]
-    private ?bool $islike = null;
+    private ?bool $Isliked = null;
 
-    #[ORM\ManyToOne(inversedBy: 'posts')]
-    private ?User $user = null;
-  
     #[ORM\ManyToOne(inversedBy: 'postreacts')]
     private ?Post $post = null;
 
-    public function getReactId(): ?int
+    public function getId(): ?int
     {
-        return $this->reactId;
+        return $this->id;
     }
 
-    public function isIslike(): ?bool
+    public function getPostId(): ?int
     {
-        return $this->islike;
+        return $this->post_id;
     }
 
-    public function setIslike(bool $islike): static
+    public function setPostId(int $post_id): static
     {
-        $this->islike = $islike;
+        $this->post_id = $post_id;
 
         return $this;
     }
 
-    public function getUser(): ?User
+    public function getUserId(): ?int
     {
-        return $this->user;
+        return $this->user_id;
     }
 
-    public function setUser(?User $user): static
+    public function setUserId(int $user_id): static
     {
-        $this->user = $user;
+        $this->user_id = $user_id;
+
+        return $this;
+    }
+
+    public function isIsliked(): ?bool
+    {
+        return $this->Isliked;
+    }
+
+    public function setIsliked(?bool $Isliked): static
+    {
+        $this->Isliked = $Isliked;
 
         return $this;
     }
@@ -67,6 +78,4 @@ class Postreact
 
         return $this;
     }
-
-
 }

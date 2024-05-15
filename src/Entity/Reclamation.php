@@ -4,7 +4,7 @@ namespace App\Entity;
 use App\Repository\ReclamationRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: ReclamationRepository::class)]
 class Reclamation
 {
@@ -13,29 +13,38 @@ class Reclamation
      #[ORM\GeneratedValue]
     private ?int $idRec = null;
 
-    #[ORM\Column]
-    private ?int $idUser = null;
+    
 
-    #[ORM\Column(length: 500)]
+    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message : "This field should not be blank.")]
     private ?string $object = null;
 
     #[ORM\Column(length: 500)]
     private ?string $type = null;
 
     #[ORM\Column(length: 500)]
+    #[Assert\NotBlank(message : "This field should not be blank.")]
     private ?string $description =null;
 
     
-     #[ORM\Column]
-     
-    private  $date = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $date = null;
 
     #[ORM\Column(length: 500)]
     private ?string $etat = null;
 
+    #[ORM\Column(length: 200)]
+    private ?string $response = null;
+
      #[ORM\ManyToOne(inversedBy: 'reclamations')]
-     //private $idUser;
      private ?User $user = null;
+
+     #[ORM\Column]
+    private ?int $id_user = null;
+    
+    #[ORM\Column]
+    private ?int $user_id = null;
 
     public function getIdRec(): ?int
     {
@@ -101,20 +110,109 @@ class Reclamation
 
         return $this;
     }
+    public function getRespons(): ?string
+    {
+        return $this->response;
+    }
 
-    public function getIdUser(): ?User
+    public function setResponse(string $response): static
+    {
+        $this->response = $response;
+
+        return $this;
+    }
+  /*
+    public function getIdUser(): ?int
     {
         return $this->idUser;
     }
 
-    public function setIdUser(?User $idUser): static
+    public function setIdUser(?int $idUser): static
     {
         $this->idUser = $idUser;
 
         return $this;
     }
+    */
 
-   
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getIdUser(): ?int
+    {
+        return $this->id_user;
+    }
+
+    public function setIdUser(int $id_user): static
+    {
+        $this->id_user = $id_user;
+
+        return $this;
+    }
+
+    //rating//
+     /**
+     * @ORM\Column(type="integer")
+     */
+    private $totalRatings;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $totalStars;
+
+    public function __construct()
+    {
+        // Initialize ratings properties
+        $this->totalRatings = 0;
+        $this->totalStars = 0;
+    }
+
+    public function getTotalRatings(): int
+    {
+        return $this->totalRatings;
+    }
+
+    public function setTotalRatings(int $totalRatings): self
+    {
+        $this->totalRatings = $totalRatings;
+        return $this;
+    }
+
+    public function getTotalStars(): int
+    {
+        return $this->totalStars;
+    }
+
+    public function setTotalStars(int $totalStars): self
+    {
+        $this->totalStars = $totalStars;
+        return $this;
+    }
+
+    public function addRating(int $stars): self
+    {
+        $this->totalRatings++;
+        $this->totalStars += $stars;
+        return $this;
+    }
+
+    public function getAverageRating(): float
+    {
+        if ($this->totalRatings > 0) {
+            return $this->totalStars / $this->totalRatings;
+        }
+        return 0;
+    }
 
 
 }

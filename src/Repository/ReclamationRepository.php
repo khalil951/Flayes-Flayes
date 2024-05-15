@@ -45,4 +45,41 @@ class ReclamationRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+
+public function findByIdUser($value): array
+    {        return $this->createQueryBuilder('r')
+           ->andWhere('r.id_user = :val')
+            ->setParameter('val', $value)
+            ->orderBy('r.date', 'ASC')
+            ->getQuery()
+           ->getResult()
+        ;
+    }
+
+
+    public function countRecentReclamations(int $iduser, int $days)
+{
+    $qb = $this->createQueryBuilder('r')
+        ->select('COUNT(r)')
+        ->andWhere('r.id_user = :user')
+        ->andWhere('r.date >= :since')
+        ->setParameter('user', $iduser)
+        ->setParameter('since', (new \DateTime())->modify("-$days days"));
+
+    return $qb->getQuery()->getSingleScalarResult();
+}
+
+
+public function search($value): array
+{
+    return $this->createQueryBuilder('r')
+        ->andWhere('r.titre LIKE :val')
+        ->orWhere('r.description LIKE :val')
+        ->setParameter('val', '%' . $value . '%')
+        ->getQuery()
+        ->getResult();
+}
+
+
 }

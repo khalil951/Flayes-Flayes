@@ -1,0 +1,42 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Event Index{% endblock %}
+
+{% block body %}
+<section>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="card shadow p-3 mb-5 bg-body rounded">
+                    <div class="card-body">
+                        <h3 class="main-title text-center mb-4">Add New Category</h3>
+                        <div class="card-body">
+                            <form class="create_category_form row mb-30-none" method="POST" action="{{ path('app_category_add') }}">
+                                {{ form_start(f) }}
+                                <div class="create_form_group col-sm-12">
+                                    {{ form_row(f.name, { 'attr': {'class': 'form-control', 'placeholder': 'Category Name'} }) }}
+            <span class="text-danger">{{ form_errors(f.name) }}</span>
+                                </div>
+                                <div class="create_form_group col-sm-12">
+                                    {{ form_row(f.type, { 'attr': {'class': 'form-control', 'placeholder': 'Type'} }) }}
+            <span class="text-danger">{{ form_errors(f.type) }}</span>
+                                </div>
+                                <div class="create_form_group col-sm-12">
+                                    {{ form_row(f.target, { 'attr': {'class': 'form-control'} }) }}
+            <span class="text-danger">{{ form_errors(f.target) }}</span>
+                                </div>
+                                <div class="create_form_group col-sm-12 align-self-end">
+                                    {{ form_row(f.submit, { 'attr': {'class': 'custom-button border-0'} }) }}
+                                </div>
+                                {{ form_end(f) }}
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<a href="{{ path('show_myevents') }}">Events</a>
+
+{% endblock %}

@@ -1,0 +1,126 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My Tickets{% endblock %}
+
+{% block body %}
+<section class="vh-250">
+    <div class="container h-200">
+        <!-- Back Arrow Link -->
+        <div class="row">
+            <div class="col-12">
+                <a href="javascript:history.back()" class="btn btn-light mb-3">
+                    <i class="fas fa-arrow-left"></i> Back
+                </a>
+            </div>
+        </div>
+<section class="vh-250">
+    <div class="container h-200">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-lg-9 col-xl-11">
+                <div class="card text-black" style="border-radius: 25px;">
+                    <div class="card-body p-md-1">
+                        <div class="row justify-content-center mb-30-none">
+                            {% if tickets is not empty %}
+                                {% for ticket in tickets %}
+                                    <!-- Repeat the design format used for events -->
+                                    <div class="col-md-6 col-lg-4 col-sm-10">
+                                        <div class="how-item">
+                                            <div class="how-thumb-area">
+                                                <div class="how-thumb">
+    <!-- Use the 'qr_directory' from the context, and assuming 'ticket.getQrcode()' returns just the filename -->
+                            <img src="{{ asset(images_directory ~ '/' ~ ticket.Event.getImage()) }}" alt="Image for {{ ticket.Event.getName() }}" class="img-fluid">
+</div>
+
+                                            </div>
+                                           <div class="how-content">
+    <!-- Display Event and Ticket details -->
+    <h5 class="title">{{ ticket.Event.getName() }}</h5>
+    
+    <!-- Using an unordered list for ticket details -->
+    <ul class="ticket-details">
+        <li><strong>Ticket ID:</strong> {{ ticket.getIdticket() }}</li>
+        <li><strong>Event Date:</strong> {{ ticket.Event.getDate() }}</li>
+        <li><strong>Event Location:</strong> {{ ticket.Event.getLocation() }}</li>
+    </ul>
+
+    <!-- Link to an event-specific page or action, using event ID -->
+    <form action="{{ path('generate_pdf', {'ticketId': ticket.getIdticket()}) }}" method="post">
+        <button type="submit" class="btn btn-primary">Print my ticket</button>
+    </form>
+</div></div>
+</div>
+
+
+                                {% endfor %}
+                            {% else %}
+                                <div class="col-12">
+                                    <p>No tickets available.</p>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+                                    
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="container">
+        <div class="row">
+            <!-- Ticket Management Section with Image -->
+            <div class="col-lg-6">
+                <section class="why-affiliate-section">
+                    <div class="section-header left-style">
+                        <span class="cate">Get Access to Your Tickets</span>
+                        <h2 class="title">Your Tickets</h2>
+                        <p>Check your registration for the events and print your tickets</p>
+                    </div>
+                    <div class="why-area">
+                        <div class="why-item">
+                            <div class="why-inner">
+                                <div class="why-thumb">
+                                    <img src="{{ asset(images_directory ~ '/why4.png') }}" alt="Manage Tickets">
+                                </div>
+                                <div class="why-content">
+                                    <a href="{{ path('view_tickets', {'userId':app.user.id}) }}" class="title-link">
+                                        Print my tickets
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="why-item">
+                            <div class="why-inner">
+                                <div class="why-thumb">
+                                    <img src="{{ asset(images_directory ~ '/why2.png') }}" alt="Manage Tickets">
+                                </div>
+                                <div class="why-content">
+                                    <a href="{{ path('app_ticketdeleteshow', {'userId': app.user.id}) }}" class="title-link">
+                                        Delete one of my tickets
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            
+            <!-- Additional Image Section -->
+            <div class="col-lg-6">
+                                    <img src="{{ asset(images_directory ~ '/ticket.gif') }}" alt="Manage Tickets">
+            </div>
+        </div>
+
+
+
+    
+{% endblock %}

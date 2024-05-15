@@ -1,0 +1,50 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Category Index{% endblock %}
+
+{% block body %}
+<section>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card shadow p-3 mb-5 bg-body rounded">
+                    <div class="card-body">
+                        <h3 class="main-title text-center mb-4">Categories</h3>
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Description</th>
+                                        <th>Info</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for category in categories %}
+                                    <tr>
+                                        <td>{{ category.name }}</td>
+                                        <td>{{ category.type }}</td>
+                                        <td>{{ category.target }}</td>
+                                        <td>
+                                            <a href="{{ path('app_deletecat', {'id': category.idcat}) }}" class="delete-link btn btn-danger">Delete</a>
+                                            <a href="{{ path('app_categoryUpdate', {'id': category.idcat}) }}" class="update-link btn btn-primary">Update</a>
+                                        </td>
+                                    </tr>
+                                    {% else %}
+                                    <tr>
+                                        <td colspan="4">No categories found.</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<a href="{{ path('app_category_add') }}">Back</a>
+
+{% endblock %}

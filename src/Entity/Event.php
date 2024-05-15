@@ -2,20 +2,18 @@
 
 namespace App\Entity;
 
+use App\Repository\EventRepository;  // Import the repository class
+
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * Event
- *
- * @ORM\Table(name="event")
- * @ORM\Entity
- */
+#[ORM\Entity(repositoryClass: EventRepository::class)]
+#[ORM\Table(name: "event")]
 class Event
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(name:"Idevent", type:"integer", nullable:false)]
-    private ?int $idevent = null;
+    #[ORM\GeneratedValue(strategy: "IDENTITY")]
+    #[ORM\Column(name: "Idevent", type: "integer", nullable: false)]
+    private ?int $idevent = null; // Corrected property name
 
     #[ORM\Column(name:"name", type:"string", length:255, nullable:false)]
     private ?string $name = null;
@@ -35,11 +33,10 @@ class Event
     #[ORM\Column(name:"qrcode", type:"string", length:255, nullable:false)]
     private ?string $qrcode = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Category")
-     * @ORM\JoinColumn(name="idcat", referencedColumnName="Idcat")
-     */
+    #[ManyToOne]
+    #[JoinColumn(name: "idcat", referencedColumnName: "Idcat")]
     private ?Category $idcat = null;
+
 
     public function getIdevent(): ?int
     {

@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Funding{% endblock %}
+{% block navbar %}{% endblock %}
+{% block banner %}{% endblock %}
+
+
+{% block body %}
+<div class="account-section bg_img" data-background="{{ asset('assets/images/account-bg.jpg') }}">
+    <div class="container">
+        <div class="account-title text-center">
+            <a href="{{ path('app_Offerfunding_index') }}" class="back-home"><i class="fas fa-angle-left"></i><span>Back <span class="d-none d-sm-inline-block">To list</span></span></a>
+            <a href="{{ path('app_OfferFunding_new') }}" class="logo">
+                <img src="{{ asset('assets/images/logo/footer-logo.png') }}" alt="logo">
+            </a>
+        </div>
+        <div class="account-wrapper">
+            <div class="account-body">
+                <h4 class="title mb-20">{{ message }}</h4>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block footer %}{% endblock %}

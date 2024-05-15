@@ -31,7 +31,7 @@ class Offer
     #[ORM\Column(name:"date_created", type:"date", nullable:false)]
     private ?\DateTime $dateCreated;
 
-    #[ORM\ManyToOne(targetEntity: Funding::class)]
+    #[ORM\OneToOne(targetEntity: Funding::class)]
     #[ORM\JoinColumn(name: "funding_id", referencedColumnName: "id")]
     private ?Funding $funding;
     #[ORM\ManyToOne(targetEntity: Project::class)]
@@ -41,6 +41,11 @@ class Offer
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: "user_id", referencedColumnName: "id", nullable: false)]
     private ?User $user;
+
+    #[ORM\ManyToOne]
+    private ?User $reciever = null;
+
+
 
     public function getId(): ?int
     {
@@ -127,6 +132,29 @@ class Offer
     public function setUser(?User $user): static
     {
         $this->user = $user;
+        return $this;
+    }
+
+    public function getRecieverId(): ?int
+    {
+        return $this->reciever_id;
+    }
+
+    public function setRecieverId(?int $reciever_id): static
+    {
+        $this->reciever_id = $reciever_id;
+
+        return $this;
+    }
+
+    public function getReciever(): ?User
+    {
+        return $this->reciever;
+    }
+
+    public function setReciever(?User $reciever): static
+    {
+        $this->reciever = $reciever;
 
         return $this;
     }
