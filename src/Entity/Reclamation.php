@@ -159,15 +159,10 @@ class Reclamation
         return $this;
     }
 
-    //rating//
-     /**
-     * @ORM\Column(type="integer")
-     */
+    
     private $totalRatings;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    
     private $totalStars;
 
     public function __construct()

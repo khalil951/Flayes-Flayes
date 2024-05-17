@@ -109,20 +109,47 @@ public function new(Request $request,PaginatorInterface $paginator, EntityManage
 
     #[Route('/{id}/delete', name: 'app_reclamation_delete', methods: ['POST'])]
     public function delete(Request $request, Reclamation $reclamation, EntityManagerInterface $entityManager): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$reclamation->getIdRec(), $request->request->get('_token'))) {
-            $entityManager->remove($reclamation);
-            $entityManager->flush();
-        }
-       $check=$request->request->get('front');
-       if($check==1)
-       {
+{
+    // Check if the CSRF token is valid
+    if ($this->isCsrfTokenValid('delete'.$reclamation->getIdRec(), $request->request->get('_token'))) {
+        // Remove the reclamation entity
+        $entityManager->remove($reclamation);
+        // Flush changes to the database
+        $entityManager->flush();
+    }
+    
+    // Check if the 'front' parameter is set in the request
+    $check = $request->request->get('front');
+    if ($check == 1) {
+        // Redirect to the front index route if 'front' is set to 1
         return $this->redirectToRoute('app_reclamation_index_front', [], Response::HTTP_SEE_OTHER);
-       }
-       else
+    } else {
+        // Redirect to the default index route otherwise
         return $this->redirectToRoute('app_reclamation_index', [], Response::HTTP_SEE_OTHER);
     }
-  
+}
+
+#[Route('/{id}/delete', name: 'app_reclamation_delete', methods: ['POST'])]
+public function deleteReclamation(Request $request, $id): Response
+    {
+        // Retrieve the EntityManager
+        $entityManager = $this->getDoctrine()->getManager();
+
+        // Find the reclamation entity by ID
+        $reclamation = $entityManager->getRepository(Reclamation::class)->find($id);
+
+        // Check if the reclamation exists
+        if (!$reclamation) {
+            throw $this->createNotFoundException('Reclamation not found');
+        }
+
+        // Delete the reclamation
+        $entityManager->remove($reclamation);
+        $entityManager->flush();
+
+        // After successful deletion, redirect to reclamation/index.html.twig
+        return $this->redirectToRoute('app_reclamation_index');
+    }
     #[Route('/{id}/rep', name: 'send_email', methods: ['POST'])]
     public function sendEmail(int $id, Request $request, MailerInterface $mailer, EntityManagerInterface $entityManager): Response
     {
