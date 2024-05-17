@@ -69,8 +69,9 @@ class TicketController extends AbstractController
     }
     #[Route('/Addticket/{eventId}/{userId}', name: 'app_add_ticket')]
     public function addTicket(Request $request, UserRepository $userRepository, EventRepository $eventRepository, EntityManagerInterface $entityManager, int $eventId, int $userId): Response
-    {      $qrDirectory = $this->getParameter('qr_directory');
-
+    {
+        $qrDirectory = $this->getParameter('qr_directory');
+    
         $event = $eventRepository->find($eventId);
         if (!$event) {
             throw $this->createNotFoundException('No event found for id ' . $eventId);
@@ -83,13 +84,16 @@ class TicketController extends AbstractController
     
         // Create a new Ticket
         $ticket = new Ticket();
-        $ticket->setEvent($event); 
-        $ticket->setUser($user);   
+        $ticket->setEvent($event);
+        $ticket->setUser($user);
     
         $generator = new BarcodeGeneratorPNG();
         $barcode = $generator->getBarcode('TICKET' . uniqid(), $generator::TYPE_CODE_128);
     
-        $barcodeDirectory = $this->getParameter('kernel.project_dir') . '/public/barcodes/';
+        // Specify the directory to save the barcode image
+        $barcodeDirectory = 'C:/xampp/htdocs/barcodes/';
+    
+        // Ensure the directory exists, if not, create it
         if (!is_dir($barcodeDirectory)) {
             mkdir($barcodeDirectory, 0755, true);
         }
@@ -109,7 +113,7 @@ class TicketController extends AbstractController
         $entityManager->persist($ticket);
         $entityManager->flush();
     
-        $this->sendTwilioMessage('+21621494353', $event, $ticket); 
+        $this->sendTwilioMessage('+21621494353', $event, $ticket);
     
         $imagesDirectory = $this->getParameter('images_directory');
     
@@ -128,12 +132,9 @@ class TicketController extends AbstractController
             'event' => $event,
             'user' => $user,
             'images_directory' => $imagesDirectory,
-            
-        'qr_directory' => $qrDirectory 
-            
-        ]);
-    }
     
+            'qr_directory' => $qrDirectory
+        ]);}
     
   
 private function sendTwilioMessage(string $phoneNumber, Event $event, Ticket $ticket): void
@@ -211,8 +212,13 @@ public function generatePdf(int $ticketId, TicketRepository $ticketRepository, E
     $dompdf->setPaper('A4', 'portrait');
     $dompdf->render();
 
+    // Save the PDF to a directory on the server
+    $pdfFileName = "ticket_{$ticket->getIdticket()}.pdf";
+    $pdfFilePath = 'C:\xampp\htdocs\tickets\\' . $pdfFileName; // Adjust the path as needed
+    file_put_contents($pdfFilePath, $dompdf->output());
+
     // Stream the PDF to the browser
-    $dompdf->stream("ticket_{$ticket->getIdticket()}.pdf", ["Attachment" => true]);
+    $dompdf->stream($pdfFileName, ["Attachment" => true]);
 
     // It's usually unnecessary to return a response after streaming a PDF since the `stream()` method sends headers.
     // return new Response('PDF generated successfully!', 200);

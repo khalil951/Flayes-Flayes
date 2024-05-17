@@ -59,49 +59,47 @@ class EventController extends AbstractController
             if ($imageFile instanceof UploadedFile) {
                 $newFilename = uniqid() . '.' . $imageFile->guessExtension();
                 try {
+                    // Move the uploaded image file to the main images directory
                     $imageFile->move(
                         $this->getParameter('images_directory'),
                         $newFilename
                     );
+                    // Set the image filename in the entity
                     $event->setImage($newFilename);
+    
+                    // Move the uploaded image file to the htdocs/images folder
+                    if (!copy(
+                        $this->getParameter('images_directory') . '/' . $newFilename,
+                        'C:\xampp\htdocs\images\\' . $newFilename // Ensure to include the trailing slash for the directory path
+                    )) {
+                        throw new \RuntimeException('Failed to copy image to htdocs/images folder.');
+                    }
+        
+
                 } catch (FileException $e) {
                     $this->addFlash('error', 'Failed to upload image: ' . $e->getMessage());
                     return $this->redirectToRoute('show_myeventsback');
                 }
             }
     
-            // Prepare data for QR code generation
-            $qrData = json_encode([
-                'name' => $event->getName(),
-                'date' => $event->getDate(),
-                'description' => $event->getDescription(),
-            ]);
-    
-            $qrCode = new QrCode($qrData);
-            $qrCode->setSize(300);
-            $qrCode->setMargin(10);
-            $qrCode->setForegroundColor(new Color(0, 0, 0));
-            $qrCode->setBackgroundColor(new Color(255, 255, 255));
-    
-            $filesystem = new Filesystem();
-            $qrCodeDirectory = $this->getParameter('kernel.project_dir') . '/public/qr';
-            $qrFileName = uniqid() . '_qr.png';
-            $qrCodePath = $qrCodeDirectory . '/' . $qrFileName;
-    
+            // Generate the QR code
             try {
-                if (!$filesystem->exists($qrCodeDirectory)) {
-                    $filesystem->mkdir($qrCodeDirectory, 0777);
+                $eventId = $event->getIdevent();
+                if (!$eventId) {
+                    throw new \RuntimeException('Failed to get a valid event ID.');
                 }
-                $writer = new PngWriter();
-                $result = $writer->write($qrCode);
-                $result->saveToFile($qrCodePath);
-                $event->setQrCode($qrFileName);
+            
+                $qrCode = new QrCode((string) $eventId);
+                $qrCodePath = $this->getParameter('qr_directory');
+                $qrCodeFilename = 'qr_' . $eventId . '.png';
+            
+                $qrCode->writeFile($qrCodePath . '/' . $qrCodeFilename);
+                $qrCode->writeFile('C:\xampp\htdocs\qr' . '/' . $qrCodeFilename);
             } catch (\Exception $e) {
                 $event->setQrCode('default_qr.png');
                 $this->addFlash('warning', 'QR code generation failed, default QR code used.');
             }
             
-    
             $entityManager->persist($event);
             $entityManager->flush();
             $this->addFlash('success', 'Event successfully added.');
@@ -114,8 +112,6 @@ class EventController extends AbstractController
         ]);
     }
     
-    
-
     #[Route('/authorAdd', name: 'app_authorAdd')]
     public function adde(Request $request, EntityManagerInterface $entityManager): Response
     {
