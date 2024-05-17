@@ -52,7 +52,6 @@
                     <th>Description</th>
                     <th>Location</th>
                     <th>Image</th>
-                    <th>Category</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -71,7 +70,7 @@
                             <p>No image available</p>
                         {% endif %}
                     </td>
-                    <td>{{ event.idcat }}</td>
+                   
                     <td>
                         <a href="{{ path('event_Update', {'id': event.idevent}) }}" class="btn btn-primary btn-sm">Edit</a>
                         <a href="{{ path('app_deleteevent', {'id': event.idevent}) }}" class="btn btn-danger btn-sm">Delete</a>
