@@ -52,7 +52,49 @@
 
 
         {% block sideHeader %}
-            {% include'twig elements/side_header_dashboard.html.twig' %}
+            <div class="side-header oh">
+                <div class="cross-header-bar d-xl-none">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <div class="site-header-container">
+                    <div class="side-logo">
+                        <a href="dashboard.html">
+                            <img src="{{asset('assets/images/logo.png')}}" alt="#">
+                        </a>
+                    </div>
+                    <ul class="dashboard-menu">
+                        <li>
+                            <a href="{{path('app_list')}}"><i class="flaticon-man"></i>Users</a>
+                        </li>
+                        <li>
+                            <a href="operations.html"><i class="flaticon-coin"></i>Projects</a>
+                        </li>
+                        <li>
+                            <a href="{{ path("app_offer_funding_admin") }}"><i class="flaticon-interest"></i>Offers</a>
+                        </li>
+
+
+                        <li>
+                            <a href="{{ path('app_reclamation_index') }}"><i class="flaticon-deal"></i>Reclamation</a>
+                        </li>
+                        <li>
+                            <a href="{{path('app_admin_forum')}}"><i class="flaticon-gears"></i>Forum</a>
+                        </li>
+                        <li>
+                            <a href="{{path('app_event_add' )}}"><i class="flaticon-bell"></i>Events</a>
+                        </li>
+
+                        <li>
+                            <a href="{{path('app_category_add' )}}"><i class="flaticon-deal"></i>Categories</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)"><i class="flaticon-right-arrow"></i>Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         {% endblock %}
 
         <div class="dasboard-body">

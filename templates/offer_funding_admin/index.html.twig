@@ -9,8 +9,8 @@
     <div class="container-fluid">
         <div class="operations">
             <h3 class="main-title">Manage Offers</h3>
-{#            <div class="select-item">#}
-{#                <select class="select-bar">#}
+            {#            <div class="select-item">#}
+            {#                <select class="select-bar">#}
             <form class="operation-filter" action="{{ path('app_offer_funding_admin') }}" method="get">
                 <div class="filter-item">
                     <label for="date_from">Date from:</label>
@@ -23,16 +23,16 @@
                 <div class="filter-item">
                     <label for="status">Status:</label>
                     <div>
-                    <select id="status" name="status" class="select-bar">
-                        <option value="">Select status</option>
-                        <option value="0">On hold</option>
-                        <option value="1">Rejected</option>
-                        <option value="2">Accepted by admin</option>
-                        <option value="3">Accepted</option>
-                        <option value="4">Accepted</option>
-                        <option value="5">Accepted</option>
-                        <!-- Add more status options if needed -->
-                    </select>
+                        <select id="status" name="status" class="select-bar">
+                            <option value="">Select status</option>
+                            <option value="0">On hold</option>
+                            <option value="1">Rejected</option>
+                            <option value="2">Accepted by admin</option>
+                            <option value="3">Accepted</option>
+                            <option value="4">Accepted</option>
+                            <option value="5">Accepted</option>
+                            <!-- Add more status options if needed -->
+                        </select>
                     </div>
                 </div>
                 <div class="filter-item">
@@ -58,16 +58,16 @@
                             <td>{{ offer.title }}</td>
                             <td>{{ offer.description }}</td>
 
-                                {% set status = offer.status %}
-                                {% if status == 0 %}
+                            {% set status = offer.status %}
+                            {% if status == 0 %}
                             <td style="color: #a0a003">
-                                    on hold
+                                on hold
                                 {% elseif status == 2 %}
                             <td style="color: green">
-                                    accepted
+                                accepted
                                 {% elseif status == 1 %}
                             <td style="color: red">
-                                    rejected
+                                rejected
                                 {% endif %}
                             </td>
 
