@@ -33,11 +33,10 @@ class Event
     #[ORM\Column(name:"qrcode", type:"string", length:255, nullable:false)]
     private ?string $qrcode = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Category")
-     * @ORM\JoinColumn(name="idcat", referencedColumnName="Idcat")
-     */
-    private ?Category $idcat = null;
+    #[ManyToOne]
+    #[JoinColumn(name: "idcat", referencedColumnName: "Idcat")]
+    private ?Category $idcat ;
+
 
     public function getIdevent(): ?int
     {
